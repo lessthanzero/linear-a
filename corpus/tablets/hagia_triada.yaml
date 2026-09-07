@@ -1,0 +1,119 @@
+# Hagia Triada Administrative Tablets (GORILA Vol. I)
+tablets:
+  - id: "HT_009"
+    museum_id: "HM 1279"
+    site: "Hagia_Triada"
+    findspot_details: "Villa Reale, Casa del Lebete"
+    date_range: "LM IB (c. 1450 BCE)"
+    object_type: "tablet"
+    source: "GORILA I: 18-19"
+    notes: "Perfect mathematical accounting ledger. 5 commodity entries summing exactly to KU-RO (Total) 31."
+    commodity: "FIC"  # Ficus / Figs
+    items:
+      - entry_header: "PA-DE"
+        commodity: "FIC"
+        integer_amount: 3
+        fractional_symbols: []
+      - entry_header: "SA-RU"
+        commodity: "FIC"
+        integer_amount: 5
+        fractional_symbols: []
+      - entry_header: "KA-DI"
+        commodity: "FIC"
+        integer_amount: 10
+        fractional_symbols: []
+      - entry_header: "TE-TU"
+        commodity: "FIC"
+        integer_amount: 5
+        fractional_symbols: []
+      - entry_header: "MA-KA"
+        commodity: "FIC"
+        integer_amount: 8
+        fractional_symbols: []
+    stated_kuro:
+      integer_amount: 31
+      fractional_symbols: []
+
+  - id: "HT_013"
+    museum_id: "HM 1283"
+    site: "Hagia_Triada"
+    findspot_details: "Villa Reale, Magazine 7"
+    date_range: "LM IB"
+    object_type: "tablet"
+    source: "GORILA I: 26-27"
+    notes: "Multi-commodity allocation with fractional liquid and dry measures (J=1/2, E=1/4, F=1/8)."
+    heading: "KA-DU-MA-NE"
+    items:
+      - entry_header: "KA-DU-MA-NE_VIN"
+        commodity: "VIN"
+        integer_amount: 5
+        fractional_symbols: ["J"]  # 5 1/2 wine
+      - entry_header: "KA-DU-MA-NE_GRA"
+        commodity: "GRA"
+        integer_amount: 10
+        fractional_symbols: ["E"]  # 10 1/4 wheat
+      - entry_header: "KA-DU-MA-NE_CYP"
+        commodity: "CYP"
+        integer_amount: 2
+        fractional_symbols: ["F"]  # 2 1/8 cyperus
+
+  - id: "HT_086"
+    museum_id: "HM 1356"
+    site: "Hagia_Triada"
+    findspot_details: "Villa Reale"
+    date_range: "LM IB"
+    object_type: "tablet"
+    source: "GORILA I: 132-135"
+    notes: "Ledger recording transactions with explicit deficit indicator KI-RO (missing/deficit tallies)."
+    heading: "A-KA-RU"
+    items:
+      - entry_header: "DA-RE"
+        commodity: "GRA"
+        integer_amount: 20
+        fractional_symbols: []
+      - entry_header: "KI-RO_DA-RE"
+        commodity: "GRA"
+        integer_amount: 5
+        fractional_symbols: []
+        notes: "Deficit (KI-RO) recorded for DA-RE"
+
+  - id: "HT_104"
+    museum_id: "HM 1374"
+    site: "Hagia_Triada"
+    findspot_details: "Villa Reale"
+    date_range: "LM IB"
+    object_type: "tablet"
+    source: "GORILA I: 174-175"
+    notes: "Personnel allocation ledger with VIR ideograms and fractional service allotments."
+    heading: "DA-TA-RE"
+    items:
+      - entry_header: "A-DU"
+        commodity: "VIR"
+        integer_amount: 1
+        fractional_symbols: ["J"]
+      - entry_header: "KU-RO_VIR"
+        commodity: "VIR"
+        integer_amount: 12
+        fractional_symbols: []
+
+  - id: "HT_122"
+    museum_id: "HM 1392"
+    site: "Hagia_Triada"
+    findspot_details: "Villa Reale"
+    date_range: "LM IB"
+    object_type: "tablet"
+    source: "GORILA I: 210-213"
+    notes: "Complex multi-item commodity distribution concluding with KU-RO total."
+    heading: "PA-SE"
+    items:
+      - entry_header: "KU-PA-NU"
+        commodity: "FIC"
+        integer_amount: 15
+        fractional_symbols: []
+      - entry_header: "DA-TA-RE"
+        commodity: "FIC"
+        integer_amount: 16
+        fractional_symbols: []
+    stated_kuro:
+      integer_amount: 31
+      fractional_symbols: []

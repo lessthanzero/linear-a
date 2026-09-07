@@ -1,0 +1,64 @@
+# Linear A Tablets from Phaistos Palace (GORILA Vol. I: 286-295)
+tablets:
+  - id: "PH_001"
+    museum_id: "HM 1359"
+    site: "Phaistos"
+    findspot_details: "Phaistos Palace, Northeast Wing, Building 101, Room 8 (Vano 8)"
+    date_range: "MM III / LM I"
+    object_type: "tablet"
+    source: "GORILA I: 286-287; Pernier 1908"
+    notes: >
+      Excavated on July 3, 1908 by Luigi Pernier inside the exact same cist receptacle
+      centimeters from the Phaistos Disc. Records temple/cultic deposit agricultural
+      offerings: Cyperus (CYP) and Figs (FIC) with small fractions L2 and H (1/12).
+    heading: "DI-RA-DI-NA"
+    items:
+      - entry_header: "DI-RA-DI-NA"
+        commodity: "*316"
+        integer_amount: 0
+        fractional_symbols: ["L2"]
+        notes: "Unclassified ideogram *316 with fraction L2"
+      - entry_header: "JA"
+        commodity: "CYP"
+        integer_amount: 1
+        fractional_symbols: ["H"]
+        notes: "Commodity Cyperus (CYP) 1 H (1 1/12)"
+      - entry_header: "PA"
+        commodity: "FIC"
+        integer_amount: 0
+        fractional_symbols: []
+        notes: "Commodity Ficus (Figs) on Face B"
+
+  - id: "PH_002"
+    museum_id: "HM 1360"
+    site: "Phaistos"
+    findspot_details: "Phaistos Palace, Building 101"
+    date_range: "MM III"
+    object_type: "tablet"
+    source: "GORILA I: 288-289"
+    notes: "Phaistos palace administrative commodity tallies."
+    heading: "QA-QA-RU"
+    items:
+      - entry_header: "A-TA-RE"
+        commodity: "GRA"
+        integer_amount: 12
+        fractional_symbols: []
+      - entry_header: "TE-TU"
+        commodity: "GRA"
+        integer_amount: 8
+        fractional_symbols: []
+
+  - id: "PH_006"
+    museum_id: "HM 1364"
+    site: "Phaistos"
+    findspot_details: "Phaistos Palace, Northwest Wing"
+    date_range: "MM III"
+    object_type: "tablet"
+    source: "GORILA I: 294-295"
+    notes: "Phaistos palace accounting fragment with numerical tallies."
+    heading: "SA-MA"
+    items:
+      - entry_header: "RO-WE"
+        commodity: "VIN"
+        integer_amount: 6
+        fractional_symbols: ["J"]  # 6 1/2

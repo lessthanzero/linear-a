@@ -1,0 +1,84 @@
+# Canonical Linear A Libation Formula Stone Vessels (GORILA Vol. IV: Za series)
+libations:
+  - id: "IO_Za_002"
+    museum_id: "HM 3557"
+    site: "Mount_Juktas"
+    findspot_details: "Peak Sanctuary of Mount Juktas, Terrace I"
+    date_range: "MM III / LM IA"
+    object_type: "libation_vessel"
+    vessel_type: "Stone libation ladle (steatite)"
+    source: "GORILA IV: 18-19; Karetsou 1974"
+    transcription_raw: "A-TA-I-*301-WA-JA JA-SA-SA-RA-ME U-NA-KA-NA-SI I-PI-NA-MA SI-RU-TE"
+    segments:
+      - word: "A-TA-I-*301-WA-JA"
+        morae: 6
+        role: "Formulaic invocation header / Divine title"
+        prefix: "A-"
+      - word: "JA-SA-SA-RA-ME"
+        morae: 5
+        role: "Great Goddess invocation ('Our Lady' / Asherah parallel)"
+        prefix: "JA-"
+        geminate: true
+      - word: "U-NA-KA-NA-SI"
+        morae: 5
+        role: "Dedicatory verb ('she has offered / may she accept')"
+        prefix: "U-"
+      - word: "I-PI-NA-MA"
+        morae: 4
+        role: "Libation offering / sacred liquid descriptor"
+        prefix: "I-"
+      - word: "SI-RU-TE"
+        morae: 3
+        role: "Priestly / sanctuary locative title"
+        suffix: "-TE"
+
+  - id: "PS_Za_002"
+    museum_id: "HM 2337"
+    site: "Psychro"
+    findspot_details: "Psychro Dictaean Cave, Upper Grotto"
+    date_range: "MM III / LM I"
+    object_type: "libation_vessel"
+    vessel_type: "Steatite libation table with circular cavity"
+    source: "GORILA IV: 42-45; Boardman 1961"
+    transcription_raw: "TA-NA-I-*301-TI JA-SA-SA-RA-ME U-NA-KA-NA-SI I-PI-NA-MA"
+    segments:
+      - word: "TA-NA-I-*301-TI"
+        morae: 5
+        role: "Variant invocation header"
+      - word: "JA-SA-SA-RA-ME"
+        morae: 5
+        role: "Great Goddess invocation"
+        prefix: "JA-"
+        geminate: true
+      - word: "U-NA-KA-NA-SI"
+        morae: 5
+        role: "Dedicatory verb"
+        prefix: "U-"
+      - word: "I-PI-NA-MA"
+        morae: 4
+        role: "Libation offering descriptor"
+        prefix: "I-"
+
+  - id: "PK_Za_011"
+    museum_id: "HM 506"
+    site: "Palaikastro"
+    findspot_details: "Roussolakkos Sanctuary"
+    date_range: "LM IA"
+    object_type: "libation_vessel"
+    vessel_type: "Steatite blossom bowl / libation cup"
+    source: "GORILA IV: 38-39"
+    transcription_raw: "A-SA-SA-RA-ME U-NA-KA-NA-SI JA-TA-I-NO-U-JA"
+    segments:
+      - word: "A-SA-SA-RA-ME"
+        morae: 5
+        role: "A-prefix variant of divine epithet"
+        prefix: "A-"
+        geminate: true
+      - word: "U-NA-KA-NA-SI"
+        morae: 5
+        role: "Dedicatory verb"
+        prefix: "U-"
+      - word: "JA-TA-I-NO-U-JA"
+        morae: 6
+        role: "Closing cadential ritual prayer"
+        prefix: "JA-"

@@ -1,0 +1,230 @@
+# Linear A Sign Repertoire based on GORILA (Godart & Olivier 1976-1985) & SigLA
+signs:
+  # Standard AB Syllabograms (Shared with Linear B)
+  - glyph_id: "AB01"
+    canonical_name: "da"
+    sign_class: "syllabic"
+    description: "Linear A sign AB01 (horned animal head / branch)"
+    linearB_correspondence:
+      candidate: "da"
+      confidence: 0.95
+    relative_frequency_rank: 6
+
+  - glyph_id: "AB02"
+    canonical_name: "ro"
+    sign_class: "syllabic"
+    description: "Linear A sign AB02"
+    linearB_correspondence:
+      candidate: "ro"
+      confidence: 0.90
+    relative_frequency_rank: 8
+
+  - glyph_id: "AB03"
+    canonical_name: "pa"
+    sign_class: "syllabic"
+    description: "Linear A sign AB03"
+    linearB_correspondence:
+      candidate: "pa"
+      confidence: 0.95
+    relative_frequency_rank: 12
+
+  - glyph_id: "AB04"
+    canonical_name: "te"
+    sign_class: "syllabic"
+    description: "Linear A sign AB04 (branch / olive spray); common dative/allative suffix"
+    linearB_correspondence:
+      candidate: "te"
+      confidence: 0.95
+    relative_frequency_rank: 5
+
+  - glyph_id: "AB05"
+    canonical_name: "to"
+    sign_class: "syllabic"
+    description: "Linear A sign AB05"
+    linearB_correspondence:
+      candidate: "to"
+      confidence: 0.85
+    relative_frequency_rank: 19
+
+  - glyph_id: "AB06"
+    canonical_name: "na"
+    sign_class: "syllabic"
+    description: "Linear A sign AB06; common agentive / locative suffix"
+    linearB_correspondence:
+      candidate: "na"
+      confidence: 0.90
+    relative_frequency_rank: 11
+
+  - glyph_id: "AB07"
+    canonical_name: "di"
+    sign_class: "syllabic"
+    description: "Linear A sign AB07"
+    linearB_correspondence:
+      candidate: "di"
+      confidence: 0.85
+    relative_frequency_rank: 22
+
+  - glyph_id: "AB08"
+    canonical_name: "a"
+    sign_class: "syllabic"
+    description: "Linear A sign AB08 (rosette / star-like cross); ubiquitous initial/terminal vowel"
+    linearB_correspondence:
+      candidate: "a"
+      confidence: 0.95
+    relative_frequency_rank: 1
+
+  - glyph_id: "AB09"
+    canonical_name: "se"
+    sign_class: "syllabic"
+    description: "Linear A sign AB09"
+    linearB_correspondence:
+      candidate: "se"
+      confidence: 0.85
+    relative_frequency_rank: 4
+
+  - glyph_id: "AB26"
+    canonical_name: "ru"
+    sign_class: "syllabic"
+    description: "Linear A sign AB26"
+    linearB_correspondence:
+      candidate: "ru"
+      confidence: 0.85
+    relative_frequency_rank: 15
+
+  - glyph_id: "AB27"
+    canonical_name: "re"
+    sign_class: "syllabic"
+    description: "Linear A sign AB27; nominal suffix"
+    linearB_correspondence:
+      candidate: "re"
+      confidence: 0.90
+    relative_frequency_rank: 14
+
+  - glyph_id: "AB28"
+    canonical_name: "i"
+    sign_class: "syllabic"
+    description: "Linear A sign AB28 (curved horn)"
+    linearB_correspondence:
+      candidate: "i"
+      confidence: 0.90
+    relative_frequency_rank: 3
+
+  - glyph_id: "AB31"
+    canonical_name: "sa"
+    sign_class: "syllabic"
+    description: "Linear A sign AB31 (flax / plant); core theonym component in JA-SA-SA-RA-ME"
+    linearB_correspondence:
+      candidate: "sa"
+      confidence: 0.95
+    relative_frequency_rank: 7
+
+  - glyph_id: "AB37"
+    canonical_name: "ti"
+    sign_class: "syllabic"
+    description: "Linear A sign AB37 (tripod mark)"
+    linearB_correspondence:
+      candidate: "ti"
+      confidence: 0.85
+    relative_frequency_rank: 9
+
+  - glyph_id: "AB54"
+    canonical_name: "wa"
+    sign_class: "syllabic"
+    description: "Linear A sign AB54"
+    linearB_correspondence:
+      candidate: "wa"
+      confidence: 0.85
+    relative_frequency_rank: 10
+
+  - glyph_id: "AB57"
+    canonical_name: "ja"
+    sign_class: "syllabic"
+    description: "Linear A sign AB57 (door / gate); ubiquitous prefix in JA-SA-SA-RA-ME"
+    linearB_correspondence:
+      candidate: "ja"
+      confidence: 0.90
+    relative_frequency_rank: 2
+
+  - glyph_id: "AB77"
+    canonical_name: "ka"
+    sign_class: "syllabic"
+    description: "Linear A sign AB77"
+    linearB_correspondence:
+      candidate: "ka"
+      confidence: 0.90
+    relative_frequency_rank: 16
+
+  - glyph_id: "AB78"
+    canonical_name: "qe"
+    sign_class: "syllabic"
+    description: "Linear A sign AB78 (circle with central dot); copula enclitic -qe"
+    linearB_correspondence:
+      candidate: "qe"
+      confidence: 0.90
+    relative_frequency_rank: 13
+
+  - glyph_id: "AB81"
+    canonical_name: "ku"
+    sign_class: "syllabic"
+    description: "Linear A sign AB81 (flying bird); key token in KU-RO (total)"
+    linearB_correspondence:
+      candidate: "ku"
+      confidence: 0.95
+    relative_frequency_rank: 2
+
+  # Commodities & Ideograms
+  - glyph_id: "FIC"
+    canonical_name: "FIC"
+    sign_class: "logogram"
+    description: "Commodity Ficus / Dried Figs (GORILA *30 / A402)"
+
+  - glyph_id: "GRA"
+    canonical_name: "GRA"
+    sign_class: "logogram"
+    description: "Commodity Granum / Wheat (GORILA *120)"
+
+  - glyph_id: "VIN"
+    canonical_name: "VIN"
+    sign_class: "logogram"
+    description: "Commodity Vinum / Wine (GORILA *131)"
+
+  - glyph_id: "CYP"
+    canonical_name: "CYP"
+    sign_class: "logogram"
+    description: "Commodity Cyperus / Aromatic Sedge (GORILA *303)"
+
+  - glyph_id: "OLE"
+    canonical_name: "OLE"
+    sign_class: "logogram"
+    description: "Commodity Oleum / Olive Oil (GORILA *130)"
+
+  - glyph_id: "VIR"
+    canonical_name: "VIR"
+    sign_class: "logogram"
+    description: "Ideogram VIR / Man / Male Worker (GORILA *100)"
+
+  # Fractional Signs
+  - glyph_id: "FRAC_J"
+    canonical_name: "J"
+    sign_class: "fraction"
+    description: "Fraction 1/2 (Ferrara et al. 2020)"
+
+  - glyph_id: "FRAC_E"
+    canonical_name: "E"
+    sign_class: "fraction"
+    description: "Fraction 1/4 (Ferrara et al. 2020)"
+
+  - glyph_id: "FRAC_F"
+    canonical_name: "F"
+    sign_class: "fraction"
+    description: "Fraction 1/8 (Ferrara et al. 2020)"
+
+  - glyph_id: "FRAC_K"
+    canonical_name: "K"
+    sign_class: "fraction"
+    description: "Fraction 1/16 (Ferrara et al. 2020)"
+
+  - glyph_id: "FRAC_H"
+    canonical_name: "H"
+    sign_class: "fraction"
+    description: "Fraction 1/12 (Ferrara et al. 2020)"
