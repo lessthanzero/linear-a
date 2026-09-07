@@ -93,3 +93,7 @@ class FractionEngine:
         frac_val = self.parse_fraction_symbols(fraction_symbols)
         total = Fraction(integer_amount, 1) + frac_val
         return total, self.format_fraction(total)
+
+    def evaluate_compound(self, compound: Union[str, List[str]]) -> Fraction:
+        """Evaluate a compound or sequence of fraction symbols into an exact Fraction."""
+        return self.parse_fraction_symbols(compound)

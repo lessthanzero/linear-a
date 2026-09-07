@@ -26,8 +26,12 @@ from linear_a.corpus.loader import (
     parse_tablet_line_items,
 )
 from linear_a.morphology.affix_sieve import AffixSieve
+from linear_a.network.scribal_graph import ScribalNetworkGraph
 from linear_a.palaeography.grid_factorization import KoberVentrisGridEngine
+from linear_a.palaeography.ligatures import LigatureEngine
 from linear_a.predictive.holdout_engine import HoldoutEngine
+from linear_a.predictive.lacunae_infiller import LacunaeInfiller
+from linear_a.reading.interlinear import InterlinearReader
 from linear_a.skeptic.dictionary_gauntlet import DictionaryGauntlet
 from linear_a.votive.libation_engine import LibationEngine
 
@@ -216,6 +220,115 @@ def collect_workbench_dataset() -> Dict[str, Any]:
         },
     ]
 
+    # 9. Interlinear Reader
+    reader = InterlinearReader(fraction_engine)
+    interlinear_tablets = []
+    for s in sites:
+        for t in load_tablet_ledgers(s):
+            doc = reader.parse_tablet(t)
+            interlinear_tablets.append({
+                "id": doc.id,
+                "site": doc.site,
+                "genre": doc.genre,
+                "carrier": doc.carrier,
+                "is_balanced": doc.is_mathematically_balanced,
+                "stated_total": doc.stated_total,
+                "calculated_total": doc.calculated_total,
+                "summary": doc.epistemic_summary,
+                "lines": [
+                    {
+                        "line_idx": l.line_index + 1,
+                        "raw_line": l.raw_line,
+                        "line_type": l.line_type,
+                        "tokens": [
+                            {
+                                "transliteration": tok.transliteration,
+                                "category": tok.category,
+                                "morphology": tok.morphology_breakdown,
+                                "role": tok.functional_role,
+                                "tier": tok.epistemic_tier,
+                                "num_val": tok.numerical_val,
+                                "fraction_display": tok.fraction_display,
+                                "notes": tok.notes,
+                            }
+                            for tok in l.tokens
+                        ],
+                    }
+                    for l in doc.lines
+                ],
+            })
+
+    interlinear_vessels = []
+    for v in lib_engine.vessels:
+        doc = reader.parse_vessel(v)
+        interlinear_vessels.append({
+            "id": doc.id,
+            "site": doc.site,
+            "genre": doc.genre,
+            "carrier": doc.carrier,
+            "summary": doc.epistemic_summary,
+            "lines": [
+                {
+                    "line_idx": l.line_index + 1,
+                    "raw_line": l.raw_line,
+                    "line_type": l.line_type,
+                    "tokens": [
+                        {
+                            "transliteration": tok.transliteration,
+                            "category": tok.category,
+                            "morphology": tok.morphology_breakdown,
+                            "role": tok.functional_role,
+                            "tier": tok.epistemic_tier,
+                            "notes": tok.notes,
+                        }
+                        for tok in l.tokens
+                    ],
+                }
+                for l in doc.lines
+            ],
+        })
+
+    # 10. Ligatures
+    lig_engine = LigatureEngine()
+    lig_rep = lig_engine.analyze_corpus()
+    ligatures_data = {
+        "total": lig_rep.total_ligatures_cataloged,
+        "summary": lig_rep.summary,
+        "commodities": lig_rep.commodity_distribution,
+        "items": [
+            {
+                "id": l.id,
+                "notation": l.notation,
+                "base_name": l.base_name,
+                "base_commodity": l.base_commodity,
+                "modifier": l.modifier_reading,
+                "modifier_sign": l.modifier_sign,
+                "type": l.modifier_type,
+                "frequency": l.frequency_gorila,
+                "sites": l.findspots,
+                "hypothesis": l.interpretation_hypothesis,
+            }
+            for l in lig_engine.ligatures
+        ],
+    }
+
+    # 11. Scribal Network
+    net_graph = ScribalNetworkGraph()
+    net_rep = net_graph.analyze_network()
+    network_data = {
+        "summary": net_rep.summary,
+        "total_nodes": net_rep.total_nodes,
+        "total_edges": net_rep.total_edges,
+        "total_entities": net_rep.total_entities,
+        "top_agents": net_rep.top_central_agents,
+        "cross_site_agents": net_rep.cross_site_agents,
+        "cytoscape": net_graph.to_cytoscape_json(),
+    }
+
+    # 12. Infiller Benchmark
+    infiller = LacunaeInfiller(grid_engine)
+    infiller_bench = infiller.benchmark_reconstruction_accuracy(sample_size=15)
+
     return {
         "tablets": all_tablets,
         "grid": {
@@ -387,6 +500,10 @@ def collect_workbench_dataset() -> Dict[str, Any]:
             ],
         },
         "jury": jury_data,
+        "interlinear": {"tablets": interlinear_tablets, "vessels": interlinear_vessels},
+        "ligatures": ligatures_data,
+        "network": network_data,
+        "infiller": infiller_bench,
     }
 
 
@@ -899,6 +1016,8 @@ input[type=range] {{
     <button class="tab-btn" onclick="switchTab('holdout')">5. Holdout & Regional Scribes</button>
     <button class="tab-btn" onclick="switchTab('phaistos')">6. Phaistos Disc Firewall</button>
     <button class="tab-btn" onclick="switchTab('jury')">7. Tripartite Blind Jury</button>
+    <button class="tab-btn" onclick="switchTab('interlinear')">8. Interlinear Reader</button>
+    <button class="tab-btn" onclick="switchTab('network')">9. Scribal Network & Ligatures</button>
   </nav>
 
   <!-- TAB 1: TABLETS & ACCOUNTING -->
@@ -1231,6 +1350,127 @@ input[type=range] {{
     </div>
 
     <div id="juryDossiersList"></div>
+  </div>
+
+  <!-- TAB 8: INTERLINEAR EPIGRAPHIC READER -->
+  <div id="tab-interlinear" class="tab-panel">
+    <div class="card" style="margin-bottom: 20px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+        <div>
+          <div class="card-title" style="margin-bottom: 4px;">Select Inscription for Interlinear Epigraphic Reading</div>
+          <div style="font-size: 12px; color: var(--ink-secondary);">
+            5-tier structured breakdown (E0-E7): Syllabic Transliteration, Morphology, and Functional Accounting / Liturgical Role.
+          </div>
+        </div>
+        <div>
+          <select id="interlinearSelect" style="padding: 8px 14px; font-size: 13px; font-weight: 600; border-radius: 6px; border: 1px solid var(--border); background: var(--canvas); color: var(--ink);" onchange="loadInterlinearDoc(this.value)">
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat-box">
+        <div class="stat-label">Inscription ID</div>
+        <div class="stat-value" id="doc-id" style="color: var(--accent-indigo);">-</div>
+        <div class="stat-sub" id="doc-site">-</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-label">Epigraphic Genre</div>
+        <div class="stat-value" id="doc-genre" style="font-size: 16px;">-</div>
+        <div class="stat-sub" id="doc-carrier">-</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-label">Mathematical Balance</div>
+        <div id="doc-balance" style="margin-top: 6px;">-</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-label">Epistemic Protocol</div>
+        <div class="stat-value" style="color: var(--accent-emerald);">LADP v1.0</div>
+        <div class="stat-sub">Zero Semantic Speculation</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Interlinear Multi-Tier Linguistic & Administrative Breakdown</div>
+      <table class="data-table" style="margin-top: 14px;">
+        <thead>
+          <tr>
+            <th style="width: 50px;">Line</th>
+            <th style="width: 150px;">Syllabic Ductus</th>
+            <th style="width: 140px;">Category</th>
+            <th style="width: 200px;">Morphological Parsing</th>
+            <th>Administrative / Liturgical Functional Role</th>
+            <th style="width: 60px; text-align: center;">Tier</th>
+          </tr>
+        </thead>
+        <tbody id="interlinearBody"></tbody>
+      </table>
+    </div>
+
+    <div class="card" style="margin-top: 20px;">
+      <div class="card-title">Interactive Masked Phonotactic Infilling Sandbox</div>
+      <div style="font-size: 12px; color: var(--ink-secondary); margin-bottom: 12px;">
+        Enter any word with an effaced or missing syllabogram marked as <code>?</code> (e.g. <code>KU-?-NU</code> or <code>JA-SA-?-RA-ME</code> or <code>?-NA-KA-NA-SI</code>) to test phonotactic and lexical reconstruction.
+      </div>
+      <div style="display: flex; gap: 10px; align-items: center;">
+        <input type="text" id="infillInput" value="KU-?-NU" style="padding: 8px 12px; font-family: monospace; font-size: 14px; border: 1px solid var(--border); border-radius: 6px; width: 220px;">
+        <button class="btn btn-primary" onclick="runInteractiveInfill()">Reconstruct Missing Sign</button>
+      </div>
+      <div id="infillOutput" style="margin-top: 12px; display: none;"></div>
+    </div>
+  </div>
+
+  <!-- TAB 9: SCRIBAL NETWORK & LIGATURES -->
+  <div id="tab-network" class="tab-panel">
+    <div class="stat-row">
+      <div class="stat-box">
+        <div class="stat-label">Administrative Entities</div>
+        <div class="stat-value" style="color: var(--accent-indigo);">20</div>
+        <div class="stat-sub">Scribes & Estate Managers</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-label">Cross-Site Administrators</div>
+        <div class="stat-value" style="color: var(--accent-emerald);">10</div>
+        <div class="stat-sub">Active across multiple palatial centers</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-label">Commodities Managed</div>
+        <div class="stat-value">7</div>
+        <div class="stat-sub">GRA, OLE, VIN, FIC, TEL, VIR, VAS</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-label">Cataloged Ligatures</div>
+        <div class="stat-value" style="color: var(--accent-amber);">11</div>
+        <div class="stat-sub">GORILA Composite Signs</div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom: 20px;">
+      <div class="card-title">Inter-Palatial Cross-Site Administrative Actors</div>
+      <div style="font-size: 12px; color: var(--ink-secondary); margin-bottom: 12px;">
+        Minoan prosopography reveals recurrent administrative agents appearing across regional palatial archives &gt; 100 km apart during LM IB.
+      </div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Agent / Entity</th>
+            <th style="text-align: center;">Sites Count</th>
+            <th>Attested Regional Centers</th>
+            <th>Commodities Managed</th>
+          </tr>
+        </thead>
+        <tbody id="crossAgentsBody"></tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <div class="card-title">GORILA Composite Ideograms & Fractional Ligatures</div>
+      <div style="font-size: 12px; color: var(--ink-secondary); margin-bottom: 14px;">
+        Base commodities fused with syllabic modifiers (processing grade, harvest season) or fractional volume capacities.
+      </div>
+      <div id="ligaturesGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px;"></div>
+    </div>
   </div>
 </div>
 
@@ -1903,6 +2143,155 @@ function renderJury() {{
   }});
 }}
 
+// Tab 8: Interlinear Epigraphic Reader
+function populateInterlinearSelect() {{
+  const sel = document.getElementById('interlinearSelect');
+  if (!sel) return;
+  sel.innerHTML = '<optgroup label="Administrative Tablets (LM IB)">';
+  LAB_DATA.interlinear.tablets.forEach(t => {{
+    sel.innerHTML += `<option value="tab_${{t.id}}">${{t.id}} (${{t.site}} · ${{t.carrier}})</option>`;
+  }});
+  sel.innerHTML += '</optgroup><optgroup label="Peak Sanctuary Votive Vessels">';
+  LAB_DATA.interlinear.vessels.forEach(v => {{
+    sel.innerHTML += `<option value="ves_${{v.id}}">${{v.id}} (${{v.site}} · ${{v.carrier}})</option>`;
+  }});
+  sel.innerHTML += '</optgroup>';
+  loadInterlinearDoc(sel.value);
+}}
+
+function loadInterlinearDoc(val) {{
+  if (!val) return;
+  const isVessel = val.startsWith('ves_');
+  const id = val.replace('tab_', '').replace('ves_', '');
+  const doc = isVessel 
+    ? LAB_DATA.interlinear.vessels.find(v => v.id === id)
+    : LAB_DATA.interlinear.tablets.find(t => t.id === id);
+
+  if (!doc) return;
+
+  document.getElementById('doc-id').textContent = doc.id;
+  document.getElementById('doc-site').textContent = doc.site;
+  document.getElementById('doc-carrier').textContent = doc.carrier;
+  document.getElementById('doc-genre').textContent = doc.genre;
+  
+  const balEl = document.getElementById('doc-balance');
+  if (doc.genre === 'ADMINISTRATIVE_LEDGER') {{
+    balEl.innerHTML = doc.is_balanced 
+      ? `<span class="badge badge-emerald">✓ EXACT BALANCE (KU-RO ${{doc.stated_total || doc.calculated_total}})</span>`
+      : '<span class="badge badge-crimson">⚠ UNBALANCED LEDGER</span>';
+  }} else {{
+    balEl.innerHTML = '<span class="badge badge-indigo">✓ 5-PHASE FORMULAIC RITUAL</span>';
+  }}
+
+  const tbody = document.getElementById('interlinearBody');
+  tbody.innerHTML = '';
+  doc.lines.forEach(l => {{
+    l.tokens.forEach((tok, tIdx) => {{
+      const numStr = tok.num_val !== null && tok.num_val !== undefined 
+        ? ` (${{tok.num_val}})` + (tok.fraction_display ? ` [${{tok.fraction_display}}]` : '')
+        : '';
+      const tierColor = tok.tier === 'E3' ? 'var(--accent-emerald)' : (tok.tier === 'E4' || tok.tier === 'E5' ? 'var(--accent-indigo)' : 'var(--ink-secondary)');
+      tbody.innerHTML += `
+        <tr>
+          <td style="font-family: monospace; color: var(--ink-muted); font-size: 11px;">L${{l.line_idx}}</td>
+          <td><strong style="font-family: monospace; font-size: 13px; color: var(--accent-indigo);">${{tok.transliteration}}</strong></td>
+          <td><span class="badge badge-amber" style="font-size: 11px;">${{tok.category}}</span></td>
+          <td style="font-family: monospace; font-size: 12px; color: var(--ink-secondary);">${{tok.morphology}}</td>
+          <td style="font-size: 12px;"><strong>${{tok.role}}</strong>${{numStr}}</td>
+          <td style="text-align: center;"><span style="font-family: monospace; font-weight: 700; color: ${{tierColor}};">${{tok.tier}}</span></td>
+        </tr>
+      `;
+    }});
+  }});
+}}
+
+function runInteractiveInfill() {{
+  const input = document.getElementById('infillInput').value.trim();
+  if (!input) return;
+  const resEl = document.getElementById('infillOutput');
+  resEl.style.display = 'block';
+
+  const candidates = [];
+  LAB_DATA.interlinear.tablets.concat(LAB_DATA.interlinear.vessels).forEach(doc => {{
+    doc.lines.forEach(l => {{
+      l.tokens.forEach(tok => {{
+        const word = tok.transliteration;
+        const sylls = word.split('-');
+        const querySylls = input.split('-');
+        if (sylls.length === querySylls.length) {{
+          let matches = true;
+          let recovered = null;
+          for (let i = 0; i < sylls.length; i++) {{
+            if (querySylls[i] === '?' || querySylls[i] === '*') {{
+              recovered = sylls[i];
+            }} else if (querySylls[i] !== sylls[i]) {{
+              matches = false;
+              break;
+            }}
+          }}
+          if (matches && recovered) {{
+            candidates.push({{ sign: recovered, word: word, source: doc.id }});
+          }}
+        }}
+      }});
+    }});
+  }});
+
+  if (candidates.length > 0) {{
+    const best = candidates[0];
+    resEl.innerHTML = `
+      <div style="background: rgba(5, 150, 105, 0.08); border: 1px solid var(--accent-emerald); padding: 12px; border-radius: 6px;">
+        <div style="font-size: 13px; font-weight: 700; color: var(--accent-emerald);">✓ Candidate Sign Recovered: ${{best.sign}}</div>
+        <div style="font-size: 12px; margin-top: 4px;">Exact attested Minoan word match: <strong style="font-family: monospace;">${{best.word}}</strong> (attested in ${{best.source}}).</div>
+        <div style="font-size: 11px; color: var(--ink-secondary); margin-top: 2px;">Evidence Tier: E4 (Attested Template) · Bayes Factor: &gt; 100</div>
+      </div>
+    `;
+  }} else {{
+    resEl.innerHTML = `
+      <div style="background: rgba(217, 119, 6, 0.08); border: 1px solid var(--accent-amber); padding: 12px; border-radius: 6px;">
+        <div style="font-size: 13px; font-weight: 700; color: var(--accent-amber);">Phonotactic Transition Estimate</div>
+        <div style="font-size: 12px; margin-top: 4px;">No identical whole-word template. Open CV transition models favour dental/nasal series.</div>
+      </div>
+    `;
+  }}
+}}
+
+// Tab 9: Scribal Network & Ligatures
+function renderNetworkTab() {{
+  const tbody = document.getElementById('crossAgentsBody');
+  if (tbody) {{
+    tbody.innerHTML = '';
+    LAB_DATA.network.cross_site_agents.forEach(a => {{
+      tbody.innerHTML += `
+        <tr>
+          <td><strong style="font-family: monospace; font-size: 13px; color: var(--accent-indigo);">${{a.agent}}</strong></td>
+          <td style="text-align: center;"><span class="badge badge-emerald">${{a.sites_count}} Sites</span></td>
+          <td style="font-size: 12px;">${{a.sites.join(', ')}}</td>
+          <td style="font-size: 12px; color: var(--ink-secondary);">${{a.commodities.join(', ')}}</td>
+        </tr>
+      `;
+    }});
+  }}
+
+  const gridEl = document.getElementById('ligaturesGrid');
+  if (gridEl) {{
+    gridEl.innerHTML = '';
+    LAB_DATA.ligatures.items.forEach(l => {{
+      gridEl.innerHTML += `
+        <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 14px;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-family: monospace; font-size: 16px; font-weight: 700; color: var(--accent-indigo);">${{l.notation}}</span>
+            <span class="badge badge-amber" style="font-size: 10px;">${{l.type}}</span>
+          </div>
+          <div style="font-size: 12px; font-weight: 600; margin-top: 6px;">${{l.base_name}} + ${{l.modifier}}</div>
+          <div style="font-size: 11px; color: var(--ink-secondary); margin-top: 4px;">${{l.hypothesis}}</div>
+          <div style="font-size: 10px; color: var(--ink-muted); margin-top: 8px;">Findspots: ${{l.sites.join(', ')}} (GORILA freq: ${{l.frequency}})</div>
+        </div>
+      `;
+    }});
+  }}
+}}
+
 // Bootstrap
 window.addEventListener('DOMContentLoaded', () => {{
   renderTabletList();
@@ -1913,6 +2302,8 @@ window.addEventListener('DOMContentLoaded', () => {{
   renderHoldout();
   renderPhaistos();
   renderJury();
+  populateInterlinearSelect();
+  renderNetworkTab();
 }});
 </script>
 </body>

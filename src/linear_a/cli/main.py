@@ -9,6 +9,8 @@ from rich.table import Table
 from linear_a.accounting.fractions import FractionEngine
 from linear_a.accounting.ledger import LedgerValidator
 from linear_a.corpus.loader import (
+    get_tablet_by_id,
+    load_all_tablets,
     load_signs_catalogue,
     load_tablet_ledgers,
     parse_tablet_line_items,
@@ -16,9 +18,13 @@ from linear_a.corpus.loader import (
 from linear_a.llm.jury import SkepticJury
 from linear_a.llm.ollama import OllamaClient
 from linear_a.morphology.affix_sieve import AffixSieve
+from linear_a.network.scribal_graph import ScribalNetworkGraph
 from linear_a.palaeography.grid_factorization import KoberVentrisGridEngine
-from linear_a.bridge.phaistos_matrix import PhaistosBridgeEngine
+from linear_a.palaeography.ligatures import LigatureEngine
 from linear_a.predictive.holdout_engine import HoldoutEngine
+from linear_a.predictive.lacunae_infiller import LacunaeInfiller
+from linear_a.reading.interlinear import InterlinearReader
+from linear_a.bridge.phaistos_matrix import PhaistosBridgeEngine
 from linear_a.skeptic.dictionary_gauntlet import DictionaryGauntlet
 from linear_a.visualizer.workbench import generate_workbench_html
 from linear_a.votive.libation_engine import LibationEngine
@@ -382,5 +388,170 @@ def workbench(
     console.print("[dim]Open in any browser: zero external dependencies, works completely offline.[/dim]")
 
 
+@app.command()
+def read(
+    target_id: str = typer.Argument(..., help="ID of tablet (e.g. HT_009, KN_001) or vessel (e.g. IO_Za_002)")
+):
+    """Generate structured 5-tier interlinear reading for any tablet or votive vessel."""
+    reader = InterlinearReader()
+    doc = None
+
+    # Check if target is a tablet
+    tablet_dict = get_tablet_by_id(target_id)
+    if tablet_dict:
+        doc = reader.parse_tablet(tablet_dict)
+    else:
+        # Check if target is a libation vessel
+        lib_engine = LibationEngine()
+        for v in lib_engine.vessels:
+            if v.id == target_id:
+                doc = reader.parse_vessel(v)
+                break
+
+    if not doc:
+        console.print(f"[bold red]Error:[/bold red] Inscription '{target_id}' not found in corpus.")
+        raise typer.Exit(1)
+
+    balance_badge = "[bold green]✓ EXACT BALANCE[/bold green]" if doc.is_mathematically_balanced else "[bold yellow]⚠ OPEN / UNBALANCED[/bold yellow]"
+    console.print(Panel(
+        f"[bold cyan]Interlinear Epigraphic Reading: {doc.id} ({doc.site})[/bold cyan]\n"
+        f"[dim]Genre: {doc.genre} | Carrier: {doc.carrier} | {balance_badge}[/dim]"
+    ))
+
+    table = Table(title=f"Epigraphic Transcription: {doc.id}", show_header=True)
+    table.add_column("Line", justify="right", style="dim", width=6)
+    table.add_column("Syllabic Ductus", style="bold cyan", width=18)
+    table.add_column("Category", style="yellow", width=18)
+    table.add_column("Morphological Breakdown", style="dim", width=26)
+    table.add_column("Administrative / Liturgical Role", style="green")
+    table.add_column("Tier", justify="center", style="magenta", width=6)
+
+    for line in doc.lines:
+        for t in line.tokens:
+            num_str = f" ({t.numerical_val:g})" if t.numerical_val is not None else ""
+            num_str += f" [{t.fraction_display}]" if t.fraction_display else ""
+            table.add_row(
+                f"L{line.line_index + 1}",
+                t.transliteration,
+                t.category,
+                t.morphology_breakdown,
+                f"{t.functional_role}{num_str}",
+                t.epistemic_tier,
+            )
+
+    console.print(table)
+    if doc.stated_total is not None:
+        console.print(f"\n• Stated KU-RO: [bold green]{doc.stated_total:g}[/bold green] | Computed Sum: [bold green]{doc.calculated_total:g}[/bold green]")
+    console.print(f"[dim]{doc.epistemic_summary}[/dim]")
+
+
+@app.command()
+def infill(
+    token: str = typer.Argument(..., help="Damaged token with missing sign marked by '?' (e.g. KU-?-NU)")
+):
+    """Predict missing/effaced syllabogram in a damaged inscription token."""
+    console.print(Panel(f"[bold cyan]Masked Phonotactic Lacunae Infilling[/bold cyan]\n[dim]Token: {token}[/dim]"))
+
+    infiller = LacunaeInfiller()
+    try:
+        res = infiller.infill_token(token)
+    except Exception as e:
+        console.print(f"[bold red]Infill error:[/bold red] {e}")
+        raise typer.Exit(1)
+
+    table = Table(title=f"Ranked Infill Candidates for '{token}'", show_header=True)
+    table.add_column("Rank", justify="right", style="dim", width=6)
+    table.add_column("Candidate Sign", style="bold green", width=16)
+    table.add_column("Bayes Factor", justify="right", style="cyan", width=14)
+    table.add_column("Confidence Tier", justify="center", style="magenta", width=10)
+    table.add_column("Phonotactic Rationale & Attested Match", style="yellow")
+
+    for idx, c in enumerate(res.top_candidates):
+        table.add_row(
+            f"#{idx + 1}",
+            c.reading,
+            f"{c.bayes_factor:.1f}",
+            c.confidence_tier,
+            c.rationale,
+        )
+
+    console.print(table)
+    console.print(f"\n[bold green]Result:[/bold green] {res.summary}")
+
+
+@app.command()
+def ligatures():
+    """List and decompose Minoan composite ideograms and fractional compounds."""
+    console.print(Panel("[bold cyan]Linear A Composite Ideograms & Fractional Ligatures[/bold cyan]\n[dim]GORILA Corpus | Evidence Tier E3[/dim]"))
+
+    engine = LigatureEngine()
+    rep = engine.analyze_corpus()
+
+    table = Table(title="Canonical GORILA Ligatures & Compounds", show_header=True)
+    table.add_column("Notation", style="bold cyan", width=12)
+    table.add_column("Base Commodity", style="yellow", width=16)
+    table.add_column("Modifier", style="magenta", width=12)
+    table.add_column("Type", style="dim", width=14)
+    table.add_column("Attested Sites", style="green")
+    table.add_column("Interpretation Hypothesis", style="white")
+
+    for lig in engine.ligatures:
+        table.add_row(
+            lig.notation,
+            f"{lig.base_name} ({lig.base_commodity})",
+            f"{lig.modifier_reading} ({lig.modifier_sign})",
+            lig.modifier_type,
+            ", ".join(lig.findspots),
+            lig.interpretation_hypothesis,
+        )
+
+    console.print(table)
+    console.print(f"\n[dim]{rep.summary}[/dim]")
+
+
+@app.command()
+def network():
+    """Analyze bipartite regional economic network of administrators, commodities, and sites."""
+    console.print(Panel("[bold cyan]Bipartite Minoan Regional Economic Network[/bold cyan]\n[dim]Cross-Site Administrator and Commodity Topology[/dim]"))
+
+    graph = ScribalNetworkGraph()
+    rep = graph.analyze_network()
+
+    table = Table(title="Top Central Administrative Agents (Degree Centrality)", show_header=True)
+    table.add_column("Agent / Entity", style="bold cyan", width=18)
+    table.add_column("Degree", justify="right", style="green", width=8)
+    table.add_column("Attested Sites", style="yellow", width=28)
+    table.add_column("Commodities Managed", style="magenta")
+
+    for a in rep.top_central_agents:
+        table.add_row(
+            a["agent"],
+            str(a["degree"]),
+            ", ".join(a["sites"]),
+            ", ".join(a["commodities"]),
+        )
+
+    console.print(table)
+
+    if rep.cross_site_agents:
+        table_cross = Table(title="Inter-Palatial Cross-Site Administrators", show_header=True)
+        table_cross.add_column("Agent / Entity", style="bold cyan", width=18)
+        table_cross.add_column("Sites Count", justify="right", style="green", width=12)
+        table_cross.add_column("Linked Regional Sites", style="yellow")
+        table_cross.add_column("Commodities Managed", style="magenta")
+
+        for ca in rep.cross_site_agents:
+            table_cross.add_row(
+                ca["agent"],
+                str(ca["sites_count"]),
+                ", ".join(ca["sites"]),
+                ", ".join(ca["commodities"]),
+            )
+        console.print("\n", table_cross)
+
+    console.print(f"\n[dim]{rep.summary}[/dim]")
+
+
 if __name__ == "__main__":
     app()
+

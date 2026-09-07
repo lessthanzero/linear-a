@@ -96,7 +96,7 @@ class LibationEngine:
 
         jasasarame_count = sum(
             1 for v in self.vessels
-            if any("SA-SA-RA-ME" in s.word for s in v.segments)
+            if any("SA-SA-RA" in s.word for s in v.segments)
         )
         unakanasi_count = sum(
             1 for v in self.vessels

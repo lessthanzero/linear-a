@@ -26,6 +26,15 @@ words:
     signs: ["AB57", "AB04", "AB28", "AB06", "AB10", "AB57"]
     site: "Palaikastro"
     genre: "votive"
+  - token: "JA-DI-KI-TU"
+    signs: ["AB57", "AB07", "AB67", "AB10"]
+    site: "Syme"
+    genre: "votive"
+  - token: "JA-SA-SA-RA-MA-NA"
+    signs: ["AB57", "AB31", "AB31", "AB02", "AB01", "AB06"]
+    site: "Prassas"
+    genre: "votive"
+
 
   # Administrative Toponyms & Formulas
   - token: "KU-RO"

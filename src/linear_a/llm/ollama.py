@@ -13,16 +13,19 @@ class OllamaClient:
         base_url: Optional[str] = None,
         timeout: float = 60.0,
     ):
-        self.candidate_urls = [
-            base_url.rstrip("/") if base_url else None,
-            os.getenv("OLLAMA_HOST"),
-            "http://localhost:11434",
-            "http://127.0.0.1:11434",
-            "http://pc:11434",
-            "http://192.168.1.172:11434",
-        ]
-        self.candidate_urls = [u.rstrip("/") for u in self.candidate_urls if u]
-        self.base_url = self._resolve_active_url()
+        if base_url:
+            self.base_url = base_url.rstrip("/")
+            self.candidate_urls = [self.base_url]
+        else:
+            self.candidate_urls = [
+                os.getenv("OLLAMA_HOST"),
+                "http://localhost:11434",
+                "http://127.0.0.1:11434",
+                "http://100.103.226.101:11434",
+                "http://192.168.1.172:11434",
+            ]
+            self.candidate_urls = [u.rstrip("/") for u in self.candidate_urls if u]
+            self.base_url = self._resolve_active_url()
         self.timeout = timeout
 
     def _resolve_active_url(self) -> str:

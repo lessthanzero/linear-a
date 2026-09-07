@@ -59,3 +59,23 @@ def parse_tablet_line_items(tablet_raw: Dict) -> List[LedgerLineItem]:
             notes=it.get("notes"),
         ))
     return items
+
+
+ALL_SITES = ["hagia_triada", "phaistos", "knossos", "malia", "khania", "zakros", "tylissos"]
+
+
+def load_all_tablets(corpus_dir: Optional[Path] = None) -> List[Dict]:
+    """Load all tablet dictionaries across all sites."""
+    tablets = []
+    for s in ALL_SITES:
+        tablets.extend(load_tablet_ledgers(s, corpus_dir))
+    return tablets
+
+
+def get_tablet_by_id(tablet_id: str, corpus_dir: Optional[Path] = None) -> Optional[Dict]:
+    """Find a specific tablet by ID across all regional sites."""
+    for t in load_all_tablets(corpus_dir):
+        if t["id"] == tablet_id:
+            return t
+    return None
+

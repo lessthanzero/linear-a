@@ -82,3 +82,58 @@ libations:
         morae: 6
         role: "Closing cadential ritual prayer"
         prefix: "JA-"
+
+  - id: "SY_Za_001"
+    museum_id: "HM 3432"
+    site: "Syme"
+    findspot_details: "Sanctuary of Hermes and Aphrodite at Syme Biannou"
+    date_range: "MM III / LM IA"
+    object_type: "libation_vessel"
+    vessel_type: "Steatite libation table with inscribed rim"
+    source: "GORILA IV: 62-63; Lebessi, Muhly & Olivier 1995"
+    transcription_raw: "A-TA-I-*301-WA-JA JA-DI-KI-TU U-NA-KA-NA-SI I-PI-NA-MA SI-RU-TE"
+    segments:
+      - word: "A-TA-I-*301-WA-JA"
+        morae: 6
+        role: "Formulaic invocation header / Divine title"
+        prefix: "A-"
+      - word: "JA-DI-KI-TU"
+        morae: 4
+        role: "Toponymic epiclesis (Mount Dikte peak sanctuary)"
+        prefix: "JA-"
+      - word: "U-NA-KA-NA-SI"
+        morae: 5
+        role: "Dedicatory verb ('she has offered / may she accept')"
+        prefix: "U-"
+      - word: "I-PI-NA-MA"
+        morae: 4
+        role: "Libation offering / sacred liquid descriptor"
+        prefix: "I-"
+      - word: "SI-RU-TE"
+        morae: 3
+        role: "Priestly / sanctuary locative title"
+        suffix: "-TE"
+
+  - id: "PR_Za_001"
+    museum_id: "HM 2486"
+    site: "Prassas"
+    findspot_details: "Sanctuary of Prassas, central cavity table"
+    date_range: "MM III / LM IA"
+    object_type: "libation_vessel"
+    vessel_type: "Steatite libation table with circular central cavity"
+    source: "GORILA IV: 40-41"
+    transcription_raw: "TA-NA-I-*301-TI JA-SA-SA-RA-MA-NA U-NA-KA-NA-SI"
+    segments:
+      - word: "TA-NA-I-*301-TI"
+        morae: 5
+        role: "Variant invocation header"
+      - word: "JA-SA-SA-RA-MA-NA"
+        morae: 6
+        role: "Extended allative / dative divine epithet (JA-SA-SA-RA- + -MA-NA)"
+        prefix: "JA-"
+        geminate: true
+      - word: "U-NA-KA-NA-SI"
+        morae: 5
+        role: "Dedicatory verb"
+        prefix: "U-"
+

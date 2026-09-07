@@ -1,0 +1,157 @@
+# Canonical Linear A Ideographic Ligatures and Compound Signs (GORILA System)
+# Maps composite signs where base ideograms fuse with syllabic modifiers or fractions.
+
+ligatures:
+  - id: "LIG-001"
+    notation: "GRA+PA"
+    base_ideogram: "AB120"
+    base_commodity: "GRA"
+    base_name: "Grain / Wheat"
+    modifier_sign: "AB02"
+    modifier_reading: "PA"
+    modifier_type: "syllabogram"
+    frequency_gorila: 14
+    findspots: ["Hagia_Triada", "Knossos", "Khania"]
+    epigraphic_class: "Agricultural commodity variant"
+    interpretation_hypothesis: "Barley or coarse grain ration (Linear B parallel: pa-ka-na / pa-te)"
+    confidence_tier: "E3"
+
+  - id: "LIG-002"
+    notation: "GRA+QE"
+    base_ideogram: "AB120"
+    base_commodity: "GRA"
+    base_name: "Grain / Wheat"
+    modifier_sign: "AB78"
+    modifier_reading: "QE"
+    modifier_type: "syllabogram"
+    frequency_gorila: 9
+    findspots: ["Hagia_Triada", "Malia"]
+    epigraphic_class: "Agricultural commodity variant"
+    interpretation_hypothesis: "Cleaned grain / seed corn or tribute allocation"
+    confidence_tier: "E3"
+
+  - id: "LIG-003"
+    notation: "GRA+KI"
+    base_ideogram: "AB120"
+    base_commodity: "GRA"
+    base_name: "Grain / Wheat"
+    modifier_sign: "AB67"
+    modifier_reading: "KI"
+    modifier_type: "syllabogram"
+    frequency_gorila: 7
+    findspots: ["Hagia_Triada", "Zakros"]
+    epigraphic_class: "Agricultural commodity variant"
+    interpretation_hypothesis: "Millet / Emmer wheat or deficit allocation (linked to KI-RO)"
+    confidence_tier: "E3"
+
+  - id: "LIG-004"
+    notation: "OLE+U"
+    base_ideogram: "AB130"
+    base_commodity: "OLE"
+    base_name: "Olive Oil"
+    modifier_sign: "AB10"
+    modifier_reading: "U"
+    modifier_type: "syllabogram"
+    frequency_gorila: 22
+    findspots: ["Hagia_Triada", "Phaistos", "Knossos"]
+    epigraphic_class: "Oil processing grade"
+    interpretation_hypothesis: "First pressing / virgin olive oil"
+    confidence_tier: "E3"
+
+  - id: "LIG-005"
+    notation: "OLE+DI"
+    base_ideogram: "AB130"
+    base_commodity: "OLE"
+    base_name: "Olive Oil"
+    modifier_sign: "AB07"
+    modifier_reading: "DI"
+    modifier_type: "syllabogram"
+    frequency_gorila: 11
+    findspots: ["Hagia_Triada", "Zakros"]
+    epigraphic_class: "Oil processing grade"
+    interpretation_hypothesis: "Aromatic / perfumed oil or divine sanctuary dedication"
+    confidence_tier: "E3"
+
+  - id: "LIG-006"
+    notation: "OLE+KI"
+    base_ideogram: "AB130"
+    base_commodity: "OLE"
+    base_name: "Olive Oil"
+    modifier_sign: "AB67"
+    modifier_reading: "KI"
+    modifier_type: "syllabogram"
+    frequency_gorila: 8
+    findspots: ["Hagia_Triada", "Khania"]
+    epigraphic_class: "Oil processing grade"
+    interpretation_hypothesis: "Sanctuary / ritual oil allotment"
+    confidence_tier: "E3"
+
+  - id: "LIG-007"
+    notation: "OLE+NE"
+    base_ideogram: "AB130"
+    base_commodity: "OLE"
+    base_name: "Olive Oil"
+    modifier_sign: "AB24"
+    modifier_reading: "NE"
+    modifier_type: "syllabogram"
+    frequency_gorila: 6
+    findspots: ["Hagia_Triada"]
+    epigraphic_class: "Harvest season descriptor"
+    interpretation_hypothesis: "New season harvest oil (Linear B parallel: ne-wa / new)"
+    confidence_tier: "E3"
+
+  - id: "LIG-008"
+    notation: "VIN+RA"
+    base_ideogram: "AB131a"
+    base_commodity: "VIN"
+    base_name: "Wine"
+    modifier_sign: "AB60"
+    modifier_reading: "RA"
+    modifier_type: "syllabogram"
+    frequency_gorila: 8
+    findspots: ["Hagia_Triada", "Malia"]
+    epigraphic_class: "Vintage descriptor"
+    interpretation_hypothesis: "Aged or unmixed wine reserve"
+    confidence_tier: "E3"
+
+  - id: "LIG-009"
+    notation: "VIN+DI"
+    base_ideogram: "AB131a"
+    base_commodity: "VIN"
+    base_name: "Wine"
+    modifier_sign: "AB07"
+    modifier_reading: "DI"
+    modifier_type: "syllabogram"
+    frequency_gorila: 5
+    findspots: ["Hagia_Triada", "Zakros"]
+    epigraphic_class: "Vintage descriptor"
+    interpretation_hypothesis: "Sweet wine or sanctuary offering wine"
+    confidence_tier: "E3"
+
+  - id: "LIG-010"
+    notation: "*304+E"
+    base_ideogram: "AB180"
+    base_commodity: "VAS"
+    base_name: "Pithos / Storage Vessel"
+    modifier_sign: "E"
+    modifier_reading: "1/4"
+    modifier_type: "fraction"
+    frequency_gorila: 4
+    findspots: ["Tylissos", "Hagia_Triada"]
+    epigraphic_class: "Capacity measurement"
+    interpretation_hypothesis: "Quarter-capacity standard storage pithos"
+    confidence_tier: "E3"
+
+  - id: "LIG-011"
+    notation: "*304+J"
+    base_ideogram: "AB180"
+    base_commodity: "VAS"
+    base_name: "Pithos / Storage Vessel"
+    modifier_sign: "J"
+    modifier_reading: "1/2"
+    modifier_type: "fraction"
+    frequency_gorila: 6
+    findspots: ["Tylissos", "Malia"]
+    epigraphic_class: "Capacity measurement"
+    interpretation_hypothesis: "Half-capacity standard storage pithos"
+    confidence_tier: "E3"

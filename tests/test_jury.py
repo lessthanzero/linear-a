@@ -1,10 +1,13 @@
 """Tests for the Tripartite Blind Skeptic Jury."""
 
 from linear_a.llm.jury import SkepticJury
+from linear_a.llm.ollama import OllamaClient
 
 
 def test_skeptic_jury_structure():
-    jury = SkepticJury()
+    # Offline client ensures fast, deterministic testing of the LADP v1.0 scoring formula
+    client = OllamaClient(base_url="http://127.0.0.1:1")
+    jury = SkepticJury(ollama_client=client)
     dossier = jury.evaluate_claim(
         claim="Linear A is archaic Hebrew where KU-RO means 'all' and KI-RO means 'missing'",
         claim_domain="phonetic_translation",
@@ -22,7 +25,8 @@ def test_skeptic_jury_structure():
 
 
 def test_skeptic_jury_scoring_bounds():
-    jury = SkepticJury()
+    client = OllamaClient(base_url="http://127.0.0.1:1")
+    jury = SkepticJury(ollama_client=client)
     # Test heavily overfit claim with max penalties
     dossier_fail = jury.evaluate_claim(
         claim="Arbitrary reading of HT 13 as a Luwian royal decree",

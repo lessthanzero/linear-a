@@ -117,3 +117,59 @@ tablets:
     stated_kuro:
       integer_amount: 31
       fractional_symbols: []
+
+  - id: "HT_085"
+    museum_id: "HM 1355"
+    site: "Hagia_Triada"
+    findspot_details: "Villa Reale, Casa del Lebete"
+    date_range: "LM IB"
+    object_type: "tablet"
+    source: "GORILA I: 130-131"
+    notes: "Agricultural ledger with effaced signs and composite ligatures GRA+PA and OLE+U."
+    heading: "TE-TU"
+    items:
+      - entry_header: "KU-?-NU"
+        commodity: "GRA+PA"
+        integer_amount: 12
+        fractional_symbols: ["J"]
+        notes: "Effaced sign 2 reconstructed as KU-[PA]-NU"
+      - entry_header: "SA-RU"
+        commodity: "OLE+U"
+        integer_amount: 5
+        fractional_symbols: []
+      - entry_header: "DA-?-RE"
+        commodity: "VIN"
+        integer_amount: 8
+        fractional_symbols: ["E"]
+        notes: "Effaced sign 2 reconstructed as DA-[TA]-RE"
+    stated_kuro:
+      integer_amount: 25
+      fractional_symbols: ["J", "E"]
+
+  - id: "HT_117"
+    museum_id: "HM 1387"
+    site: "Hagia_Triada"
+    findspot_details: "Villa Reale, Magazine 7"
+    date_range: "LM IB"
+    object_type: "tablet"
+    source: "GORILA I: 200-203"
+    notes: "Commodity distribution ledger tracking TE-TU, KA-DI, and PA-DE with broken sign in line 2."
+    heading: "KA-DI"
+    items:
+      - entry_header: "PA-DE"
+        commodity: "FIC"
+        integer_amount: 14
+        fractional_symbols: []
+      - entry_header: "TE-?"
+        commodity: "FIC"
+        integer_amount: 6
+        fractional_symbols: []
+        notes: "Effaced sign reconstructed as TE-[TU]"
+      - entry_header: "MA-KA"
+        commodity: "FIC"
+        integer_amount: 10
+        fractional_symbols: []
+    stated_kuro:
+      integer_amount: 30
+      fractional_symbols: []
+

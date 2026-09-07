@@ -68,12 +68,10 @@ class SkepticJury:
         # 1. Juror 1: Qwen 2.5 (7B) - Mathematical & Epigraphic Auditor
         critique_qwen = self._query_qwen(claim, claim_domain)
         critiques.append(critique_qwen)
-        time.sleep(1.5)
 
         # 2. Juror 2: Gemma 2 (9B) - Comparative Linguistic Skeptic
         critique_gemma = self._query_gemma2(claim, claim_domain)
         critiques.append(critique_gemma)
-        time.sleep(1.5)
 
         # 3. Juror 3: Llama 3.2 (3B) - Fast Structural Anomaly Detector
         critique_llama = self._query_llama(claim, claim_domain)
