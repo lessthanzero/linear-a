@@ -63,7 +63,7 @@ class RegionalSiteProfile(BaseModel):
 
 class HoldoutReport(BaseModel):
     training_sites: List[str] = Field(default_factory=lambda: ["Hagia_Triada", "Phaistos"])
-    holdout_sites: List[str] = Field(default_factory=lambda: ["Khania", "Zakros", "Tylissos"])
+    holdout_sites: List[str] = Field(default_factory=lambda: ["Khania", "Zakros", "Tylissos", "Knossos", "Malia"])
     accounting_summary: HoldoutAccountingSummary
     morphology_summary: HoldoutMorphologySummary
     regional_profiles: List[RegionalSiteProfile]
@@ -82,7 +82,7 @@ class HoldoutEngine:
         self, holdout_sites: Optional[List[str]] = None
     ) -> HoldoutAccountingSummary:
         """Evaluate deterministic accounting totals and masked item reconstruction."""
-        sites = holdout_sites or ["khania", "zakros", "tylissos"]
+        sites = holdout_sites or ["khania", "zakros", "tylissos", "knossos", "malia"]
         predictions: List[HoldoutTabletPrediction] = []
 
         total_tested = 0
@@ -173,7 +173,7 @@ class HoldoutEngine:
         self, holdout_sites: Optional[List[str]] = None
     ) -> HoldoutMorphologySummary:
         """Evaluate prefix/suffix model predictions on unseen holdout words."""
-        sites = holdout_sites or ["khania", "zakros", "tylissos"]
+        sites = holdout_sites or ["khania", "zakros", "tylissos", "knossos", "malia"]
         # Train distribution from GORILA / training tablets
         train_tablets = load_tablet_ledgers("hagia_triada") + load_tablet_ledgers("phaistos")
         train_vocab: Set[str] = set()
@@ -234,6 +234,8 @@ class HoldoutEngine:
         site_metadata = {
             "hagia_triada": ("South-Central Crete (Messara Plain)", "Hagia_Triada"),
             "phaistos": ("South-Central Crete (Messara Plain)", "Phaistos"),
+            "knossos": ("North-Central Crete (Knossos Valley)", "Knossos"),
+            "malia": ("North-East Crete (Coastal Plain)", "Malia"),
             "khania": ("West Crete (Kydonia)", "Khania"),
             "zakros": ("East Crete (Minoan Port)", "Zakros"),
             "tylissos": ("Central-North Crete (Foot of Ida)", "Tylissos"),

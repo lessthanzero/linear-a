@@ -1,0 +1,55 @@
+# Linear A Administrative Tablets from Palace of Knossos (GORILA Vol. II: KN series)
+tablets:
+  - id: "KN_001"
+    museum_id: "HM 1201"
+    site: "Knossos"
+    findspot_details: "Palace of Knossos, South Front administrative deposit"
+    date_range: "LM IA / LM IB (c. 1500-1450 BCE)"
+    object_type: "tablet"
+    source: "GORILA II: 2-3"
+    notes: "Olive oil (OLE) allocation ledger under supervisor QA-PA-DA, summing to stated KU-RO 30."
+    heading: "QA-PA-DA"
+    commodity: "OLE"
+    items:
+      - entry_header: "A-DU"
+        commodity: "OLE"
+        integer_amount: 12
+        fractional_symbols: []
+      - entry_header: "SA-RU"
+        commodity: "OLE"
+        integer_amount: 8
+        fractional_symbols: []
+      - entry_header: "DA-RE"
+        commodity: "OLE"
+        integer_amount: 10
+        fractional_symbols: []
+    stated_kuro:
+      integer_amount: 30
+      fractional_symbols: []
+
+  - id: "KN_002"
+    museum_id: "HM 1202"
+    site: "Knossos"
+    findspot_details: "Palace of Knossos, West Magazine corridor"
+    date_range: "LM IA"
+    object_type: "tablet"
+    source: "GORILA II: 4-5"
+    notes: "Grain (GRA) distribution ledger with toponymic heading DI-RA-DI-NA, summing exactly to KU-RO 30."
+    heading: "DI-RA-DI-NA"
+    commodity: "GRA"
+    items:
+      - entry_header: "MA-KA"
+        commodity: "GRA"
+        integer_amount: 15
+        fractional_symbols: []
+      - entry_header: "TE-TU"
+        commodity: "GRA"
+        integer_amount: 9
+        fractional_symbols: []
+      - entry_header: "KU-PA-NU"
+        commodity: "GRA"
+        integer_amount: 6
+        fractional_symbols: []
+    stated_kuro:
+      integer_amount: 30
+      fractional_symbols: []

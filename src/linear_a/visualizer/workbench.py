@@ -38,7 +38,7 @@ def collect_workbench_dataset() -> Dict[str, Any]:
     validator = LedgerValidator(fraction_engine)
 
     # 1. Collect Tablets across all sites
-    sites = ["hagia_triada", "phaistos", "khania", "zakros", "tylissos"]
+    sites = ["hagia_triada", "phaistos", "knossos", "malia", "khania", "zakros", "tylissos"]
     all_tablets: List[Dict[str, Any]] = []
 
     for site in sites:
@@ -117,7 +117,31 @@ def collect_workbench_dataset() -> Dict[str, Any]:
     phaistos_rep = bridge_engine.evaluate_cross_script_homology()
 
     # 8. Jury Dossiers
-    jury_data = [
+    dossier_path = Path(__file__).resolve().parent.parent.parent.parent / "experiments" / "runs" / "jury_proposals_dossier.json"
+    if dossier_path.exists():
+        with open(dossier_path, "r", encoding="utf-8") as f:
+            proposals = json.load(f)
+        jury_data = [
+            {
+                "claim": f"{p['id']}: {p['name']}",
+                "score": p["score"],
+                "grade": p["grade"],
+                "verdict": p["verdict"],
+                "jurors": [
+                    {
+                        "persona": j["persona"],
+                        "model": j["model"],
+                        "falsified": j["falsified"],
+                        "penalty": j["penalty"],
+                        "text": j["critique"],
+                    }
+                    for j in p["jurors"]
+                ],
+            }
+            for p in proposals
+        ]
+    else:
+        jury_data = [
         {
             "claim": "Gordon/Best Semitic Northwest: KU-RO = kullu ('all'), KI-RO = killu ('deficit')",
             "score": 41.2,
@@ -225,6 +249,7 @@ def collect_workbench_dataset() -> Dict[str, Any]:
                 for v in grid_rep.vowel_clusters
             ],
             "coordinates": grid_rep.sign_coordinates,
+            "consonant_centroids_3d": grid_rep.consonant_centroids_3d,
         },
         "gauntlet": {
             "semitic": {
@@ -909,11 +934,26 @@ input[type=range] {{
 
     <div class="card">
       <div class="card-title">
-        <span>2D Latent SVD Phonetic Projection (Singular Components 1 &amp; 2)</span>
-        <span style="font-size: 11px; font-family: var(--font-mono); color: var(--ink-muted);">PPMI Transition Graph Decomposition</span>
+        <span>Kober-Ventris Latent Phonetic SVD Projection (Singular Components 1, 2, 3)</span>
+        <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+          <button class="tab-btn active" id="btn-svd-12" onclick="setSVDMode('12')">Dim 1 vs 2</button>
+          <button class="tab-btn" id="btn-svd-13" onclick="setSVDMode('13')">Dim 1 vs 3</button>
+          <button class="tab-btn" id="btn-svd-23" onclick="setSVDMode('23')">Dim 2 vs 3</button>
+          <button class="tab-btn" id="btn-svd-3d" onclick="setSVDMode('3d')">3D Rotatable Isometric</button>
+        </div>
+      </div>
+      <div id="svd3dControls" style="display: none; background: var(--canvas-subtle); padding: 10px 16px; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 12px; gap: 24px; align-items: center;">
+        <div style="display: flex; gap: 8px; align-items: center; flex: 1;">
+          <span style="font-size: 11px; font-family: var(--font-mono); min-width: 80px;">Yaw: <strong id="svdYawVal">35°</strong></span>
+          <input type="range" id="svdYaw" min="-180" max="180" value="35" step="5" oninput="updateSVDRotation()">
+        </div>
+        <div style="display: flex; gap: 8px; align-items: center; flex: 1;">
+          <span style="font-size: 11px; font-family: var(--font-mono); min-width: 80px;">Pitch: <strong id="svdPitchVal">25°</strong></span>
+          <input type="range" id="svdPitch" min="-85" max="85" value="25" step="5" oninput="updateSVDRotation()">
+        </div>
       </div>
       <p style="font-size: 12px; color: var(--ink-secondary); margin-bottom: 12px;">
-        Unsupervised singular value decomposition reveals phonetic syllabary geometry without assuming sound values. Signs sharing consonants or vowels naturally cluster in low-rank latent transition space.
+        Unsupervised singular value decomposition reveals phonetic syllabary geometry without assuming sound values. Click any node to highlight nearest phonetic neighbors in latent 3D space.
       </p>
       <div class="svd-plot-container" id="svdContainer">
         <svg class="svd-chart" id="svdChart" viewBox="-1.5 -1.5 3 3"></svg>
@@ -923,6 +963,15 @@ input[type=range] {{
         <span style="color: #059669;">● Cluster C-2: Velars / Liquids (k, q, r)</span>
         <span style="color: #D97706;">● Cluster C-3: Labials / Glides (p, w)</span>
       </div>
+    </div>
+
+    <!-- Sign Phonetic Inspector Card -->
+    <div class="card" id="signDetailCard" style="display: none;">
+      <div class="card-title">
+        <span id="signDetailTitle">Sign Inspection</span>
+        <span class="badge badge-indigo">PHONETIC NEIGHBORHOOD</span>
+      </div>
+      <div id="signDetailBody"></div>
     </div>
   </div>
 
@@ -1231,6 +1280,74 @@ function renderTabletDetail(id) {{
   `;
 }}
 
+// SVD 2D / 3D Projection State
+let currentSVDMode = '12';
+let svdYaw = 35;
+let svdPitch = 25;
+let selectedSignId = null;
+
+function setSVDMode(mode) {{
+  currentSVDMode = mode;
+  ['12', '13', '23', '3d'].forEach(m => {{
+    const btn = document.getElementById('btn-svd-' + m);
+    if (btn) btn.classList.toggle('active', m === mode);
+  }});
+  const ctrls = document.getElementById('svd3dControls');
+  if (ctrls) ctrls.style.display = (mode === '3d') ? 'flex' : 'none';
+  renderSVDPlot();
+}}
+
+function updateSVDRotation() {{
+  svdYaw = parseInt(document.getElementById('svdYaw').value);
+  svdPitch = parseInt(document.getElementById('svdPitch').value);
+  document.getElementById('svdYawVal').textContent = svdYaw + '°';
+  document.getElementById('svdPitchVal').textContent = svdPitch + '°';
+  renderSVDPlot();
+}}
+
+function inspectSign(signId) {{
+  selectedSignId = signId;
+  const coords = LAB_DATA.grid.coordinates || [];
+  const pt = coords.find(c => c.sign_id === signId);
+  const card = document.getElementById('signDetailCard');
+  const body = document.getElementById('signDetailBody');
+  if (!pt || !card || !body) return;
+
+  card.style.display = 'block';
+  document.getElementById('signDetailTitle').textContent = `${{pt.sign_id}} (${{pt.reading}}) — Latent Phonetic Neighborhood`;
+
+  const clusterNames = [
+    'Cluster C-1: Dentals / Nasals (d, t, n)',
+    'Cluster C-2: Velars / Liquids (k, q, r)',
+    'Cluster C-3: Labials / Glides (p, w)',
+    'Cluster C-4: Secondary / Sibilants'
+  ];
+
+  let neighborsHtml = '';
+  (pt.nearest_neighbors || []).forEach((nb, idx) => {{
+    neighborsHtml += `
+      <div style="background: var(--canvas-subtle); border: 1px solid var(--border); padding: 8px 12px; border-radius: 6px; cursor: pointer;" onclick="inspectSign('${{nb.sign_id}}')">
+        <div style="font-size: 13px; font-weight: 600; font-family: monospace;">#${{idx + 1}} ${{nb.sign_id}} (${{nb.reading}})</div>
+        <div style="font-size: 11px; color: var(--ink-secondary); margin-top: 2px;">Euclidean Distance: ${{nb.distance.toFixed(4)}}</div>
+      </div>
+    `;
+  }});
+
+  body.innerHTML = `
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 16px;">
+      <div><strong>Consonant Class:</strong> <span style="color: var(--accent-indigo);">${{clusterNames[pt.consonant_cluster] || 'Class ' + pt.consonant_cluster}}</span></div>
+      <div><strong>Vowel Class:</strong> <span>Series V-${{pt.vowel_cluster + 1}} (${{pt.vowel || 'open'}})</span></div>
+      <div><strong>3D Latent Coordinates:</strong> <span style="font-family: monospace;">(${{pt.x.toFixed(3)}}, ${{pt.y.toFixed(3)}}, ${{pt.z.toFixed(3)}})</span></div>
+    </div>
+    <div style="font-size: 11px; font-weight: 600; margin-bottom: 8px; text-transform: uppercase; color: var(--ink-muted); font-family: monospace;">
+      Top-3 Nearest Phonetic Neighbors (Unsupervised Transition Distance)
+    </div>
+    <div style="display: flex; gap: 10px; flex-wrap: wrap;">${{neighborsHtml}}</div>
+  `;
+
+  renderSVDPlot();
+}}
+
 // Initialize SVD Scatter Plot
 function renderSVDPlot() {{
   const svg = document.getElementById('svdChart');
@@ -1239,32 +1356,84 @@ function renderSVDPlot() {{
   const coords = LAB_DATA.grid.coordinates || [];
   if (!coords.length) return;
 
-  // Find min/max for auto-scale
-  const xs = coords.map(c => c.x);
-  const ys = coords.map(c => c.y);
-  const minX = Math.min(...xs) - 0.2, maxX = Math.max(...xs) + 0.2;
-  const minY = Math.min(...ys) - 0.2, maxY = Math.max(...ys) + 0.2;
+  const yawRad = (svdYaw * Math.PI) / 180.0;
+  const pitchRad = (svdPitch * Math.PI) / 180.0;
 
-  svg.setAttribute('viewBox', `${{minX}} ${{minY}} ${{maxX - minX}} ${{maxY - minY}}`);
+  // Project points to 2D screen coordinates
+  const projected = coords.map(pt => {{
+    let u = 0, v = 0, depth = 0;
+    if (currentSVDMode === '12') {{
+      u = pt.x;
+      v = pt.y;
+    }} else if (currentSVDMode === '13') {{
+      u = pt.x;
+      v = pt.z;
+    }} else if (currentSVDMode === '23') {{
+      u = pt.y;
+      v = pt.z;
+    }} else if (currentSVDMode === '3d') {{
+      // 3D rotation
+      const x1 = pt.x * Math.cos(yawRad) + pt.z * Math.sin(yawRad);
+      const z1 = -pt.x * Math.sin(yawRad) + pt.z * Math.cos(yawRad);
+      const y2 = pt.y * Math.cos(pitchRad) - z1 * Math.sin(pitchRad);
+      const z2 = pt.y * Math.sin(pitchRad) + z1 * Math.cos(pitchRad);
+      u = x1;
+      v = y2;
+      depth = z2;
+    }}
+    return {{ ...pt, u, v, depth }};
+  }});
+
+  // Find min/max for auto-scale
+  const us = projected.map(p => p.u);
+  const vs = projected.map(p => p.v);
+  const minU = Math.min(...us) - 0.25, maxU = Math.max(...us) + 0.25;
+  const minV = Math.min(...vs) - 0.25, maxV = Math.max(...vs) + 0.25;
+
+  svg.setAttribute('viewBox', `${{minU}} ${{minV}} ${{maxU - minU}} ${{maxV - minV}}`);
 
   // Draw axes
   svg.innerHTML += `
-    <line x1="${{minX}}" y1="0" x2="${{maxX}}" y2="0" stroke="rgba(24,24,27,0.12)" stroke-width="0.01" />
-    <line x1="0" y1="${{minY}}" x2="0" y2="${{maxY}}" stroke="rgba(24,24,27,0.12)" stroke-width="0.01" />
+    <line x1="${{minU}}" y1="0" x2="${{maxU}}" y2="0" stroke="rgba(24,24,27,0.12)" stroke-width="0.008" />
+    <line x1="0" y1="${{minV}}" x2="0" y2="${{maxV}}" stroke="rgba(24,24,27,0.12)" stroke-width="0.008" />
   `;
 
-  // Color mapping
+  // If a sign is selected, draw lines to its nearest neighbors
+  if (selectedSignId) {{
+    const selectedPt = projected.find(p => p.sign_id === selectedSignId);
+    if (selectedPt && selectedPt.nearest_neighbors) {{
+      selectedPt.nearest_neighbors.forEach(nb => {{
+        const targetPt = projected.find(p => p.sign_id === nb.sign_id);
+        if (targetPt) {{
+          svg.innerHTML += `
+            <line x1="${{selectedPt.u}}" y1="${{selectedPt.v}}" x2="${{targetPt.u}}" y2="${{targetPt.v}}"
+                  stroke="#4F46E5" stroke-width="0.012" stroke-dasharray="0.02,0.015" opacity="0.6" />
+          `;
+        }}
+      }});
+    }}
+  }}
+
+  // Color mapping for consonant series
   const colors = ['#4F46E5', '#059669', '#D97706', '#DC2626'];
 
-  coords.forEach(pt => {{
-    const color = colors[pt.consonant_cluster % colors.length];
-    const circle = `
-      <circle cx="${{pt.x}}" cy="${{pt.y}}" r="0.035" fill="${{color}}" opacity="0.85">
-        <title>${{pt.sign_id}} (${{pt.reading}}) | Consonant Cluster: ${{pt.consonant_cluster}}</title>
-      </circle>
-      <text x="${{pt.x + 0.04}}" y="${{pt.y + 0.015}}" font-size="0.035" font-family="monospace" fill="#18181B">${{pt.reading}}</text>
+  projected.forEach(pt => {{
+    const isSelected = pt.sign_id === selectedSignId;
+    const baseColor = colors[pt.consonant_cluster % colors.length];
+    const r = isSelected ? 0.055 : (currentSVDMode === '3d' ? Math.max(0.025, 0.035 * (1 + 0.2 * pt.depth)) : 0.035);
+    const stroke = isSelected ? '#18181B' : 'rgba(255,255,255,0.8)';
+    const strokeW = isSelected ? '0.01' : '0.005';
+
+    svg.innerHTML += `
+      <g style="cursor: pointer;" onclick="inspectSign('${{pt.sign_id}}')">
+        <circle cx="${{pt.u}}" cy="${{pt.v}}" r="${{r}}" fill="${{baseColor}}" stroke="${{stroke}}" stroke-width="${{strokeW}}" opacity="0.9">
+          <title>${{pt.sign_id}} (${{pt.reading}}) | Click to inspect phonetic neighbors</title>
+        </circle>
+        <text x="${{pt.u + r + 0.015}}" y="${{pt.v + 0.012}}" font-size="0.032" font-family="monospace" font-weight="${{isSelected ? 'bold' : 'normal'}}" fill="#18181B">
+          ${{pt.reading}}
+        </text>
+      </g>
     `;
-    svg.innerHTML += circle;
   }});
 }}
 

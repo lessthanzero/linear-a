@@ -41,7 +41,7 @@ class SkepticJury:
     """Orchestrates multi-model blind adversarial audits."""
 
     def __init__(self, ollama_client: Optional[OllamaClient] = None):
-        self.client = ollama_client or OllamaClient()
+        self.client = ollama_client or OllamaClient(timeout=120.0)
 
     def evaluate_claim(
         self,
@@ -154,7 +154,7 @@ class SkepticJury:
                     ],
                     model="qwen2.5:7b",
                     temperature=0.1,
-                    timeout=45.0,
+                    timeout=120.0,
                 )
             else:
                 resp = "[Local Qwen 2.5 offline: fallback mathematical evaluation applied.]"
@@ -187,7 +187,7 @@ class SkepticJury:
                     ],
                     model="gemma2:9b",
                     temperature=0.1,
-                    timeout=45.0,
+                    timeout=120.0,
                 )
             else:
                 resp = "[Local Gemma 2 offline: fallback linguistic evaluation applied.]"
@@ -219,7 +219,7 @@ class SkepticJury:
                     ],
                     model="llama3.2:3b",
                     temperature=0.1,
-                    timeout=45.0,
+                    timeout=120.0,
                 )
             else:
                 resp = "[Local Llama 3.2 offline: fallback structural evaluation applied.]"

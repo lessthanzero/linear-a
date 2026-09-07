@@ -69,6 +69,7 @@ class GridFactorizationReport:
     p_value: float
     epistemic_verdict: str
     sign_coordinates: List[Dict[str, Any]] = field(default_factory=list)
+    consonant_centroids_3d: Dict[int, List[float]] = field(default_factory=dict)
 
 
 def load_attested_lexicon(corpus_dir: Optional[Path] = None) -> List[Dict]:
@@ -243,18 +244,45 @@ class KoberVentrisGridEngine:
             f"homologous to Linear B without presupposing Greek language identity."
         )
 
+        # Compute 3D coordinates, cluster centroids, and nearest phonetic neighbors
+        dim3 = z_consonants[:, :3] if z_consonants.shape[1] >= 3 else z_consonants
+        centroids_3d: Dict[int, List[float]] = {}
+        for c_id in range(n_consonant_clusters):
+            c_indices = [idx for idx, lbl in enumerate(labels_c) if lbl == c_id]
+            if c_indices:
+                centroid = np.mean(dim3[c_indices], axis=0)
+                centroids_3d[c_id] = [round(float(val), 4) for val in centroid]
+            else:
+                centroids_3d[c_id] = [0.0, 0.0, 0.0]
+
         coords = []
         for i, s in enumerate(vocab):
             c, v = self.reference_grid.get(s, ("?", "?"))
+            pt_i = dim3[i]
+            dists = []
+            for j, s_other in enumerate(vocab):
+                if i == j:
+                    continue
+                d = float(np.linalg.norm(pt_i - dim3[j]))
+                c_o, v_o = self.reference_grid.get(s_other, ("?", "?"))
+                dists.append({
+                    "sign_id": s_other,
+                    "reading": f"{c_o}{v_o}".strip() or s_other,
+                    "distance": round(d, 4),
+                })
+            dists.sort(key=lambda x: x["distance"])
+
             coords.append({
                 "sign_id": s,
                 "reading": f"{c}{v}".strip() or s,
                 "x": round(float(z_consonants[i, 0]), 4) if z_consonants.shape[1] > 0 else 0.0,
                 "y": round(float(z_consonants[i, 1]), 4) if z_consonants.shape[1] > 1 else 0.0,
+                "z": round(float(z_consonants[i, 2]), 4) if z_consonants.shape[1] > 2 else 0.0,
                 "consonant_cluster": int(labels_c[i]),
                 "vowel_cluster": int(labels_v[i]),
                 "consonant": c,
                 "vowel": v,
+                "nearest_neighbors": dists[:3],
             })
 
         return GridFactorizationReport(
@@ -271,4 +299,5 @@ class KoberVentrisGridEngine:
             p_value=round(p_val, 4),
             epistemic_verdict=verdict,
             sign_coordinates=coords,
+            consonant_centroids_3d=centroids_3d,
         )

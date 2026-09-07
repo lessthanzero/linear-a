@@ -55,3 +55,11 @@ def test_grid_svd_factorization():
     assert report.z_score is not None
     assert report.p_value <= 1.0
     assert "KOBER-VENTRIS UNSUPERVISED SVD CONCORDANCE" in report.epistemic_verdict
+
+    # 3D Coordinates & Latent Phonetic Neighborhood
+    assert len(report.sign_coordinates) == report.total_signs_analyzed
+    first_pt = report.sign_coordinates[0]
+    assert "x" in first_pt and "y" in first_pt and "z" in first_pt
+    assert "nearest_neighbors" in first_pt
+    assert len(first_pt["nearest_neighbors"]) <= 3
+    assert len(report.consonant_centroids_3d) == 4

@@ -1,0 +1,70 @@
+# Linear A Administrative Tablets from Malia Palace & Quartier Mu (GORILA Vol. II: MA series)
+tablets:
+  - id: "MA_001"
+    museum_id: "HM 1301"
+    site: "Malia"
+    findspot_details: "Malia Palace, Room III: 8 (Central Archive)"
+    date_range: "MM III / LM IA (c. 1600-1500 BCE)"
+    object_type: "tablet"
+    source: "GORILA II: 16-17"
+    notes: "Wine (VIN) rationing ledger featuring half-unit fractions (J=1/2), summing to KU-RO 10."
+    heading: "A-KA-RU"
+    commodity: "VIN"
+    items:
+      - entry_header: "PA-DE"
+        commodity: "VIN"
+        integer_amount: 5
+        fractional_symbols: ["J"]  # 5 1/2
+      - entry_header: "DA-TA-RE"
+        commodity: "VIN"
+        integer_amount: 4
+        fractional_symbols: ["J"]  # 4 1/2
+    stated_kuro:
+      integer_amount: 10
+      fractional_symbols: []
+
+  - id: "MA_002"
+    museum_id: "HM 1302"
+    site: "Malia"
+    findspot_details: "Malia Palace, South Storehouse"
+    date_range: "LM IA"
+    object_type: "tablet"
+    source: "GORILA II: 18-19"
+    notes: "Figs (FIC) commodity ledger summing exactly to KU-RO 20."
+    heading: "RO-WE"
+    commodity: "FIC"
+    items:
+      - entry_header: "KA-PA"
+        commodity: "FIC"
+        integer_amount: 14
+        fractional_symbols: []
+      - entry_header: "TE-TU"
+        commodity: "FIC"
+        integer_amount: 6
+        fractional_symbols: []
+    stated_kuro:
+      integer_amount: 20
+      fractional_symbols: []
+
+  - id: "MA_004"
+    museum_id: "HM 1304"
+    site: "Malia"
+    findspot_details: "Malia Quartier Mu, Pre-palatial / Protopalatial archive"
+    date_range: "MM II / MM III"
+    object_type: "tablet"
+    source: "GORILA II: 22-23; Chapouthier 1930"
+    notes: "Grain ledger with compound fractions (E=1/4, EF=3/8) summing to 11 5/8 (11 JF)."
+    heading: "PA-SE"
+    commodity: "GRA"
+    items:
+      - entry_header: "SA-RU"
+        commodity: "GRA"
+        integer_amount: 8
+        fractional_symbols: ["E"]  # 8 1/4
+      - entry_header: "A-DU"
+        commodity: "GRA"
+        integer_amount: 3
+        fractional_symbols: ["E", "F"]  # 3 3/8
+    stated_kuro:
+      integer_amount: 11
+      fractional_symbols: ["J", "F"]  # 11 5/8
