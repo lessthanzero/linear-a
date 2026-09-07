@@ -1,0 +1,132 @@
+# Canonical Attested Linear A Sign Sequences (GORILA, Younger, SigLA)
+# Representing administrative, personal, toponymic, and votive tokens
+words:
+  # Votive / Libation Inscriptions
+  - token: "JA-SA-SA-RA-ME"
+    signs: ["AB57", "AB31", "AB31", "AB02", "AB13"]
+    site: "Mount_Juktas"
+    genre: "votive"
+  - token: "A-SA-SA-RA-ME"
+    signs: ["AB08", "AB31", "AB31", "AB02", "AB13"]
+    site: "Palaikastro"
+    genre: "votive"
+  - token: "U-NA-KA-NA-SI"
+    signs: ["AB10", "AB06", "AB77", "AB06", "AB31"]
+    site: "Mount_Juktas"
+    genre: "votive"
+  - token: "I-PI-NA-MA"
+    signs: ["AB28", "AB03", "AB06", "AB01"]
+    site: "Mount_Juktas"
+    genre: "votive"
+  - token: "SI-RU-TE"
+    signs: ["AB31", "AB26", "AB04"]
+    site: "Mount_Juktas"
+    genre: "votive"
+  - token: "JA-TA-I-NO-U-JA"
+    signs: ["AB57", "AB04", "AB28", "AB06", "AB10", "AB57"]
+    site: "Palaikastro"
+    genre: "votive"
+
+  # Administrative Toponyms & Formulas
+  - token: "KU-RO"
+    signs: ["AB81", "AB02"]
+    site: "Hagia_Triada"
+    genre: "administrative"
+  - token: "KI-RO"
+    signs: ["AB81", "AB02"]
+    site: "Hagia_Triada"
+    genre: "administrative"
+  - token: "PA-I-TO"
+    signs: ["AB03", "AB28", "AB05"]
+    site: "Hagia_Triada"
+    genre: "toponym"
+  - token: "PA-I-TA-TE"
+    signs: ["AB03", "AB28", "AB04", "AB04"]
+    site: "Hagia_Triada"
+    genre: "toponym"
+  - token: "DI-RA-DI-NA"
+    signs: ["AB07", "AB02", "AB07", "AB06"]
+    site: "Phaistos"
+    genre: "administrative"
+  - token: "DA-MA-TE"
+    signs: ["AB01", "AB01", "AB04"]
+    site: "Kythera"
+    genre: "theonym"
+
+  # Hagia Triada Ledger Headings & Person / Commodity Tokens
+  - token: "PA-DE"
+    signs: ["AB03", "AB01"]
+    site: "Hagia_Triada"
+    genre: "administrative"
+  - token: "SA-RU"
+    signs: ["AB31", "AB26"]
+    site: "Hagia_Triada"
+    genre: "administrative"
+  - token: "KA-DI"
+    signs: ["AB77", "AB07"]
+    site: "Hagia_Triada"
+    genre: "administrative"
+  - token: "TE-TU"
+    signs: ["AB04", "AB10"]
+    site: "Hagia_Triada"
+    genre: "administrative"
+  - token: "MA-KA"
+    signs: ["AB01", "AB77"]
+    site: "Hagia_Triada"
+    genre: "administrative"
+  - token: "KU-PA-NU"
+    signs: ["AB81", "AB03", "AB06"]
+    site: "Hagia_Triada"
+    genre: "administrative"
+  - token: "DA-TA-RE"
+    signs: ["AB01", "AB04", "AB27"]
+    site: "Hagia_Triada"
+    genre: "administrative"
+  - token: "KA-DU-MA-NE"
+    signs: ["AB77", "AB01", "AB01", "AB06"]
+    site: "Hagia_Triada"
+    genre: "administrative"
+  - token: "A-KA-RU"
+    signs: ["AB08", "AB77", "AB26"]
+    site: "Hagia_Triada"
+    genre: "administrative"
+  - token: "DA-RE"
+    signs: ["AB01", "AB27"]
+    site: "Hagia_Triada"
+    genre: "administrative"
+  - token: "A-DU"
+    signs: ["AB08", "AB01"]
+    site: "Hagia_Triada"
+    genre: "administrative"
+  - token: "QA-QA-RU"
+    signs: ["AB78", "AB78", "AB26"]
+    site: "Phaistos"
+    genre: "administrative"
+  - token: "RO-WE"
+    signs: ["AB02", "AB54"]
+    site: "Phaistos"
+    genre: "administrative"
+  - token: "DI-KA-TE"
+    signs: ["AB07", "AB77", "AB04"]
+    site: "Psychro"
+    genre: "theonym"
+  - token: "I-DA-MA-TE"
+    signs: ["AB28", "AB01", "AB01", "AB04"]
+    site: "Arkalochori"
+    genre: "theonym"
+  - token: "PO-TO-KU-RO"
+    signs: ["AB03", "AB05", "AB81", "AB02"]
+    site: "Hagia_Triada"
+    genre: "administrative"
+  - token: "SU-KI-RI-TE"
+    signs: ["AB31", "AB81", "AB02", "AB04"]
+    site: "Hagia_Triada"
+    genre: "toponym"
+  - token: "SE-TO-I-JA"
+    signs: ["AB09", "AB05", "AB28", "AB57"]
+    site: "Hagia_Triada"
+    genre: "toponym"
+  - token: "WA-TO"
+    signs: ["AB54", "AB05"]
+    site: "Hagia_Triada"
+    genre: "toponym"

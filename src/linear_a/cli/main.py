@@ -16,6 +16,7 @@ from linear_a.corpus.loader import (
 from linear_a.llm.jury import SkepticJury
 from linear_a.llm.ollama import OllamaClient
 from linear_a.morphology.affix_sieve import AffixSieve
+from linear_a.palaeography.grid_factorization import KoberVentrisGridEngine
 from linear_a.votive.libation_engine import LibationEngine
 
 app = typer.Typer(
@@ -31,13 +32,11 @@ def status():
     """Display cluster status, local models, and corpus statistics."""
     console.print(Panel("[bold cyan]Linear A Computational Laboratory[/bold cyan]\n[dim]Protocol: LADP v1.0 | Nodes: Mac (Apple Silicon) + Fedora PC (pc)[/dim]"))
 
-    # Check Ollama
     client = OllamaClient()
     is_online = client.is_available()
     models = client.list_models() if is_online else []
     models_str = ", ".join(models) if models else "[yellow]No models found or host offline[/yellow]"
 
-    # Check Corpus
     signs = load_signs_catalogue()
     ht_tablets = load_tablet_ledgers("hagia_triada")
     ph_tablets = load_tablet_ledgers("phaistos")
@@ -55,6 +54,65 @@ def status():
     table.add_row("Phaistos Firewall", "[bold green]ACTIVE[/bold green] (CORPUS_LINEAR_A isolated from Phaistos Disc)")
 
     console.print(table)
+
+
+@app.command()
+def grid(
+    components: int = typer.Option(4, "--components", "-k", help="Number of singular dimensions"),
+    permutations: int = typer.Option(1000, "--permutations", "-n", help="Monte Carlo null permutations"),
+):
+    """Run unsupervised Kober-Ventris SVD factorization on Linear A sign transitions."""
+    console.print(Panel("[bold cyan]Unsupervised Kober-Ventris SVD Grid Factorization[/bold cyan]\n[dim]PPMI Transition Matrix Decomposition & Ventris Grid Concordance[/dim]"))
+
+    engine = KoberVentrisGridEngine()
+    with console.status("[bold cyan]Factorizing transition matrix and running Monte Carlo null permutations...[/bold cyan]"):
+        report = engine.factorize_grid(
+            n_components=components,
+            n_consonant_clusters=4,
+            n_vowel_clusters=3,
+            n_permutations=permutations,
+        )
+
+    # Singular Values Table
+    table_svd = Table(title="Spectral Decomposition (Singular Values)", show_header=True)
+    table_svd.add_column("Dimension", justify="center", style="yellow")
+    table_svd.add_column("Singular Value (σ)", justify="right", style="cyan")
+
+    for i, s in enumerate(report.singular_values, 1):
+        table_svd.add_row(f"Dimension {i}", f"{s:.3f}")
+    console.print(table_svd)
+    console.print(f"• Total Variance Explained: [bold green]{report.spectral_variance_explained_pct:.1f}%[/bold green] across {report.n_components} components")
+
+    # Consonant Clusters Table
+    table_c = Table(title="Discovered Consonant Series (Unsupervised)", show_header=True)
+    table_c.add_column("Cluster", style="yellow")
+    table_c.add_column("Signs", style="cyan")
+    table_c.add_column("Dominant Consonant", style="green")
+    table_c.add_column("Purity Ratio", justify="right")
+
+    for c in report.consonant_clusters:
+        signs_str = ", ".join(c.sample_readings)
+        table_c.add_row(f"Class C-{c.cluster_id + 1}", signs_str, c.dominant_consonant_or_vowel, f"{c.homogeneity_ratio * 100:.1f}%")
+    console.print(table_c)
+
+    # Vowel Clusters Table
+    table_v = Table(title="Discovered Vowel Series (Unsupervised)", show_header=True)
+    table_v.add_column("Cluster", style="yellow")
+    table_v.add_column("Signs", style="cyan")
+    table_v.add_column("Dominant Vowel", style="green")
+    table_v.add_column("Purity Ratio", justify="right")
+
+    for v in report.vowel_clusters:
+        signs_str = ", ".join(v.sample_readings)
+        table_v.add_row(f"Class V-{v.cluster_id + 1}", signs_str, v.dominant_consonant_or_vowel, f"{v.homogeneity_ratio * 100:.1f}%")
+    console.print(table_v)
+
+    # Statistical Evaluation vs Null
+    z_color = "green" if report.z_score >= 3.0 else ("yellow" if report.z_score >= 1.96 else "red")
+    console.print(f"• Pairwise Ventris Grid Agreement: [bold]{report.ventris_grid_pairwise_agreement_rate * 100:.1f}%[/bold]")
+    console.print(f"• Permutation Null Baseline: {report.null_mean_agreement_rate * 100:.1f}% ± {report.null_std_agreement_rate * 100:.1f}%")
+    console.print(f"• Empirical Z-Score: [bold {z_color}]{report.z_score:+.2f}σ[/bold {z_color}] | p-value: [bold {z_color}]{report.p_value:.4f}[/bold {z_color}]")
+    console.print(f"\n[dim]{report.epistemic_verdict}[/dim]")
 
 
 @app.command()
