@@ -1,0 +1,24 @@
+# Linear A Administrative Tablets from Tylissos (GORILA Vol. III: TY series)
+tablets:
+  - id: "TY_002"
+    museum_id: "HM 1202"
+    site: "Tylissos"
+    findspot_details: "Minoan Villa A, Archive Storage"
+    date_range: "LM IB"
+    object_type: "tablet"
+    source: "GORILA III: 110-113"
+    notes: "Wine distribution with compound fractional liquid measures (E=1/4, EF=3/8). Sum: 7 1/4 + 4 3/8 = 11 5/8 (11 JF)."
+    heading: "MA-KA"
+    commodity: "VIN"
+    items:
+      - entry_header: "SA-RU"
+        commodity: "VIN"
+        integer_amount: 7
+        fractional_symbols: ["E"]  # 7 1/4
+      - entry_header: "PA-DE"
+        commodity: "VIN"
+        integer_amount: 4
+        fractional_symbols: ["E", "F"]  # 4 3/8 (E=1/4, F=1/8 -> 3/8)
+    stated_kuro:
+      integer_amount: 11
+      fractional_symbols: ["J", "F"]  # 11 5/8 (J=1/2, F=1/8 -> 5/8)

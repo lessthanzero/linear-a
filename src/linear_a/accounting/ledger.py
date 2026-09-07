@@ -6,7 +6,7 @@ Applies Evidence Tier E3 (Numerical & Accounting Constraints).
 """
 
 from fractions import Fraction
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Union
 from linear_a.accounting.fractions import FractionEngine
 from linear_a.core.models import LedgerLineItem, LedgerVerificationResult
 
@@ -21,7 +21,7 @@ class LedgerValidator:
         self,
         tablet_id: str,
         items: List[LedgerLineItem],
-        stated_kuro_fraction: Optional[str] = None,
+        stated_kuro_fraction: Optional[Union[str, List[str]]] = None,
         stated_kuro_integer: Optional[int] = None,
         commodity: Optional[str] = None,
     ) -> LedgerVerificationResult:
@@ -31,8 +31,8 @@ class LedgerValidator:
         ----------
         tablet_id: e.g. "HT_009", "HT_013"
         items: List of line items representing inputs
-        stated_kuro_fraction: String fraction (e.g. "31", "15 3/4", "J")
-        stated_kuro_integer: Optional integer if KU-RO is an exact integer
+        stated_kuro_fraction: String fraction (e.g. "31", "15 3/4", "J") or list of symbols
+        stated_kuro_integer: Optional integer if KU-RO has an integer amount
         commodity: Target commodity filter if ledger handles multiple commodities
         """
         relevant_items = [
@@ -51,24 +51,35 @@ class LedgerValidator:
 
         # Determine stated KU-RO Fraction
         stated_frac: Optional[Fraction] = None
+        frac_component = Fraction(0, 1)
+        has_frac = False
+
         if stated_kuro_fraction is not None:
-            if "/" in stated_kuro_fraction or " " in stated_kuro_fraction:
-                parts = stated_kuro_fraction.strip().split()
-                if len(parts) == 2:
-                    whole = int(parts[0])
-                    num, den = map(int, parts[1].split("/"))
-                    stated_frac = Fraction(whole, 1) + Fraction(num, den)
-                elif len(parts) == 1 and "/" in parts[0]:
-                    num, den = map(int, parts[0].split("/"))
-                    stated_frac = Fraction(num, den)
+            has_frac = True
+            if isinstance(stated_kuro_fraction, (list, tuple)):
+                frac_component = self.fraction_engine.parse_fraction_symbols(list(stated_kuro_fraction))
+            elif isinstance(stated_kuro_fraction, str):
+                s = stated_kuro_fraction.strip()
+                if "/" in s or " " in s:
+                    parts = s.split()
+                    if len(parts) == 2:
+                        whole = int(parts[0])
+                        num, den = map(int, parts[1].split("/"))
+                        frac_component = Fraction(whole, 1) + Fraction(num, den)
+                    elif len(parts) == 1 and "/" in parts[0]:
+                        num, den = map(int, parts[0].split("/"))
+                        frac_component = Fraction(num, den)
+                    else:
+                        frac_component = Fraction(int(parts[0]), 1)
+                elif s.isdigit():
+                    frac_component = Fraction(int(s), 1)
                 else:
-                    stated_frac = Fraction(int(parts[0]), 1)
-            elif stated_kuro_fraction.isdigit():
-                stated_frac = Fraction(int(stated_kuro_fraction), 1)
-            else:
-                stated_frac = self.fraction_engine.parse_fraction_symbols(stated_kuro_fraction)
-        elif stated_kuro_integer is not None:
-            stated_frac = Fraction(stated_kuro_integer, 1)
+                    frac_component = self.fraction_engine.parse_fraction_symbols(s)
+
+        if stated_kuro_integer is not None:
+            stated_frac = Fraction(stated_kuro_integer, 1) + frac_component
+        elif has_frac:
+            stated_frac = frac_component
 
         formatted_computed = self.fraction_engine.format_fraction(computed_sum)
         computed_dec = float(computed_sum)

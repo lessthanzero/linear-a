@@ -1,0 +1,48 @@
+# Linear A Administrative Tablets from Zakros (GORILA Vol. III: ZA series)
+tablets:
+  - id: "ZA_006"
+    museum_id: "HM 1606"
+    site: "Zakros"
+    findspot_details: "Palace of Zakros, Room XVI (South Wing)"
+    date_range: "LM IB (c. 1450 BCE)"
+    object_type: "tablet"
+    source: "GORILA III: 144-147"
+    notes: "Commodity distribution ledger allocating figs (FIC) to key recipients, concluding with total KU-RO 30."
+    heading: "A-TA-RE"
+    commodity: "FIC"
+    items:
+      - entry_header: "KU-PA-NU"
+        commodity: "FIC"
+        integer_amount: 12
+        fractional_symbols: []
+      - entry_header: "DA-TA-RE"
+        commodity: "FIC"
+        integer_amount: 18
+        fractional_symbols: []
+    stated_kuro:
+      integer_amount: 30
+      fractional_symbols: []
+
+  - id: "ZA_015"
+    museum_id: "HM 1615"
+    site: "Zakros"
+    findspot_details: "Palace of Zakros, Archive Room"
+    date_range: "LM IB"
+    object_type: "tablet"
+    source: "GORILA III: 162-165"
+    notes: "Ledger recording delivered cyperus (14 units) and deficit balance KI-RO (6 units), summing to total assessment 20."
+    heading: "PA-SE"
+    commodity: "CYP"
+    items:
+      - entry_header: "DA-RE"
+        commodity: "CYP"
+        integer_amount: 14
+        fractional_symbols: []
+      - entry_header: "KI-RO_DA-RE"
+        commodity: "CYP"
+        integer_amount: 6
+        fractional_symbols: []
+        notes: "Deficit (KI-RO) recorded"
+    stated_kuro:
+      integer_amount: 20
+      fractional_symbols: []

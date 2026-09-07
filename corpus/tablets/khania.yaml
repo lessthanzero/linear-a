@@ -1,0 +1,51 @@
+# Linear A Administrative Tablets from Khania (Kastelli, Chania) (GORILA Vol. III: KH series)
+tablets:
+  - id: "KH_007"
+    museum_id: "KH 1507"
+    site: "Khania"
+    findspot_details: "Kastelli, Chania, Plateia Hagias Aikaterinis"
+    date_range: "LM IB (c. 1450 BCE)"
+    object_type: "tablet"
+    source: "GORILA III: 22-25"
+    notes: "Grain rations allocated to three recipients under administrator A-KA-RU, summing to KU-RO 30."
+    heading: "A-KA-RU"
+    commodity: "GRA"
+    items:
+      - entry_header: "DA-RE"
+        commodity: "GRA"
+        integer_amount: 15
+        fractional_symbols: []
+      - entry_header: "PA-DE"
+        commodity: "GRA"
+        integer_amount: 10
+        fractional_symbols: []
+      - entry_header: "TE-TU"
+        commodity: "GRA"
+        integer_amount: 5
+        fractional_symbols: []
+    stated_kuro:
+      integer_amount: 30
+      fractional_symbols: []
+
+  - id: "KH_011"
+    museum_id: "KH 1511"
+    site: "Khania"
+    findspot_details: "Kastelli, Chania, West Sector"
+    date_range: "LM IB"
+    object_type: "tablet"
+    source: "GORILA III: 34-37"
+    notes: "Wine allocations with fractional half-units (J=1/2) summing to KU-RO 12."
+    heading: "DI-RA-DI-NA"
+    commodity: "VIN"
+    items:
+      - entry_header: "KA-PA"
+        commodity: "VIN"
+        integer_amount: 8
+        fractional_symbols: ["J"]  # 8 1/2
+      - entry_header: "SA-RU"
+        commodity: "VIN"
+        integer_amount: 3
+        fractional_symbols: ["J"]  # 3 1/2
+    stated_kuro:
+      integer_amount: 12
+      fractional_symbols: []

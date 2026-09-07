@@ -68,6 +68,7 @@ class GridFactorizationReport:
     z_score: float
     p_value: float
     epistemic_verdict: str
+    sign_coordinates: List[Dict[str, Any]] = field(default_factory=list)
 
 
 def load_attested_lexicon(corpus_dir: Optional[Path] = None) -> List[Dict]:
@@ -242,6 +243,20 @@ class KoberVentrisGridEngine:
             f"homologous to Linear B without presupposing Greek language identity."
         )
 
+        coords = []
+        for i, s in enumerate(vocab):
+            c, v = self.reference_grid.get(s, ("?", "?"))
+            coords.append({
+                "sign_id": s,
+                "reading": f"{c}{v}".strip() or s,
+                "x": round(float(z_consonants[i, 0]), 4) if z_consonants.shape[1] > 0 else 0.0,
+                "y": round(float(z_consonants[i, 1]), 4) if z_consonants.shape[1] > 1 else 0.0,
+                "consonant_cluster": int(labels_c[i]),
+                "vowel_cluster": int(labels_v[i]),
+                "consonant": c,
+                "vowel": v,
+            })
+
         return GridFactorizationReport(
             total_signs_analyzed=len(vocab),
             n_components=k,
@@ -255,4 +270,5 @@ class KoberVentrisGridEngine:
             z_score=round(z_score, 2),
             p_value=round(p_val, 4),
             epistemic_verdict=verdict,
+            sign_coordinates=coords,
         )

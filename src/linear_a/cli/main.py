@@ -17,7 +17,10 @@ from linear_a.llm.jury import SkepticJury
 from linear_a.llm.ollama import OllamaClient
 from linear_a.morphology.affix_sieve import AffixSieve
 from linear_a.palaeography.grid_factorization import KoberVentrisGridEngine
+from linear_a.bridge.phaistos_matrix import PhaistosBridgeEngine
+from linear_a.predictive.holdout_engine import HoldoutEngine
 from linear_a.skeptic.dictionary_gauntlet import DictionaryGauntlet
+from linear_a.visualizer.workbench import generate_workbench_html
 from linear_a.votive.libation_engine import LibationEngine
 
 app = typer.Typer(
@@ -282,6 +285,101 @@ def audit(
             f"{critique.critique_text}",
             border_style=panel_color,
         ))
+
+
+@app.command()
+def holdout():
+    """Execute Step 16 holdout generalization suite (Khania, Zakros, Tylissos)."""
+    console.print(Panel("[bold cyan]Corpus Holdout Generalization & Predictive Validation[/bold cyan]\n[dim]LADP v1.0 Step 16 | 80/20 Train/Test Partition[/dim]"))
+
+    engine = HoldoutEngine()
+    with console.status("[bold cyan]Evaluating accounting generalization, masked reconstruction, and morphology...[/bold cyan]"):
+        report = engine.run_full_holdout_suite()
+
+    # Accounting Table
+    table_acct = Table(title="Holdout Accounting Total Predictions (E3 Deterministic Solver)", show_header=True)
+    table_acct.add_column("Tablet ID", style="yellow")
+    table_acct.add_column("Site / Region", style="cyan")
+    table_acct.add_column("Commodity", justify="center")
+    table_acct.add_column("Items", justify="right")
+    table_acct.add_column("Predicted KU-RO", justify="right", style="green")
+    table_acct.add_column("Stated KU-RO", justify="right")
+    table_acct.add_column("Masked Recon Acc", justify="right")
+    table_acct.add_column("Status", justify="center")
+
+    for p in report.accounting_summary.detailed_predictions:
+        table_acct.add_row(
+            p.tablet_id,
+            p.site,
+            p.commodity or "-",
+            str(p.input_items_count),
+            p.predicted_kuro,
+            p.stated_kuro,
+            f"{p.masked_reconstruction_accuracy_pct:.1f}%",
+            "[bold green]EXACT[/bold green]" if p.is_exact_match else "[bold red]FAIL[/bold red]",
+        )
+    console.print(table_acct)
+
+    console.print(f"• Holdout KU-RO Exact Prediction Accuracy: [bold green]{report.accounting_summary.exact_kuro_prediction_accuracy_pct:.1f}%[/bold green]")
+    console.print(f"• Damaged Entry Reconstruction Accuracy: [bold green]{report.accounting_summary.masked_reconstruction_accuracy_pct:.1f}%[/bold green] across {report.accounting_summary.total_masked_entries_tested} line items")
+    console.print(f"• Morphological Case Suffix Top-3 Retention: [bold]{report.morphology_summary.top3_suffix_accuracy_pct:.1f}%[/bold]")
+
+    # Regional Profiles Table
+    table_reg = Table(title="Regional Scribal Profiles (Pan-Cretan LM IB Koine)", show_header=True)
+    table_reg.add_column("Site", style="yellow")
+    table_reg.add_column("Region", style="dim")
+    table_reg.add_column("Tablets", justify="right")
+    table_reg.add_column("Lexical Overlap with Hagia Triada", justify="right", style="cyan")
+    table_reg.add_column("Primary Commodities", style="green")
+
+    for reg in report.regional_profiles:
+        comm_str = ", ".join(reg.commodities) if reg.commodities else "Various"
+        table_reg.add_row(reg.site, reg.region, str(reg.tablets_count), f"{reg.jaccard_overlap_with_hagia_triada * 100:.1f}%", comm_str)
+    console.print(table_reg)
+    console.print(f"\n[dim]{report.epistemic_verdict}[/dim]")
+
+
+@app.command()
+def bridge():
+    """Verify Phaistos Disc Firewall integrity and compute cross-script homology."""
+    console.print(Panel("[bold cyan]Phaistos Disc Cross-Script Structural Bridge & Firewall[/bold cyan]\n[dim]LADP v1.0 Section 14 | Zero Bidirectional Phonetic Leakage[/dim]"))
+
+    engine = PhaistosBridgeEngine()
+    report = engine.evaluate_cross_script_homology()
+
+    # Firewall Status
+    fw_color = "bold green" if report.firewall.is_firewall_intact else "bold red"
+    console.print(f"• Epigraphic Firewall Status: [{fw_color}]{'INTACT / SECURE' if report.firewall.is_firewall_intact else 'VIOLATED'}[/{fw_color}]")
+    console.print(f"• Quarantined Corpora: [dim]{', '.join(report.firewall.isolated_corpora)}[/dim]")
+    console.print(f"• Overall Cross-Script Structural Homology: [bold green]{report.overall_structural_homology_score_pct:.1f}%[/bold green]")
+
+    table = Table(title="Cross-Script Structural Correspondences (Firewall Compliant)", show_header=True)
+    table.add_column("Feature", style="yellow")
+    table.add_column("Phaistos Disc Evidence", style="dim")
+    table.add_column("Linear A Evidence", style="cyan")
+    table.add_column("Metric / Value", justify="right", style="green")
+    table.add_column("Status", justify="center")
+
+    for c in report.correspondences:
+        val_str = f"{c.metric_value:.1e}" if c.metric_value > 1000 else f"{c.metric_value:.2f}"
+        table.add_row(c.feature_name, c.disc_evidence, c.linear_a_evidence, f"{c.statistical_metric}: {val_str}", f"[bold green]{c.concordance_level}[/bold green]")
+
+    console.print(table)
+    console.print(f"\n[dim]{report.epistemic_verdict}[/dim]")
+
+
+@app.command()
+def workbench(
+    output: str = typer.Option("reports/linear_a_workbench.html", "--output", "-o", help="Output path for standalone HTML workbench")
+):
+    """Generate the publication-grade interactive HTML research workbench."""
+    console.print(Panel("[bold cyan]Generating Interactive Epigraphic Research Workbench[/bold cyan]\n[dim]California/Swiss Editorial Craft | Single-File Standalone HTML/SVG/JS[/dim]"))
+
+    with console.status(f"[bold cyan]Assembling epigraphic datasets and compiling HTML to {output}...[/bold cyan]"):
+        out_path = generate_workbench_html(output)
+
+    console.print(f"[bold green]✓ Research Workbench successfully compiled:[/bold green] [bold cyan]{out_path}[/bold cyan] ({out_path.stat().st_size / 1024:.1f} KB)")
+    console.print("[dim]Open in any browser: zero external dependencies, works completely offline.[/dim]")
 
 
 if __name__ == "__main__":
