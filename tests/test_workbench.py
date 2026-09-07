@@ -20,6 +20,9 @@ def test_collect_workbench_dataset():
     assert data["phaistos"]["firewall_intact"] is True
     assert "jury" in data
     assert len(data["jury"]) >= 2
+    assert "lacunae" in data
+    assert data["lacunae"]["total"] == 23
+    assert data["lacunae"]["top1_accuracy"] >= 95.0
 
 
 def test_generate_workbench_html(tmp_path):
@@ -39,4 +42,5 @@ def test_generate_workbench_html(tmp_path):
     assert "tab-holdout" in content
     assert "tab-phaistos" in content
     assert "tab-jury" in content
+    assert "lacunaeTable" in content
     assert "PHAISTOS FIREWALL ACTIVE" in content

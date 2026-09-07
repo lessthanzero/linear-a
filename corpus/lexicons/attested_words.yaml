@@ -139,3 +139,8 @@ words:
     signs: ["AB54", "AB05"]
     site: "Hagia_Triada"
     genre: "toponym"
+  - token: "A-DU-NI-TA-NA"
+    signs: ["AB08", "AB51", "AB30", "AB59", "AB06"]
+    site: "Archanes"
+    genre: "administrative"
+

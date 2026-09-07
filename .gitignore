@@ -42,3 +42,6 @@ data/raw/images/*
 # OS
 .DS_Store
 Thumbs.db
+
+# Large external database dumps
+corpus/database.js

@@ -552,6 +552,46 @@ def network():
     console.print(f"\n[dim]{rep.summary}[/dim]")
 
 
+@app.command()
+def solve_lacunae(
+    genre: Optional[str] = typer.Option(None, "--genre", "-g", help="Filter by genre: votive, administrative, toponymic, arithmetic")
+):
+    """Run multilateral joint Bayesian solver across canonical damaged Linear A inscriptions."""
+    console.print(Panel("[bold cyan]Multilateral Joint Bayesian Lacunae Solver[/bold cyan]\n[dim]Reconstructing effaced signs via arithmetic, liturgy, prosopography, and toponyms[/dim]"))
+
+    from linear_a.predictive.multilateral_solver import MultilateralLacunaeSolver
+    solver = MultilateralLacunaeSolver()
+    report = solver.solve_all()
+
+    results = report.solved_results
+    if genre:
+        results = [r for r in results if r.entry.genre.lower() == genre.lower()]
+
+    table = Table(title=f"Multilateral Lacunae Restoration Matrix ({len(results)} Inscriptions)", show_header=True)
+    table.add_column("Doc / Site", style="bold cyan", width=14)
+    table.add_column("Masked Ductus", style="yellow", width=18)
+    table.add_column("Predicted Sign", justify="center", style="bold green", width=14)
+    table.add_column("Completed Word", style="bold white", width=18)
+    table.add_column("Grade & Tier", justify="center", style="magenta", width=18)
+    table.add_column("Bayes Factor", justify="right", style="cyan", width=12)
+    table.add_column("Verification Method & Rationale", style="dim")
+
+    for r in results:
+        table.add_row(
+            f"{r.entry.document}\n({r.entry.site})",
+            r.entry.masked_token,
+            f"[bold green]{r.predicted_sign}[/bold green]",
+            r.entry.completed_word,
+            f"{r.epistemic_grade}",
+            f"{r.bayes_factor:.1f}",
+            r.synthesis_notes,
+        )
+
+    console.print(table)
+    console.print(f"\n[bold green]Summary:[/bold green] {report.summary}")
+
+
 if __name__ == "__main__":
     app()
+
 
