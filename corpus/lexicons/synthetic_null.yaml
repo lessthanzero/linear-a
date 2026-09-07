@@ -1,0 +1,44 @@
+# Synthetic Control Null Lexicon
+# 20 randomized pseudo-roots generated without corpus cherry-picking
+# Represents an unaligned external language baseline
+roots:
+  - root: "bokur"
+    plausible_syllabic_forms: ["BO-KU-RU", "PO-KU"]
+  - root: "tarap"
+    plausible_syllabic_forms: ["TA-RA-PA", "TO-RO"]
+  - root: "selma"
+    plausible_syllabic_forms: ["SE-LE-MA", "SI-MI"]
+  - root: "danuk"
+    plausible_syllabic_forms: ["DA-NU-KU", "DO-NU"]
+  - root: "piran"
+    plausible_syllabic_forms: ["PI-RA-NO", "PE-RE"]
+  - root: "kolis"
+    plausible_syllabic_forms: ["KO-LI-SE", "KU-LO"]
+  - root: "morat"
+    plausible_syllabic_forms: ["MO-RA-TE", "MU-RU"]
+  - root: "tubal"
+    plausible_syllabic_forms: ["TU-PA-RO", "TO-PO"]
+  - root: "zenir"
+    plausible_syllabic_forms: ["ZE-NI-RE", "ZA-NO"]
+  - root: "hamik"
+    plausible_syllabic_forms: ["A-MI-KU", "E-ME"]
+  - root: "lupen"
+    plausible_syllabic_forms: ["LU-PE-NE", "RU-PO"]
+  - root: "gamir"
+    plausible_syllabic_forms: ["GA-MI-RE", "KO-ME"]
+  - root: "surip"
+    plausible_syllabic_forms: ["SU-RI-PO", "SO-RO"]
+  - root: "betur"
+    plausible_syllabic_forms: ["BE-TU-RU", "BO-TO"]
+  - root: "nakis"
+    plausible_syllabic_forms: ["NA-KI-SE", "NO-KO"]
+  - root: "falun"
+    plausible_syllabic_forms: ["PA-LU-NO", "PU-RO"]
+  - root: "wesir"
+    plausible_syllabic_forms: ["WE-SI-RE", "WO-SO"]
+  - root: "kadan"
+    plausible_syllabic_forms: ["KA-DA-NO", "KE-DE"]
+  - root: "rilap"
+    plausible_syllabic_forms: ["RI-LA-PA", "RO-LO"]
+  - root: "yosup"
+    plausible_syllabic_forms: ["JO-SU-PO", "JU-SA"]

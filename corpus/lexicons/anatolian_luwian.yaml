@@ -1,0 +1,72 @@
+# Anatolian / Luwian Candidate Lexicon
+# Proposed by Leonard Palmer (1958, 1965), Margalit Finkelberg (1990), Miguel Valério (2007)
+roots:
+  - root: "ashasara"
+    meaning: "lady, mistress (title of goddess)"
+    claimed_spelling: "A-SA-SA-RA-ME"
+    plausible_syllabic_forms: ["A-SA-SA-RA-ME", "JA-SA-SA-RA-ME", "A-SA-SA-RA"]
+    proponents: ["Palmer 1958", "Finkelberg 1990", "Valério 2007"]
+    domain: "theonym"
+
+  - root: "wanatti"
+    meaning: "woman, female worker"
+    claimed_spelling: "WA-NA-TI"
+    plausible_syllabic_forms: ["WA-NA-TI", "WA-NA"]
+    proponents: ["Finkelberg 1990"]
+    domain: "personnel"
+
+  - root: "tiwata"
+    meaning: "sun-god, divine luminary"
+    claimed_spelling: "TI-WA-TE"
+    plausible_syllabic_forms: ["TI-WA-TE", "TI-WA"]
+    proponents: ["Palmer 1958"]
+    domain: "theonym"
+
+  - root: "parna"
+    meaning: "house, palace, temple domain"
+    claimed_spelling: "PA-NA"
+    plausible_syllabic_forms: ["PA-NA", "PA-RA-NA"]
+    proponents: ["Palmer 1965"]
+    domain: "noun"
+
+  - root: "turu"
+    meaning: "give, offer (verb root tu-)"
+    claimed_spelling: "TU-RU"
+    plausible_syllabic_forms: ["TU-RU", "TE-TU"]
+    proponents: ["Finkelberg 1990"]
+    domain: "verb"
+
+  - root: "appa"
+    meaning: "back, again, afterwards (adverb/preverb)"
+    claimed_spelling: "A-PA"
+    plausible_syllabic_forms: ["A-PA", "A-PU"]
+    proponents: ["Valério 2007"]
+    domain: "preverb"
+
+  - root: "muwa"
+    meaning: "might, vigor, divine power"
+    claimed_spelling: "MU-WA"
+    plausible_syllabic_forms: ["MU-WA", "MA-WA"]
+    proponents: ["Palmer 1965"]
+    domain: "title"
+
+  - root: "kula"
+    meaning: "army, host, community troop"
+    claimed_spelling: "KU-RO"
+    plausible_syllabic_forms: ["KU-RO", "KU-LA"]
+    proponents: ["Palmer 1958"]
+    domain: "accounting_operator"
+
+  - root: "annari"
+    meaning: "force, vitality / mother deity"
+    claimed_spelling: "A-NA-RE"
+    plausible_syllabic_forms: ["A-NA-RE", "A-KA-RU"]
+    proponents: ["Finkelberg 1990"]
+    domain: "theonym"
+
+  - root: "pipi"
+    meaning: "give repeatedly (reduplicated verb pipi-)"
+    claimed_spelling: "PI-PI"
+    plausible_syllabic_forms: ["PI-PI", "PI-PI-TU-NA"]
+    proponents: ["Palmer 1965"]
+    domain: "verb"

@@ -17,6 +17,7 @@ from linear_a.llm.jury import SkepticJury
 from linear_a.llm.ollama import OllamaClient
 from linear_a.morphology.affix_sieve import AffixSieve
 from linear_a.palaeography.grid_factorization import KoberVentrisGridEngine
+from linear_a.skeptic.dictionary_gauntlet import DictionaryGauntlet
 from linear_a.votive.libation_engine import LibationEngine
 
 app = typer.Typer(
@@ -112,6 +113,40 @@ def grid(
     console.print(f"• Pairwise Ventris Grid Agreement: [bold]{report.ventris_grid_pairwise_agreement_rate * 100:.1f}%[/bold]")
     console.print(f"• Permutation Null Baseline: {report.null_mean_agreement_rate * 100:.1f}% ± {report.null_std_agreement_rate * 100:.1f}%")
     console.print(f"• Empirical Z-Score: [bold {z_color}]{report.z_score:+.2f}σ[/bold {z_color}] | p-value: [bold {z_color}]{report.p_value:.4f}[/bold {z_color}]")
+    console.print(f"\n[dim]{report.epistemic_verdict}[/dim]")
+
+
+@app.command()
+def gauntlet(
+    language: str = typer.Argument("semitic_northwest", help="Candidate lexicon (semitic_northwest, anatolian_luwian, synthetic_null)"),
+    permutations: int = typer.Option(1000, "--permutations", "-n", help="Monte Carlo null iterations"),
+):
+    """Subject a candidate language family dictionary to the False-Positive Gauntlet."""
+    console.print(Panel(f"[bold cyan]Cross-Linguistic Dictionary Gauntlet: {language}[/bold cyan]\n[dim]Testing candidate cognates against synthetic pseudo-lexicon null collisions[/dim]"))
+
+    engine = DictionaryGauntlet()
+    with console.status(f"[bold cyan]Running {permutations} Monte Carlo null collisions for {language}...[/bold cyan]"):
+        report = engine.run_gauntlet(language_key=language, n_surrogates=permutations)
+
+    table = Table(title=f"Claimed Lexical Matches ({report.target_language})", show_header=True)
+    table.add_column("Root", style="yellow")
+    table.add_column("Meaning", style="dim")
+    table.add_column("Claimed Form", style="cyan")
+    table.add_column("Target Token", style="green")
+    table.add_column("Bayes Factor", justify="right")
+    table.add_column("Status", justify="center")
+
+    for m in report.top_matches:
+        stat_color = "green" if m.status == "STRONG_CANDIDATE" else ("yellow" if m.status == "EQUIVOCAL" else "red")
+        table.add_row(m.root, m.meaning, m.claimed_spelling, m.target_token, f"{m.bayes_factor:.1f}", f"[{stat_color}]{m.status}[/{stat_color}]")
+
+    console.print(table)
+    console.print(f"• Total Candidate Roots: [bold]{report.total_candidate_roots}[/bold]")
+    console.print(f"• Observed Matches in Corpus: [bold]{report.observed_matches_count}[/bold]")
+    console.print(f"• Null Collision Baseline: {report.null_mean_matches:.2f} ± {report.null_std_matches:.2f} matches")
+    console.print(f"• Empirical Z-Score: [bold]{report.z_score:+.2f}σ[/bold] | p-value: [bold]{report.empirical_p_value:.4f}[/bold]")
+    console.print(f"• False Positive Rate (FPR): [bold yellow]{report.false_positive_rate_pct:.1f}%[/bold yellow]")
+    console.print(f"• Shannon Unicity Ratio: [bold]{report.unicity_ratio:.2f}[/bold] ({'CONSTRAINED' if report.unicity_ratio <= 1.0 else 'UNCONSTRAINED OVERFIT'})")
     console.print(f"\n[dim]{report.epistemic_verdict}[/dim]")
 
 

@@ -1,0 +1,72 @@
+# Northwest Semitic / Ugaritic / Phoenician Candidate Lexicon
+# Used by Cyrus Gordon (1966), Robert Stieglitz, and Jan Best for Linear A claims
+roots:
+  - root: "kull"
+    meaning: "all, whole, entire, total"
+    claimed_spelling: "KU-RO"
+    plausible_syllabic_forms: ["KU-RO", "KU-RU", "KU"]
+    proponents: ["Gordon 1966", "Stieglitz 1971"]
+    domain: "accounting_operator"
+
+  - root: "haser"
+    meaning: "missing, deficit, lacking"
+    claimed_spelling: "KI-RO"
+    plausible_syllabic_forms: ["KI-RO", "KA-SA-RA", "KI-RU"]
+    proponents: ["Gordon 1966"]
+    domain: "accounting_operator"
+
+  - root: "bayt"
+    meaning: "house, estate"
+    claimed_spelling: "PA-TE"
+    plausible_syllabic_forms: ["PA-TE", "PA-I-TO", "BA-JA-TE"]
+    proponents: ["Gordon 1966"]
+    domain: "noun"
+
+  - root: "asherah"
+    meaning: "mother goddess / sacred grove"
+    claimed_spelling: "A-SA-SA-RA-ME"
+    plausible_syllabic_forms: ["A-SA-SA-RA-ME", "A-SA-RA"]
+    proponents: ["Gordon 1969"]
+    domain: "theonym"
+
+  - root: "mar"
+    meaning: "lord, master"
+    claimed_spelling: "MA-RE"
+    plausible_syllabic_forms: ["MA-RE", "MA-RU"]
+    proponents: ["Gordon 1966"]
+    domain: "title"
+
+  - root: "na'ar"
+    meaning: "youth, attendant, boy"
+    claimed_spelling: "NA-RE"
+    plausible_syllabic_forms: ["NA-RE", "NA-KA-RU"]
+    proponents: ["Gordon 1966"]
+    domain: "personnel"
+
+  - root: "yad"
+    meaning: "hand, allocation"
+    claimed_spelling: "JA-DA"
+    plausible_syllabic_forms: ["JA-DA", "JA-DE"]
+    proponents: ["Stieglitz 1971"]
+    domain: "noun"
+
+  - root: "dagan"
+    meaning: "grain, wheat"
+    claimed_spelling: "DA-KA"
+    plausible_syllabic_forms: ["DA-KA", "DA-KA-NA"]
+    proponents: ["Gordon 1966"]
+    domain: "commodity"
+
+  - root: "malka"
+    meaning: "queen, mistress"
+    claimed_spelling: "MA-KA"
+    plausible_syllabic_forms: ["MA-KA", "MA-RA-KA"]
+    proponents: ["Gordon 1966"]
+    domain: "title"
+
+  - root: "sipr"
+    meaning: "scribe, document, book"
+    claimed_spelling: "SI-PI-RE"
+    plausible_syllabic_forms: ["SI-PI-RE", "SU-PU"]
+    proponents: ["Gordon 1966"]
+    domain: "title"
