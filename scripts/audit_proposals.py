@@ -1,6 +1,7 @@
 """Audit canonical historical decipherment proposals against the Tripartite Blind Skeptic Jury."""
 
 import json
+import time
 from pathlib import Path
 from rich.console import Console
 from rich.panel import Panel
@@ -98,6 +99,7 @@ def run_audit_suite():
         })
 
         console.print(f"• Score S: [bold cyan]{dossier.quantitative_score_s:.1f}/100[/bold cyan] ({dossier.epistemic_grade}) | Verdict: [bold]{dossier.unanimous_verdict}[/bold]")
+        time.sleep(2.0)
 
     # Save outputs
     out_dir = Path("experiments/runs")

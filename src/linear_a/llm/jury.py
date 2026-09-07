@@ -9,6 +9,7 @@ Calculates the deterministic hypothesis score S (LADP v1.0 formula)
 and produces a formal Consensus Epistemic Dossier.
 """
 
+import time
 from dataclasses import dataclass, field
 from typing import Any, Dict, List, Optional
 from linear_a.llm.ollama import OllamaClient
@@ -67,10 +68,12 @@ class SkepticJury:
         # 1. Juror 1: Qwen 2.5 (7B) - Mathematical & Epigraphic Auditor
         critique_qwen = self._query_qwen(claim, claim_domain)
         critiques.append(critique_qwen)
+        time.sleep(1.5)
 
         # 2. Juror 2: Gemma 2 (9B) - Comparative Linguistic Skeptic
         critique_gemma = self._query_gemma2(claim, claim_domain)
         critiques.append(critique_gemma)
+        time.sleep(1.5)
 
         # 3. Juror 3: Llama 3.2 (3B) - Fast Structural Anomaly Detector
         critique_llama = self._query_llama(claim, claim_domain)
@@ -146,7 +149,7 @@ class SkepticJury:
         )
         user_prompt = f"Critique this Linear A claim ({domain}): '{claim}'."
         try:
-            if self.client.is_available():
+            if self.client.is_available(timeout=10.0):
                 resp = self.client.generate_chat(
                     messages=[
                         {"role": "system", "content": system_prompt},
@@ -154,7 +157,7 @@ class SkepticJury:
                     ],
                     model="qwen2.5:7b",
                     temperature=0.1,
-                    timeout=120.0,
+                    timeout=180.0,
                 )
             else:
                 resp = "[Local Qwen 2.5 offline: fallback mathematical evaluation applied.]"
@@ -179,7 +182,7 @@ class SkepticJury:
         )
         user_prompt = f"Critique this comparative linguistic claim for Linear A: '{claim}'."
         try:
-            if self.client.is_available():
+            if self.client.is_available(timeout=10.0):
                 resp = self.client.generate_chat(
                     messages=[
                         {"role": "system", "content": system_prompt},
@@ -187,7 +190,7 @@ class SkepticJury:
                     ],
                     model="gemma2:9b",
                     temperature=0.1,
-                    timeout=120.0,
+                    timeout=180.0,
                 )
             else:
                 resp = "[Local Gemma 2 offline: fallback linguistic evaluation applied.]"
@@ -211,7 +214,7 @@ class SkepticJury:
         )
         user_prompt = f"Detect structural anomalies in this Linear A claim: '{claim}'."
         try:
-            if self.client.is_available():
+            if self.client.is_available(timeout=10.0):
                 resp = self.client.generate_chat(
                     messages=[
                         {"role": "system", "content": system_prompt},
@@ -219,7 +222,7 @@ class SkepticJury:
                     ],
                     model="llama3.2:3b",
                     temperature=0.1,
-                    timeout=120.0,
+                    timeout=180.0,
                 )
             else:
                 resp = "[Local Llama 3.2 offline: fallback structural evaluation applied.]"

@@ -36,10 +36,10 @@ class OllamaClient:
                 continue
         return self.candidate_urls[0]
 
-    def is_available(self) -> bool:
+    def is_available(self, timeout: float = 10.0) -> bool:
         """Check if remote Ollama instance is online and responding."""
         try:
-            with httpx.Client(timeout=2.5) as client:
+            with httpx.Client(timeout=timeout) as client:
                 res = client.get(f"{self.base_url}/api/tags")
                 return res.status_code == 200
         except Exception:

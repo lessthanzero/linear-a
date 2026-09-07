@@ -327,7 +327,7 @@ def collect_workbench_dataset() -> Dict[str, Any]:
                     "transcription": v.transcription_raw,
                     "morae": v.total_morae,
                     "segments": [
-                        {"word": s.word, "role": s.role, "morae": s.morae, "prefix": s.prefix, "suffix": s.suffix}
+                        {"word": s.word, "role": s.role, "morae": s.morae, "prefix": s.prefix, "suffix": s.suffix, "syllables": s.word.split("-")}
                         for s in v.segments
                     ],
                 }
@@ -834,6 +834,44 @@ input[type=range] {{
   color: var(--ink-secondary);
   margin-top: 2px;
 }}
+
+.mora-token {{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 8px;
+  margin: 3px 2px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  font-family: monospace;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+}}
+
+.mora-token:hover {{
+  border-color: var(--accent-indigo);
+  background: rgba(99, 102, 241, 0.08);
+  transform: translateY(-1px);
+}}
+
+.mora-token.active-mora {{
+  background: var(--accent-indigo) !important;
+  color: #ffffff !important;
+  border-color: var(--accent-indigo) !important;
+  box-shadow: 0 0 12px rgba(99, 102, 241, 0.65);
+  transform: scale(1.15);
+}}
+
+.audio-ctrl-group {{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}}
 </style>
 </head>
 <body>
@@ -1052,6 +1090,34 @@ input[type=range] {{
         <div class="stat-label">Disc Sign 35 Bridge (TE)</div>
         <div class="stat-value" style="color: var(--accent-emerald);">2.12 × 10⁸</div>
         <div class="stat-sub">Likelihood ratio vs ME</div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom: 20px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+        <div>
+          <div class="card-title" style="margin-bottom: 4px;">Moraic Prosody & Liturgical Plucked Lyre Metronome</div>
+          <div style="font-size: 12px; color: var(--ink-secondary);">
+            Synthesize open-syllable moraic cadence, accentuation, and phrase prosody of peak sanctuary libations.
+          </div>
+        </div>
+        <div class="audio-ctrl-group">
+          <div style="display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--ink-secondary);">
+            <span>Tempo:</span>
+            <input type="range" id="moraTempo" min="60" max="160" value="100" style="width: 100px;" oninput="updateMoraTempo(this.value)">
+            <span id="moraTempoVal" style="font-family: monospace; font-weight: 600; min-width: 48px;">100 BPM</span>
+          </div>
+          <select id="moraTimbre" style="padding: 6px 10px; font-size: 12px; border-radius: 6px; border: 1px solid var(--border); background: var(--canvas); color: var(--ink-primary);" onchange="updateTimbre(this.value)">
+            <option value="lyre">Plucked Bronze Lyre (Karplus-Strong)</option>
+            <option value="clapper">Temple Percussion Clapper</option>
+            <option value="flute">Sanctuary Reed Flute</option>
+          </select>
+          <button id="btnStopAudio" class="btn" style="padding: 6px 14px; font-size: 12px; background: #dc2626; color: white; display: none;" onclick="stopMoraPlayback()">⏹ Stop</button>
+        </div>
+      </div>
+      <div id="moraPlaybackStatus" style="margin-top: 14px; padding: 10px 14px; border-radius: 6px; background: var(--canvas); border: 1px solid var(--border); font-size: 12px; display: flex; justify-content: space-between; align-items: center;">
+        <span id="moraStatusText" style="color: var(--ink-muted);">Ready. Click "▶ Play Inscription Rhythm" on any vessel or click individual syllables to audition.</span>
+        <span id="moraProgressBadge" class="badge badge-indigo" style="display: none; font-family: monospace;">Mora: 0 / 0</span>
       </div>
     </div>
 
@@ -1491,6 +1557,216 @@ function renderGauntlet() {{
   addRows('Anatolian Luwian (Palmer)', LAB_DATA.gauntlet.luwian);
 }}
 
+// Audio Context & Moraic Metronome Engine
+let audioCtx = null;
+let moraPlaybackTimer = null;
+let isMoraPlaying = false;
+let currentMoraQueue = [];
+let currentMoraIdx = 0;
+let moraTempoBpm = 100;
+let activeTimbre = 'lyre';
+
+function getAudioCtx() {{
+  if (!audioCtx) {{
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  }}
+  if (audioCtx.state === 'suspended') {{
+    audioCtx.resume();
+  }}
+  return audioCtx;
+}}
+
+function updateMoraTempo(val) {{
+  moraTempoBpm = parseInt(val, 10);
+  document.getElementById('moraTempoVal').textContent = val + ' BPM';
+}}
+
+function updateTimbre(val) {{
+  activeTimbre = val;
+}}
+
+const VOWEL_PITCHES = {{
+  'A': 293.66, // D4
+  'E': 329.63, // E4
+  'I': 349.23, // F4
+  'O': 392.00, // G4
+  'U': 220.00, // A3
+  'default': 261.63 // C4
+}};
+
+function getSyllablePitch(syl) {{
+  const s = syl.toUpperCase().trim();
+  if (s.endsWith('A')) return VOWEL_PITCHES['A'];
+  if (s.endsWith('E')) return VOWEL_PITCHES['E'];
+  if (s.endsWith('I')) return VOWEL_PITCHES['I'];
+  if (s.endsWith('O')) return VOWEL_PITCHES['O'];
+  if (s.endsWith('U')) return VOWEL_PITCHES['U'];
+  return VOWEL_PITCHES['default'];
+}}
+
+function playKarplusStrong(freq, velocity, duration) {{
+  const ctx = getAudioCtx();
+  const sampleRate = ctx.sampleRate;
+  const N = Math.max(8, Math.round(sampleRate / freq));
+  const buf = ctx.createBuffer(1, Math.round(sampleRate * duration), sampleRate);
+  const out = buf.getChannelData(0);
+  const ring = new Float32Array(N);
+
+  for (let i = 0; i < N; i++) {{
+    ring[i] = (Math.random() * 2 - 1) * velocity;
+  }}
+
+  let ringIdx = 0;
+  const decay = 0.993;
+  for (let i = 0; i < out.length; i++) {{
+    const prev = ring[ringIdx];
+    const next = ring[(ringIdx + 1) % N];
+    const avg = 0.5 * (prev + next) * decay;
+    ring[ringIdx] = avg;
+    out[i] = prev;
+    ringIdx = (ringIdx + 1) % N;
+  }}
+
+  const src = ctx.createBufferSource();
+  src.buffer = buf;
+  const gain = ctx.createGain();
+  gain.gain.setValueAtTime(velocity * 0.45, ctx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + duration);
+  src.connect(gain);
+  gain.connect(ctx.destination);
+  src.start();
+}}
+
+function playClapper(velocity) {{
+  const ctx = getAudioCtx();
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.type = 'triangle';
+  osc.frequency.setValueAtTime(650, ctx.currentTime);
+  osc.frequency.exponentialRampToValueAtTime(140, ctx.currentTime + 0.07);
+
+  gain.gain.setValueAtTime(velocity * 0.4, ctx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.09);
+
+  osc.connect(gain);
+  gain.connect(ctx.destination);
+  osc.start();
+  osc.stop(ctx.currentTime + 0.1);
+}}
+
+function playFlute(freq, velocity, duration) {{
+  const ctx = getAudioCtx();
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.type = 'sine';
+  osc.frequency.setValueAtTime(freq * 1.5, ctx.currentTime);
+
+  gain.gain.setValueAtTime(0.001, ctx.currentTime);
+  gain.gain.linearRampToValueAtTime(velocity * 0.28, ctx.currentTime + 0.05);
+  gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+
+  osc.connect(gain);
+  gain.connect(ctx.destination);
+  osc.start();
+  osc.stop(ctx.currentTime + duration);
+}}
+
+function playMoraAudio(syl, isInitial, isCadential) {{
+  const freq = getSyllablePitch(syl);
+  const velocity = isInitial ? 1.3 : 0.85;
+  const duration = isCadential ? 1.4 : 0.8;
+
+  if (activeTimbre === 'clapper') {{
+    playClapper(velocity);
+  }} else if (activeTimbre === 'flute') {{
+    playFlute(freq, velocity, duration);
+  }} else {{
+    playKarplusStrong(freq, velocity, duration);
+  }}
+}}
+
+function auditSingleSyllable(syl, domId) {{
+  playMoraAudio(syl, true, false);
+  const el = document.getElementById(domId);
+  if (el) {{
+    el.classList.add('active-mora');
+    setTimeout(() => el.classList.remove('active-mora'), 250);
+  }}
+  document.getElementById('moraStatusText').innerHTML =
+    `Auditioned Mora: <strong style="font-family: monospace;">${{syl}}</strong> (${{getSyllablePitch(syl).toFixed(1)}} Hz · ${{activeTimbre}})`;
+}}
+
+function stopMoraPlayback() {{
+  isMoraPlaying = false;
+  if (moraPlaybackTimer) {{
+    clearTimeout(moraPlaybackTimer);
+    moraPlaybackTimer = null;
+  }}
+  document.querySelectorAll('.mora-token.active-mora').forEach(el => el.classList.remove('active-mora'));
+  const btnStop = document.getElementById('btnStopAudio');
+  if (btnStop) btnStop.style.display = 'none';
+  const badge = document.getElementById('moraProgressBadge');
+  if (badge) badge.style.display = 'none';
+  document.getElementById('moraStatusText').textContent = 'Playback stopped. Ready.';
+}}
+
+function playVesselSequence(vesselId) {{
+  stopMoraPlayback();
+  const vessel = LAB_DATA.libation.vessels.find(v => v.id === vesselId);
+  if (!vessel) return;
+
+  currentMoraQueue = [];
+  vessel.segments.forEach((seg, sIdx) => {{
+    const syls = seg.syllables || seg.word.split('-');
+    syls.forEach((syl, sylIdx) => {{
+      const domId = `syl-${{vessel.id}}-${{sIdx}}-${{sylIdx}}`;
+      currentMoraQueue.push({{
+        syl: syl,
+        word: seg.word,
+        role: seg.role,
+        domId: domId,
+        isInitial: sylIdx === 0,
+        isCadential: sylIdx === syls.length - 1 && sIdx === vessel.segments.length - 1
+      }});
+    }});
+  }});
+
+  if (currentMoraQueue.length === 0) return;
+
+  isMoraPlaying = true;
+  currentMoraIdx = 0;
+  document.getElementById('btnStopAudio').style.display = 'inline-block';
+  const badge = document.getElementById('moraProgressBadge');
+  badge.style.display = 'inline-block';
+
+  function step() {{
+    if (!isMoraPlaying || currentMoraIdx >= currentMoraQueue.length) {{
+      stopMoraPlayback();
+      document.getElementById('moraStatusText').innerHTML =
+        `<span style="color: var(--accent-emerald); font-weight: 600;">✓ Inscription rhythm complete (${{vessel.id}}).</span>`;
+      return;
+    }}
+
+    document.querySelectorAll('.mora-token.active-mora').forEach(el => el.classList.remove('active-mora'));
+
+    const item = currentMoraQueue[currentMoraIdx];
+    playMoraAudio(item.syl, item.isInitial, item.isCadential);
+
+    const el = document.getElementById(item.domId);
+    if (el) el.classList.add('active-mora');
+
+    badge.textContent = `Mora: ${{currentMoraIdx + 1}} / ${{currentMoraQueue.length}}`;
+    document.getElementById('moraStatusText').innerHTML =
+      `Chanting: <strong>${{vessel.id}}</strong> | Word: <span style="font-family: monospace; font-weight: 600;">${{item.word}}</span> | Syllable: <span style="font-family: monospace; color: var(--accent-indigo); font-weight: 700;">${{item.syl}}</span> (${{item.role}})`;
+
+    currentMoraIdx++;
+    const moraIntervalMs = Math.round(60000 / (moraTempoBpm * 1.5));
+    moraPlaybackTimer = setTimeout(step, moraIntervalMs);
+  }}
+
+  step();
+}}
+
 // Initialize Votive Sanctuary
 function renderVotive() {{
   const pills = document.getElementById('formulaPills');
@@ -1507,23 +1783,40 @@ function renderVotive() {{
   vList.innerHTML = '';
   LAB_DATA.libation.vessels.forEach(v => {{
     let segHtml = '';
-    v.segments.forEach(s => {{
+    v.segments.forEach((s, sIdx) => {{
+      let sylTokensHtml = '';
+      const syls = s.syllables || s.word.split('-');
+      syls.forEach((syl, sylIdx) => {{
+        const domId = `syl-${{v.id}}-${{sIdx}}-${{sylIdx}}`;
+        sylTokensHtml += `
+          <span id="${{domId}}" class="mora-token" onclick="auditSingleSyllable('${{syl}}', '${{domId}}')" title="Click to audition '${{syl}}' mora">
+            ${{syl}}
+          </span>
+        `;
+      }});
+
       segHtml += `
-        <div style="background: var(--canvas); border: 1px solid var(--border); padding: 8px 12px; border-radius: 6px;">
-          <div style="font-size: 13px; font-weight: 600; font-family: monospace;">${{s.word}}</div>
-          <div style="font-size: 11px; color: var(--ink-secondary); margin-top: 2px;">${{s.role}} · ${{s.morae}} morae</div>
+        <div style="background: var(--canvas); border: 1px solid var(--border); padding: 10px 14px; border-radius: 6px; min-width: 140px; flex: 1;">
+          <div style="font-size: 14px; font-weight: 700; font-family: monospace; letter-spacing: 0.5px; color: var(--ink-primary);">${{s.word}}</div>
+          <div style="margin: 6px 0 4px 0; display: flex; flex-wrap: wrap; gap: 2px;">${{sylTokensHtml}}</div>
+          <div style="font-size: 11px; color: var(--ink-secondary); margin-top: 4px;">${{s.role}} · ${{s.morae}} morae</div>
         </div>
       `;
     }});
 
     vList.innerHTML += `
-      <div style="border: 1px solid var(--border); border-radius: 8px; padding: 16px; background: var(--surface);">
-        <div style="display: flex; justify-content: space-between; font-size: 13px; font-weight: 600;">
-          <span>${{v.id}} (${{v.site}})</span>
+      <div style="border: 1px solid var(--border); border-radius: 8px; padding: 18px; background: var(--surface);">
+        <div style="display: flex; justify-content: space-between; align-items: center; font-size: 14px; font-weight: 600;">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span>${{v.id}} (${{v.site}})</span>
+            <button class="btn btn-outline" style="padding: 4px 10px; font-size: 11px;" onclick="playVesselSequence('${{v.id}}')">
+              ▶ Play Inscription Rhythm
+            </button>
+          </div>
           <span style="font-family: monospace; color: var(--accent-indigo);">${{v.morae}} Total Morae</span>
         </div>
-        <div style="font-size: 12px; color: var(--ink-muted); margin: 4px 0 12px 0;">${{v.vessel_type}} · Findspot: ${{v.findspot}}</div>
-        <div style="display: flex; gap: 8px; flex-wrap: wrap;">${{segHtml}}</div>
+        <div style="font-size: 12px; color: var(--ink-muted); margin: 6px 0 14px 0;">${{v.vessel_type}} · Findspot: ${{v.findspot}}</div>
+        <div style="display: flex; gap: 10px; flex-wrap: wrap;">${{segHtml}}</div>
       </div>
     `;
   }});
