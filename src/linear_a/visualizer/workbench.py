@@ -2863,12 +2863,17 @@ input[type=range] {{
 const LAB_DATA = {data_json};
 
 // Tab Navigation
-function switchTab(tabId) {{
+function switchTab(tabId, btnEl) {{
   document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
 
-  event.target.classList.add('active');
-  document.getElementById('tab-' + tabId).classList.add('active');
+  const targetBtn = btnEl
+    || (typeof event !== 'undefined' && event && event.target ? event.target.closest('.tab-btn') : null)
+    || document.querySelector(`.tab-btn[onclick*="'${{tabId}}'"]`);
+  if (targetBtn) targetBtn.classList.add('active');
+
+  const panel = document.getElementById('tab-' + tabId);
+  if (panel) panel.classList.add('active');
 
   if (tabId === 'grid') {{
     renderSVDPlot();
@@ -3510,7 +3515,7 @@ function renderPhaistos() {{
         <td><strong>${{c.name}}</strong><br><span style="font-size: 10px; font-family: monospace; color: var(--ink-muted);">${{c.id}}</span></td>
         <td>${{c.disc}}</td>
         <td>${{c.linear_a}}</td>
-        <td style="font-family: monospace;">${{c.metric}}: ${{c.value &gt; 1000 ? c.value.toExponential(2) : c.value.toFixed(2)}}</td>
+        <td style="font-family: monospace;">${{c.metric}}: ${{c.value > 1000 ? c.value.toExponential(2) : c.value.toFixed(2)}}</td>
         <td><span class="badge badge-emerald">${{c.level}}</span></td>
       </tr>
     `;
@@ -4125,7 +4130,7 @@ function renderVotiveGrammarTab() {{
     vBody.innerHTML = '';
     vg.vessel_parses.forEach(p => {{
       const phasesPills = p.phases.map(
-        ph => `<span class="badge badge-indigo" style="font-size: 10px; margin-right: 3px;">${{ph.replace('PHASE_', 'P')}}</span>`
+        ph => `<span class="badge badge-indigo" style="font-size: 10px; margin-right: 3px;">${{String(ph).replace('PHASE_', 'P')}}</span>`
       ).join('');
       vBody.innerHTML += `
         <tr>
@@ -4348,7 +4353,14 @@ function renderDuctusClusteringTab() {{
 }}
 
 // Peer-Review Adjudication Portal
-let browserAdjudications = JSON.parse(localStorage.getItem('linear_a_adjudications') || '{{}}');
+let browserAdjudications = {{}};
+try {{
+  if (typeof localStorage !== 'undefined' && localStorage) {{
+    browserAdjudications = JSON.parse(localStorage.getItem('linear_a_adjudications') || '{{}}');
+  }}
+}} catch (e) {{
+  browserAdjudications = {{}};
+}}
 
 function renderAdjudicationPortalTab() {{
   const adj = LAB_DATA.adjudication_portal;
@@ -4826,7 +4838,6 @@ function filterStrokeGlyphs() {{
 // ==========================================
 // TAB 23: INSCRIPTION RECITER & WEB AUDIO SYNTHESIZER
 // ==========================================
-let audioCtx = null;
 let reciterMasterGainNode = null;
 let activeRecitationTimeouts = [];
 let isPlayingRecitation = false;
@@ -4966,7 +4977,7 @@ function renderReciterTab() {{
   }}
 
   const sel = document.getElementById('reciterSelect');
-  if (sel && sel.options.length === 0) {{
+  if (sel && (!sel.options || sel.options.length === 0)) {{
     recitations.forEach(r => {{
       const opt = document.createElement('option');
       opt.value = r.id;
@@ -5392,34 +5403,43 @@ function filterPhoneticsTable() {{
 
 // Bootstrap
 window.addEventListener('DOMContentLoaded', () => {{
-  renderTabletList();
-  renderTabletDetail(currentTabletId);
-  renderGauntlet();
-  updateSyllableSim(2);
-  renderVotive();
-  renderHoldout();
-  renderPhaistos();
-  renderJury();
-  populateInterlinearSelect();
-  renderToponymAudit();
-  renderLacunaeCatalog('all');
-  renderNetworkTab();
-  populateCensusFilters();
-  renderCensus();
-  renderMorphologyTab();
-  renderDiophantineTab();
-  renderTypologyTab();
-  renderVotiveGrammarTab();
-  renderSubstratumInductionTab();
-  renderMultiCommodityTab();
-  renderDuctusClusteringTab();
-  renderAdjudicationPortalTab();
-  renderDialectologyTab();
-  renderPhylogenyTab();
-  renderUnifiedMetrologyTab();
-  renderStrokeVectorsTab();
-  renderReciterTab();
-  renderPhoneticsAtlasTab();
+  const tasks = [
+    renderTabletList,
+    () => renderTabletDetail(currentTabletId),
+    renderGauntlet,
+    () => updateSyllableSim(2),
+    renderVotive,
+    renderHoldout,
+    renderPhaistos,
+    renderJury,
+    populateInterlinearSelect,
+    renderToponymAudit,
+    () => renderLacunaeCatalog('all'),
+    renderNetworkTab,
+    populateCensusFilters,
+    renderCensus,
+    renderMorphologyTab,
+    renderDiophantineTab,
+    renderTypologyTab,
+    renderVotiveGrammarTab,
+    renderSubstratumInductionTab,
+    renderMultiCommodityTab,
+    renderDuctusClusteringTab,
+    renderAdjudicationPortalTab,
+    renderDialectologyTab,
+    renderPhylogenyTab,
+    renderUnifiedMetrologyTab,
+    renderStrokeVectorsTab,
+    renderReciterTab,
+    renderPhoneticsAtlasTab,
+  ];
+  tasks.forEach(t => {{
+    try {{
+      t();
+    }} catch (err) {{
+      console.warn('Tab initialization warning:', err);
+    }}
+  }});
 }});
 </script>
 </body>
