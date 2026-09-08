@@ -9,15 +9,15 @@ Unifies multi-source lateral constraints to reconstruct effaced or damaged signs
 6. Masked Syllabic Bigram Phonotactics (Tier E2)
 """
 
-from dataclasses import dataclass, field
-import math
+from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import List, Optional
 import yaml
 
 from linear_a.accounting.fractions import FractionEngine
 from linear_a.corpus.loader import get_default_corpus_dir, load_signs_catalogue
 from linear_a.predictive.lacunae_infiller import LacunaeInfiller
+from linear_a.predictive.toponym_audit import CretanToponymAudit
 
 
 @dataclass
@@ -52,6 +52,7 @@ class SolvedLacunaResult:
     epistemic_grade: str  # "DETERMINISTIC_E3", "HIGH_CONFIDENCE_E4", "PROBABLE_E2"
     verification_method: str
     synthesis_notes: str
+    source_evidence_status: str = "not_applicable"
 
 
 @dataclass
@@ -89,6 +90,7 @@ class MultilateralLacunaeSolver:
         self.infiller = infiller or LacunaeInfiller()
         self.fractions = fraction_engine or FractionEngine()
         self.signs = load_signs_catalogue()
+        self.toponym_audit = CretanToponymAudit()
 
     def solve_entry(self, entry: LacunaEntry) -> SolvedLacunaResult:
         """Evaluate and reconstruct an individual lacuna using lateral constraints."""
@@ -120,15 +122,34 @@ class MultilateralLacunaeSolver:
 
         # 3. Toponymic & Geography Network (Tier E4)
         if entry.genre == "toponymic":
+            audit_record = self.toponym_audit.record_for_linear_a_form(entry.completed_word)
+            if audit_record:
+                method = "Source-linked cross-script toponym attestation"
+                grade = "SOURCE_LINKED_TOPONYMIC_HYPOTHESIS"
+                status = audit_record.status
+                note = (
+                    f"Audited record {audit_record.id} is {audit_record.status}. "
+                    f"It documents a conventional form but does not validate this damaged-sign restoration. "
+                    f"{audit_record.limitations}"
+                )
+            else:
+                method = "Unaudited project-catalog toponymic hypothesis"
+                grade = "UNAUDITED_TOPONYMIC_HYPOTHESIS"
+                status = "unaudited"
+                note = (
+                    "No matching source-linked record exists in the Cretan Toponym Audit; "
+                    "the form and any geographic interpretation remain a project hypothesis."
+                )
             return SolvedLacunaResult(
                 entry=entry,
                 predicted_sign=entry.reconstructed_sign,
-                is_exact_match=True,
+                is_exact_match=False,
                 bayes_factor=entry.bayes_factor,
                 posterior_confidence=entry.accuracy_confidence,
-                epistemic_grade="HIGH_CONFIDENCE_E4",
-                verification_method="Palatial Geography & Allative Suffix (-TE) Concordance",
-                synthesis_notes=f"Matched regional toponym network and Linear B epigraphic cognates. {entry.epigraphic_rationale}",
+                epistemic_grade=grade,
+                verification_method=method,
+                synthesis_notes=note,
+                source_evidence_status=status,
             )
 
         # 4. Prosopography & Anthroponyms (Tier E4)
@@ -176,7 +197,7 @@ class MultilateralLacunaeSolver:
             f"{arithmetic_cnt} arithmetic/rational balance checks (100% deterministic), "
             f"{votive_cnt} sacred liturgical formulas (mean BF = {mean_bf:.1f}), "
             f"{prosop_cnt} pan-Cretan administrative anthroponyms, and "
-            f"{toponym_cnt} regional palatial toponyms. Overall Top-1 Reconstruction Accuracy: {top1_rate:.1f}% "
+            f"{toponym_cnt} catalogued toponymic hypotheses (excluded from independent reconstruction accuracy). Internal catalog agreement: {top1_rate:.1f}% "
             f"(Mean Confidence: {mean_conf * 100.0:.1f}%)."
         )
 

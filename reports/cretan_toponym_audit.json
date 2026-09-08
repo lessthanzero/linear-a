@@ -1,0 +1,64 @@
+{
+  "title": "Source-Linked Cretan Toponym Audit",
+  "limitations": "The registry records source traceability for conventional spellings and geographic arguments. It neither validates a damaged-sign restoration nor identifies the language or meaning of Linear A vocabulary.",
+  "status_counts": {
+    "disputed": 1,
+    "attested": 1
+  },
+  "records": [
+    {
+      "id": "TOPO-PAITO-001",
+      "status": "attested",
+      "linear_a_form": "PA-I-TO",
+      "linear_b_form": "pa-i-to",
+      "alphabetic_form": "Phaistos",
+      "linear_a_attestations": [
+        "HT 97a.3",
+        "HT 120.6"
+      ],
+      "linear_b_attestations": [
+        "Knossos pa-i-to dossier"
+      ],
+      "claim": "PA-I-TO is a published cross-script Cretan place-name correspondence; its conventional syllabic form is also connected with alphabetic Phaistos in the cited discussion.",
+      "citations": [
+        {
+          "author": "Alexander Uchitel",
+          "year": "2016",
+          "title": "\u201cRiver\u201d and \u201cEarth\u201d: Two \u201cprovinces\u201d of the Minoan principality of Phaistos - Hagia Triada",
+          "locator": "discussion of PA-I-TO, HT 97a.3 and HT 120.6",
+          "url": "https://gredos.usal.es/handle/10366/133947"
+        },
+        {
+          "author": "D\u0100MOS, University of Oslo",
+          "year": "2026",
+          "title": "Database of Mycenaean at Oslo",
+          "locator": "corpus and tablet bibliography",
+          "url": "https://damos.hf.uio.no/about/content/"
+        }
+      ],
+      "limitations": "The correspondence does not establish a translation, language relationship, a grammatical suffix, a transaction route, or the correct restoration of a damaged occurrence."
+    },
+    {
+      "id": "GEO-DAWO-001",
+      "status": "disputed",
+      "linear_a_form": null,
+      "linear_b_form": "da-wo",
+      "alphabetic_form": "Hagia Triada",
+      "linear_a_attestations": [],
+      "linear_b_attestations": [
+        "Knossos da-wo dossier"
+      ],
+      "claim": "Monti argues from Knossos Linear B and archaeological evidence that DA-WO, rather than PA-I-TO, named Hagia Triada; PA-I-TO referred to Phaistos.",
+      "citations": [
+        {
+          "author": "Orazio Monti",
+          "year": "2024",
+          "title": "Haghia Triada = da-wo or pa-i-to?",
+          "locator": "Kadmos 63(1\u20132), pp. 1\u201318, abstract and DOI record",
+          "url": "https://doi.org/10.1515/kadmos-2024-0001"
+        }
+      ],
+      "limitations": "This is a published geographic interpretation, not a Linear A\u2013Linear B lexical equation; the audit records it as disputed and does not resolve competing identifications."
+    }
+  ]
+}

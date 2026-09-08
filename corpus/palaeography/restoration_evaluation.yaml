@@ -1,0 +1,72 @@
+title: Curated Linear A restoration evaluation annotations
+status: project-curated reference set
+limitations: >-
+  These entries are transcriptions and restoration hypotheses already encoded in
+  this repository, with bibliography copied from the associated catalog. They
+  are not an independently adjudicated scholarly gold standard. Scores produced
+  from this file measure agreement with this project-curated reference set only.
+annotation_classes:
+  project_curated_restoration: A damaged token with a repository-curated reference completion.
+  legible_control: A fully legible curated token suitable for synthetic masking tests.
+  unresolved: A damaged token with no reference completion; excluded from accuracy denominators.
+annotations:
+  - id: LAC-VOT-01
+    class: project_curated_restoration
+  - id: LAC-VOT-02
+    class: project_curated_restoration
+  - id: LAC-VOT-03
+    class: project_curated_restoration
+  - id: LAC-VOT-04
+    class: project_curated_restoration
+  - id: LAC-VOT-05
+    class: project_curated_restoration
+  - id: LAC-PRO-01
+    class: project_curated_restoration
+  - id: LAC-PRO-02
+    class: project_curated_restoration
+  - id: LAC-PRO-03
+    class: project_curated_restoration
+  - id: LAC-PRO-04
+    class: project_curated_restoration
+  - id: LAC-PRO-05
+    class: project_curated_restoration
+  - id: LAC-PRO-06
+    class: project_curated_restoration
+  - id: LAC-PRO-07
+    class: project_curated_restoration
+  - id: LAC-PRO-08
+    class: project_curated_restoration
+  - id: LAC-PRO-09
+    class: project_curated_restoration
+  - id: LAC-TOP-01
+    class: project_curated_restoration
+  - id: LAC-TOP-02
+    class: project_curated_restoration
+  - id: LAC-TOP-03
+    class: project_curated_restoration
+  - id: LAC-TOP-04
+    class: project_curated_restoration
+  - id: LAC-NUM-01
+    class: project_curated_restoration
+  - id: LAC-NUM-02
+    class: project_curated_restoration
+  - id: LAC-NUM-03
+    class: project_curated_restoration
+  - id: LAC-NUM-04
+    class: project_curated_restoration
+  - id: LAC-NUM-05
+    class: project_curated_restoration
+  - id: CTRL-HT-009-PA-DE
+    class: legible_control
+    document: HT_009
+    token: PA-DE
+    source: corpus/tablets/hagia_triada.yaml
+  - id: CTRL-IO-ZA-002-UNAKANASI
+    class: legible_control
+    document: IO_Za_002
+    token: U-NA-KA-NA-SI
+    source: corpus/votive/libation_tables.yaml
+  - id: UNRESOLVED-RAW-LACUNA
+    class: unresolved
+    document: raw-corpus-only
+    source: corpus/raw/annotations.js

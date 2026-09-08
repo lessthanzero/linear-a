@@ -1,0 +1,30 @@
+{
+  "benchmark_status": "citation-only bootstrap",
+  "total_entries": 23,
+  "status_counts": {
+    "disputed": 0,
+    "accepted": 0,
+    "rejected": 0,
+    "unadjudicated": 23
+  },
+  "scored_references": 0,
+  "template": {
+    "method": "accepted-document-held-out template match",
+    "references": 0,
+    "attempted": 0,
+    "abstained": 0,
+    "coverage_pct": 0.0,
+    "precision_top1_pct": 0.0,
+    "top3_accuracy_pct": 0.0
+  },
+  "phonotactic": {
+    "method": "accepted-document-held-out bigram ranking",
+    "references": 0,
+    "attempted": 0,
+    "abstained": 0,
+    "coverage_pct": 0.0,
+    "precision_top1_pct": 0.0,
+    "top3_accuracy_pct": 0.0
+  },
+  "limitations": "Only externally accepted benchmark entries are scoreable. Unadjudicated, disputed, and rejected entries are excluded from every accuracy denominator. This citation-only bootstrap has no accepted entries."
+}

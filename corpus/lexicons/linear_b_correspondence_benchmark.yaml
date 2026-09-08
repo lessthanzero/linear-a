@@ -1,0 +1,23 @@
+metadata:
+  id: linear-a-linear-b-published-pairs-v1
+  target_entries: 12
+  evidence_policy: published lexical pairs only; exclude personal names and toponyms
+  status: qualified-set-shortfall
+  research_basis:
+    - author: Rafaela Freire de Abreu e Souza
+      year: 2022
+      title: Aspects of Non-Greek Vocabulary in Mycenaean Greek
+      locator: pp. 13–15, 57–59
+      stable_url: https://pergamos.lib.uoa.gr/uoa/dl/object/3242440/file.pdf
+    - author: DĀMOS, University of Oslo
+      year: 2026
+      title: Database of Mycenaean at Oslo
+      locator: corpus description and tablet bibliography
+      stable_url: https://damos.hf.uio.no/about/content/
+  limitations: >-
+    No entry is included until a publication explicitly proposes the lexical Linear A–Linear B
+    comparison, supplies a locator, and identifies a Linear B tablet attestation. The reviewed
+    source reports common names and toponyms but says the remaining Linear A vocabulary has
+    no identified parallel; it also notes a lack of recurring vocabulary between the scripts.
+    This is a documented evidence shortfall, not a negative result about either language.
+entries: []

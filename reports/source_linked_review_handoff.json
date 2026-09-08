@@ -1,0 +1,496 @@
+{
+  "title": "Linear A source-linked restoration review handoff",
+  "benchmark_status": "citation-only bootstrap",
+  "limitations": "Citations are normalized from repository catalog records and have not been independently checked against editions or facsimiles. All entries are excluded from restoration accuracy scoring until an external reviewer records an adjudication.",
+  "records": [
+    {
+      "benchmark_id": "BENCH-VOT-01",
+      "catalog_id": "LAC-VOT-01",
+      "document": "PK_Za_012",
+      "masked_token": "?-NA-KA-NA-SI",
+      "proposed_sign": "U",
+      "proposed_completion": "U-NA-KA-NA-SI",
+      "catalog_rationale": "U-NA-KA-NA-SI recurs with 100.0% invariance across all Cretan peak sanctuaries (Mount Juktas, Psychro, Syme, Prassas, Palaikastro). Surviving vertical lower trace matches sign AB10 (U).",
+      "citation": {
+        "series": "GORILA",
+        "volume": "IV",
+        "pages": "40-41",
+        "supplemental": [
+          "Younger PK Za 12"
+        ],
+        "stable_url": null
+      },
+      "evidence_status": "unadjudicated",
+      "reviewers": [],
+      "decision": null,
+      "decision_at": null,
+      "review_notes": null
+    },
+    {
+      "benchmark_id": "BENCH-VOT-02",
+      "catalog_id": "LAC-VOT-02",
+      "document": "IO_Za_006",
+      "masked_token": "A-TA-?-*301-WA-JA",
+      "proposed_sign": "I",
+      "proposed_completion": "A-TA-I-*301-WA-JA",
+      "catalog_rationale": "Formulaic header invariant across Mount Juktas (IO Za 2), Syme (SY Za 1), and Kythera. Morpheme -I- is the only attested vocalic link in this 6-mora invocation.",
+      "citation": {
+        "series": "GORILA",
+        "volume": "IV",
+        "pages": "24-25",
+        "supplemental": [
+          "Karetsou 1974"
+        ],
+        "stable_url": null
+      },
+      "evidence_status": "unadjudicated",
+      "reviewers": [],
+      "decision": null,
+      "decision_at": null,
+      "review_notes": null
+    },
+    {
+      "benchmark_id": "BENCH-VOT-03",
+      "catalog_id": "LAC-VOT-03",
+      "document": "KO_Za_001",
+      "masked_token": "I-?-NA-MA",
+      "proposed_sign": "PI",
+      "proposed_completion": "I-PI-NA-MA",
+      "catalog_rationale": "Fourth liturgical phase descriptor matching IO Za 2, PS Za 2, and SY Za 1. Sign AB39 (PI) perfectly matches surviving curved stalk trace.",
+      "citation": {
+        "series": "GORILA",
+        "volume": "IV",
+        "pages": "14-15",
+        "supplemental": [],
+        "stable_url": null
+      },
+      "evidence_status": "unadjudicated",
+      "reviewers": [],
+      "decision": null,
+      "decision_at": null,
+      "review_notes": null
+    },
+    {
+      "benchmark_id": "BENCH-VOT-04",
+      "catalog_id": "LAC-VOT-04",
+      "document": "PL_Zf_001",
+      "masked_token": "JA-SA-SA-RA-?",
+      "proposed_sign": "ME",
+      "proposed_completion": "JA-SA-SA-RA-ME",
+      "catalog_rationale": "Rigid formulaic sequence following JA-SA-SA-RA-. Sign AB13 (ME) matches upper horizontal crossbar.",
+      "citation": {
+        "series": "GORILA",
+        "volume": "IV",
+        "pages": "148-149",
+        "supplemental": [],
+        "stable_url": null
+      },
+      "evidence_status": "unadjudicated",
+      "reviewers": [],
+      "decision": null,
+      "decision_at": null,
+      "review_notes": null
+    },
+    {
+      "benchmark_id": "BENCH-VOT-05",
+      "catalog_id": "LAC-VOT-05",
+      "document": "KN_Za_019",
+      "masked_token": "A-TA-?-NA-TE",
+      "proposed_sign": "NO",
+      "proposed_completion": "A-TA-NO-NA-TE",
+      "catalog_rationale": "Matches Knossos substrate theonym A-TA-NO-DJ-WJA / Linear B A-TA-NA-PO-TI-NI-JA ('Mistress Athena'). Suffix -TE provides allative dative direction.",
+      "citation": {
+        "series": "GORILA",
+        "volume": "IV",
+        "pages": "12-13",
+        "supplemental": [],
+        "stable_url": null
+      },
+      "evidence_status": "unadjudicated",
+      "reviewers": [],
+      "decision": null,
+      "decision_at": null,
+      "review_notes": null
+    },
+    {
+      "benchmark_id": "BENCH-PRO-01",
+      "catalog_id": "LAC-PRO-01",
+      "document": "HT_085",
+      "masked_token": "KU-?-NU",
+      "proposed_sign": "PA",
+      "proposed_completion": "KU-PA-NU",
+      "catalog_rationale": "KU-PA-NU is one of the top recurring high officials across Crete, allocating 15 figs on HT 122 and 12 on ZA 6. Sign AB03 (PA) matches left hook.",
+      "citation": {
+        "series": "GORILA",
+        "volume": "I",
+        "pages": "130-131",
+        "supplemental": [],
+        "stable_url": null
+      },
+      "evidence_status": "unadjudicated",
+      "reviewers": [],
+      "decision": null,
+      "decision_at": null,
+      "review_notes": null
+    },
+    {
+      "benchmark_id": "BENCH-PRO-02",
+      "catalog_id": "LAC-PRO-02",
+      "document": "HT_085",
+      "masked_token": "DA-?-RE",
+      "proposed_sign": "TA",
+      "proposed_completion": "DA-TA-RE",
+      "catalog_rationale": "Allotted 8 1/4 wine on HT 85. Exact match with DA-TA-RE on HT 104 and HT 122. Sign AB59 (TA) matches dual crossbars.",
+      "citation": {
+        "series": "GORILA",
+        "volume": "I",
+        "pages": "130-131",
+        "supplemental": [],
+        "stable_url": null
+      },
+      "evidence_status": "unadjudicated",
+      "reviewers": [],
+      "decision": null,
+      "decision_at": null,
+      "review_notes": null
+    },
+    {
+      "benchmark_id": "BENCH-PRO-03",
+      "catalog_id": "LAC-PRO-03",
+      "document": "HT_117",
+      "masked_token": "TE-?",
+      "proposed_sign": "TU",
+      "proposed_completion": "TE-TU",
+      "catalog_rationale": "Receives 6 figs on HT 117 alongside PA-DE (14) and MA-KA (10), exactly balancing KU-RO 30. TE-TU is an island-wide official.",
+      "citation": {
+        "series": "GORILA",
+        "volume": "I",
+        "pages": "200-203",
+        "supplemental": [],
+        "stable_url": null
+      },
+      "evidence_status": "unadjudicated",
+      "reviewers": [],
+      "decision": null,
+      "decision_at": null,
+      "review_notes": null
+    },
+    {
+      "benchmark_id": "BENCH-PRO-04",
+      "catalog_id": "LAC-PRO-04",
+      "document": "HT_027",
+      "masked_token": "KA-?-MA-NE",
+      "proposed_sign": "DU",
+      "proposed_completion": "KA-DU-MA-NE",
+      "catalog_rationale": "Exact match with tablet heading KA-DU-MA-NE on HT 13 (allocating wine, wheat, cyperus). Sign AB51 (DU) matches loop shape.",
+      "citation": {
+        "series": "GORILA",
+        "volume": "I",
+        "pages": "52-55",
+        "supplemental": [],
+        "stable_url": null
+      },
+      "evidence_status": "unadjudicated",
+      "reviewers": [],
+      "decision": null,
+      "decision_at": null,
+      "review_notes": null
+    },
+    {
+      "benchmark_id": "BENCH-PRO-05",
+      "catalog_id": "LAC-PRO-05",
+      "document": "HT_031",
+      "masked_token": "?-MA-TE",
+      "proposed_sign": "DA",
+      "proposed_completion": "DA-MA-TE",
+      "catalog_rationale": "Attested theonym on Kythera bronze ladle (KY Za 2). Head sign AB01 (DA) matches horned outline.",
+      "citation": {
+        "series": "GORILA",
+        "volume": "I",
+        "pages": "60-63",
+        "supplemental": [],
+        "stable_url": null
+      },
+      "evidence_status": "unadjudicated",
+      "reviewers": [],
+      "decision": null,
+      "decision_at": null,
+      "review_notes": null
+    },
+    {
+      "benchmark_id": "BENCH-PRO-06",
+      "catalog_id": "LAC-PRO-06",
+      "document": "HT_093",
+      "masked_token": "A-?-RU",
+      "proposed_sign": "KA",
+      "proposed_completion": "A-KA-RU",
+      "catalog_rationale": "Head of deficit ledger on HT 86, grain allocator on KH 7, and wine supervisor on MA 1. Sign AB77 (KA) matches cross structure.",
+      "citation": {
+        "series": "GORILA",
+        "volume": "I",
+        "pages": "146-149",
+        "supplemental": [],
+        "stable_url": null
+      },
+      "evidence_status": "unadjudicated",
+      "reviewers": [],
+      "decision": null,
+      "decision_at": null,
+      "review_notes": null
+    },
+    {
+      "benchmark_id": "BENCH-PRO-07",
+      "catalog_id": "LAC-PRO-07",
+      "document": "HT_088",
+      "masked_token": "?-DI",
+      "proposed_sign": "KA",
+      "proposed_completion": "KA-DI",
+      "catalog_rationale": "Allocated 10 figs on HT 9, and serves as primary heading on HT 117. Sign AB77 (KA) matches cruciform trace.",
+      "citation": {
+        "series": "GORILA",
+        "volume": "I",
+        "pages": "138-141",
+        "supplemental": [],
+        "stable_url": null
+      },
+      "evidence_status": "unadjudicated",
+      "reviewers": [],
+      "decision": null,
+      "decision_at": null,
+      "review_notes": null
+    },
+    {
+      "benchmark_id": "BENCH-PRO-08",
+      "catalog_id": "LAC-PRO-08",
+      "document": "KH_041",
+      "masked_token": "?-TA-RE",
+      "proposed_sign": "DA",
+      "proposed_completion": "DA-TA-RE",
+      "catalog_rationale": "Frequently read as KA-TA-RE or DA-TA-RE in literature. Scribal network connects DA-TA-RE across Khania, Hagia Triada, Knossos, and Malia.",
+      "citation": {
+        "series": "GORILA",
+        "volume": "III",
+        "pages": "68-69",
+        "supplemental": [],
+        "stable_url": null
+      },
+      "evidence_status": "unadjudicated",
+      "reviewers": [],
+      "decision": null,
+      "decision_at": null,
+      "review_notes": null
+    },
+    {
+      "benchmark_id": "BENCH-PRO-09",
+      "catalog_id": "LAC-PRO-09",
+      "document": "ARKH_005",
+      "masked_token": "A-DU-NI-?-NA",
+      "proposed_sign": "TA",
+      "proposed_completion": "A-DU-NI-TA-NA",
+      "catalog_rationale": "Composite of A-DU (attested administrator) + -NI-TA-NA. Sign AB59 (TA) matches surviving stem.",
+      "citation": {
+        "series": "GORILA",
+        "volume": "II",
+        "pages": "8-9",
+        "supplemental": [],
+        "stable_url": null
+      },
+      "evidence_status": "unadjudicated",
+      "reviewers": [],
+      "decision": null,
+      "decision_at": null,
+      "review_notes": null
+    },
+    {
+      "benchmark_id": "BENCH-TOP-01",
+      "catalog_id": "LAC-TOP-01",
+      "document": "HT_120",
+      "masked_token": "PA-?-TO",
+      "proposed_sign": "I",
+      "proposed_completion": "PA-I-TO",
+      "catalog_rationale": "Matches Linear B Pa-i-to / Greek Phaistos. Found in administrative transaction record tracking goods between Hagia Triada villa and Phaistos palace.",
+      "citation": {
+        "series": "GORILA",
+        "volume": "I",
+        "pages": "206-209",
+        "supplemental": [],
+        "stable_url": null
+      },
+      "evidence_status": "unadjudicated",
+      "reviewers": [],
+      "decision": null,
+      "decision_at": null,
+      "review_notes": null
+    },
+    {
+      "benchmark_id": "BENCH-TOP-02",
+      "catalog_id": "LAC-TOP-02",
+      "document": "HT_095",
+      "masked_token": "PA-I-?-TE",
+      "proposed_sign": "TA",
+      "proposed_completion": "PA-I-TA-TE",
+      "catalog_rationale": "Direct morphological derivative of PA-I-TO with allative enclitic -TE. Exact phonotactic bridge with Linear B pa-i-to-de.",
+      "citation": {
+        "series": "GORILA",
+        "volume": "I",
+        "pages": "152-155",
+        "supplemental": [],
+        "stable_url": null
+      },
+      "evidence_status": "unadjudicated",
+      "reviewers": [],
+      "decision": null,
+      "decision_at": null,
+      "review_notes": null
+    },
+    {
+      "benchmark_id": "BENCH-TOP-03",
+      "catalog_id": "LAC-TOP-03",
+      "document": "ZA_004",
+      "masked_token": "DI-?-DI-NA",
+      "proposed_sign": "RA",
+      "proposed_completion": "DI-RA-DI-NA",
+      "catalog_rationale": "Direct match with PH 1 (cist tablet found next to Phaistos Disc) and KN 2. Connects eastern palace of Zakros with central Mesara plain.",
+      "citation": {
+        "series": "GORILA",
+        "volume": "III",
+        "pages": "140-143",
+        "supplemental": [],
+        "stable_url": null
+      },
+      "evidence_status": "unadjudicated",
+      "reviewers": [],
+      "decision": null,
+      "decision_at": null,
+      "review_notes": null
+    },
+    {
+      "benchmark_id": "BENCH-TOP-04",
+      "catalog_id": "LAC-TOP-04",
+      "document": "KH_079",
+      "masked_token": "?-DA-NI",
+      "proposed_sign": "PA",
+      "proposed_completion": "PA-DA-NI",
+      "catalog_rationale": "Matches regional Kydonian toponym attested on KH 79+89. Sign AB03 (PA) matches vertical hook trace.",
+      "citation": {
+        "series": "GORILA",
+        "volume": "III",
+        "pages": "102-103",
+        "supplemental": [],
+        "stable_url": null
+      },
+      "evidence_status": "unadjudicated",
+      "reviewers": [],
+      "decision": null,
+      "decision_at": null,
+      "review_notes": null
+    },
+    {
+      "benchmark_id": "BENCH-NUM-01",
+      "catalog_id": "LAC-NUM-01",
+      "document": "HT_102",
+      "masked_token": "VIR+[?]",
+      "proposed_sign": "KA",
+      "proposed_completion": "VIR+KA",
+      "catalog_rationale": "Algebraic balance: Line items 976 (grain) + 33 + 33 + 10 + 3 + 10 + 5 = 1070. Deficit WI = 10 subtracted yields exactly KU-RO 1060. The 33 allocation belongs to VIR+KA.",
+      "citation": {
+        "series": "GORILA",
+        "volume": "I",
+        "pages": "170-173",
+        "supplemental": [
+          "Schoep 2002"
+        ],
+        "stable_url": null
+      },
+      "evidence_status": "unadjudicated",
+      "reviewers": [],
+      "decision": null,
+      "decision_at": null,
+      "review_notes": null
+    },
+    {
+      "benchmark_id": "BENCH-NUM-02",
+      "catalog_id": "LAC-NUM-02",
+      "document": "HT_118",
+      "masked_token": "KI-TOTAL",
+      "proposed_sign": "15",
+      "proposed_completion": "KI 15",
+      "catalog_rationale": "Deterministic arithmetic: Line deficit items KI 10 (MA-DI) + KI 4 (QA-QA-RU) + KI 1 (A-RI-SU) sum exactly to KI 15. Stated total matches with Delta = 0.0.",
+      "citation": {
+        "series": "GORILA",
+        "volume": "I",
+        "pages": "202-205",
+        "supplemental": [],
+        "stable_url": null
+      },
+      "evidence_status": "unadjudicated",
+      "reviewers": [],
+      "decision": null,
+      "decision_at": null,
+      "review_notes": null
+    },
+    {
+      "benchmark_id": "BENCH-NUM-03",
+      "catalog_id": "LAC-NUM-03",
+      "document": "HT_123+124a",
+      "masked_token": "KU-RO_OLIV",
+      "proposed_sign": "93 1/2",
+      "proposed_completion": "KU-RO OLIV 93 J",
+      "catalog_rationale": "Deterministic sum: KI-TA-I (31) + PU-VIN (31 1/2) + SA-RU (16) + DA-TU (15) = 93 1/2. Mathematical conservation holds exactly across all four estates.",
+      "citation": {
+        "series": "GORILA",
+        "volume": "I",
+        "pages": "214-219",
+        "supplemental": [],
+        "stable_url": null
+      },
+      "evidence_status": "unadjudicated",
+      "reviewers": [],
+      "decision": null,
+      "decision_at": null,
+      "review_notes": null
+    },
+    {
+      "benchmark_id": "BENCH-NUM-04",
+      "catalog_id": "LAC-NUM-04",
+      "document": "HT_027a",
+      "masked_token": "MISSING_ENTRIES_SUM",
+      "proposed_sign": "13",
+      "proposed_completion": "DELTA = 13",
+      "catalog_rationale": "Stated KU-RO = 335. Sum of preserved items = 322. Uniquely constrains the sum of the three damaged intermediate allotments to exactly 13 units.",
+      "citation": {
+        "series": "GORILA",
+        "volume": "I",
+        "pages": "52-55",
+        "supplemental": [],
+        "stable_url": null
+      },
+      "evidence_status": "unadjudicated",
+      "reviewers": [],
+      "decision": null,
+      "decision_at": null,
+      "review_notes": null
+    },
+    {
+      "benchmark_id": "BENCH-NUM-05",
+      "catalog_id": "LAC-NUM-05",
+      "document": "HT_040",
+      "masked_token": "KU-?",
+      "proposed_sign": "RO",
+      "proposed_completion": "KU-RO",
+      "catalog_rationale": "Grain allotment: Line 1 (NU-DU-*331 TE GRA 207) + Line 2 (KI-DA-TA GRA 134) = exactly 341. Header preceding 341 is deterministically KU-RO (Total).",
+      "citation": {
+        "series": "GORILA",
+        "volume": "I",
+        "pages": "76-77",
+        "supplemental": [],
+        "stable_url": null
+      },
+      "evidence_status": "unadjudicated",
+      "reviewers": [],
+      "decision": null,
+      "decision_at": null,
+      "review_notes": null
+    }
+  ]
+}

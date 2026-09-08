@@ -1,0 +1,31 @@
+title: Source-linked Linear A restoration review queue
+status: citation-only bootstrap
+limitations: >-
+  Citations are normalized from repository catalog records and have not been
+  independently checked against editions or facsimiles. All entries are excluded
+  from restoration accuracy scoring until an external reviewer records an
+  adjudication.
+entries:
+  - {id: BENCH-VOT-01, catalog_id: LAC-VOT-01, evidence_status: unadjudicated, citation: {series: GORILA, volume: IV, pages: 40-41, supplemental: ["Younger PK Za 12"], stable_url: null}}
+  - {id: BENCH-VOT-02, catalog_id: LAC-VOT-02, evidence_status: unadjudicated, citation: {series: GORILA, volume: IV, pages: 24-25, supplemental: ["Karetsou 1974"], stable_url: null}}
+  - {id: BENCH-VOT-03, catalog_id: LAC-VOT-03, evidence_status: unadjudicated, citation: {series: GORILA, volume: IV, pages: 14-15, supplemental: [], stable_url: null}}
+  - {id: BENCH-VOT-04, catalog_id: LAC-VOT-04, evidence_status: unadjudicated, citation: {series: GORILA, volume: IV, pages: 148-149, supplemental: [], stable_url: null}}
+  - {id: BENCH-VOT-05, catalog_id: LAC-VOT-05, evidence_status: unadjudicated, citation: {series: GORILA, volume: IV, pages: 12-13, supplemental: [], stable_url: null}}
+  - {id: BENCH-PRO-01, catalog_id: LAC-PRO-01, evidence_status: unadjudicated, citation: {series: GORILA, volume: I, pages: 130-131, supplemental: [], stable_url: null}}
+  - {id: BENCH-PRO-02, catalog_id: LAC-PRO-02, evidence_status: unadjudicated, citation: {series: GORILA, volume: I, pages: 130-131, supplemental: [], stable_url: null}}
+  - {id: BENCH-PRO-03, catalog_id: LAC-PRO-03, evidence_status: unadjudicated, citation: {series: GORILA, volume: I, pages: 200-203, supplemental: [], stable_url: null}}
+  - {id: BENCH-PRO-04, catalog_id: LAC-PRO-04, evidence_status: unadjudicated, citation: {series: GORILA, volume: I, pages: 52-55, supplemental: [], stable_url: null}}
+  - {id: BENCH-PRO-05, catalog_id: LAC-PRO-05, evidence_status: unadjudicated, citation: {series: GORILA, volume: I, pages: 60-63, supplemental: [], stable_url: null}}
+  - {id: BENCH-PRO-06, catalog_id: LAC-PRO-06, evidence_status: unadjudicated, citation: {series: GORILA, volume: I, pages: 146-149, supplemental: [], stable_url: null}}
+  - {id: BENCH-PRO-07, catalog_id: LAC-PRO-07, evidence_status: unadjudicated, citation: {series: GORILA, volume: I, pages: 138-141, supplemental: [], stable_url: null}}
+  - {id: BENCH-PRO-08, catalog_id: LAC-PRO-08, evidence_status: unadjudicated, citation: {series: GORILA, volume: III, pages: 68-69, supplemental: [], stable_url: null}}
+  - {id: BENCH-PRO-09, catalog_id: LAC-PRO-09, evidence_status: unadjudicated, citation: {series: GORILA, volume: II, pages: 8-9, supplemental: [], stable_url: null}}
+  - {id: BENCH-TOP-01, catalog_id: LAC-TOP-01, evidence_status: unadjudicated, citation: {series: GORILA, volume: I, pages: 206-209, supplemental: [], stable_url: null}}
+  - {id: BENCH-TOP-02, catalog_id: LAC-TOP-02, evidence_status: unadjudicated, citation: {series: GORILA, volume: I, pages: 152-155, supplemental: [], stable_url: null}}
+  - {id: BENCH-TOP-03, catalog_id: LAC-TOP-03, evidence_status: unadjudicated, citation: {series: GORILA, volume: III, pages: 140-143, supplemental: [], stable_url: null}}
+  - {id: BENCH-TOP-04, catalog_id: LAC-TOP-04, evidence_status: unadjudicated, citation: {series: GORILA, volume: III, pages: 102-103, supplemental: [], stable_url: null}}
+  - {id: BENCH-NUM-01, catalog_id: LAC-NUM-01, evidence_status: unadjudicated, citation: {series: GORILA, volume: I, pages: 170-173, supplemental: ["Schoep 2002"], stable_url: null}}
+  - {id: BENCH-NUM-02, catalog_id: LAC-NUM-02, evidence_status: unadjudicated, citation: {series: GORILA, volume: I, pages: 202-205, supplemental: [], stable_url: null}}
+  - {id: BENCH-NUM-03, catalog_id: LAC-NUM-03, evidence_status: unadjudicated, citation: {series: GORILA, volume: I, pages: 214-219, supplemental: [], stable_url: null}}
+  - {id: BENCH-NUM-04, catalog_id: LAC-NUM-04, evidence_status: unadjudicated, citation: {series: GORILA, volume: I, pages: 52-55, supplemental: [], stable_url: null}}
+  - {id: BENCH-NUM-05, catalog_id: LAC-NUM-05, evidence_status: unadjudicated, citation: {series: GORILA, volume: I, pages: 76-77, supplemental: [], stable_url: null}}

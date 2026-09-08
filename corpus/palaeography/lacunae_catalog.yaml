@@ -264,11 +264,11 @@ lacunae:
     surviving_traces: "Apex triangular loop"
     reconstructed_sign: "I"
     completed_word: "PA-I-TO"
-    role: "Toponym: Phaistos palace (15 km south of Hagia Triada)"
+    role: "Source-linked cross-script toponymic form; restoration remains unadjudicated"
     bayes_factor: 320.0
     confidence_tier: "E4"
     accuracy_confidence: 0.98
-    epigraphic_rationale: "Matches Linear B Pa-i-to / Greek Phaistos. Found in administrative transaction record tracking goods between Hagia Triada villa and Phaistos palace."
+    epigraphic_rationale: "See TOPO-PAITO-001 in cretan_toponym_audit.yaml for published conventional-form attestations and limitations. The audit does not establish the damaged-sign restoration or a transaction route."
 
   - id: "LAC-TOP-02"
     document: "HT_095"
@@ -281,11 +281,11 @@ lacunae:
     surviving_traces: "Dual crossbars"
     reconstructed_sign: "TA"
     completed_word: "PA-I-TA-TE"
-    role: "Allative toponym: 'To Phaistos' (Pa-i-ta + allative -TE)"
+    role: "Unaudited project-catalog toponymic-form hypothesis"
     bayes_factor: 280.0
     confidence_tier: "E4"
     accuracy_confidence: 0.98
-    epigraphic_rationale: "Direct morphological derivative of PA-I-TO with allative enclitic -TE. Exact phonotactic bridge with Linear B pa-i-to-de."
+    epigraphic_rationale: "No source-linked audit record supports a morphological derivative, allative suffix, or Linear B bridge. The completed form is retained as an unadjudicated catalog hypothesis."
 
   - id: "LAC-TOP-03"
     document: "ZA_004"
@@ -298,11 +298,11 @@ lacunae:
     surviving_traces: "Upper circular loop and curved right leg"
     reconstructed_sign: "RA"
     completed_word: "DI-RA-DI-NA"
-    role: "Toponym / administrative heading (attested at Phaistos PH 1 and Knossos KN 2)"
+    role: "Unaudited project-catalog toponymic-form hypothesis"
     bayes_factor: 190.0
     confidence_tier: "E4"
     accuracy_confidence: 0.97
-    epigraphic_rationale: "Direct match with PH 1 (cist tablet found next to Phaistos Disc) and KN 2. Connects eastern palace of Zakros with central Mesara plain."
+    epigraphic_rationale: "No source-linked audit record supports a geographic identification or inter-palatial connection. The completed form is retained as an unadjudicated catalog hypothesis."
 
   - id: "LAC-TOP-04"
     document: "KH_079"
@@ -315,11 +315,11 @@ lacunae:
     surviving_traces: "Vertical stalk with right-facing hook"
     reconstructed_sign: "PA"
     completed_word: "PA-DA-NI"
-    role: "Western Cretan toponym (cf. Linear B pa-da-no)"
+    role: "Unaudited project-catalog toponymic-form hypothesis"
     bayes_factor: 55.0
     confidence_tier: "E4"
     accuracy_confidence: 0.92
-    epigraphic_rationale: "Matches regional Kydonian toponym attested on KH 79+89. Sign AB03 (PA) matches vertical hook trace."
+    epigraphic_rationale: "No source-linked audit record supports the Linear B comparison or geographic identification. The completed form is retained as an unadjudicated catalog hypothesis."
 
   # =========================================================================
   # CATEGORY 4: EXACT DIOPHANTINE ACCOUNTING & RATIONAL FRACTIONS (E3)

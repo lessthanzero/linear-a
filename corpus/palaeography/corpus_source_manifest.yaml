@@ -1,0 +1,12 @@
+title: Local SigLA/GORILA-derived census snapshot
+provenance: >-
+  Local JavaScript export used for the corpus-wide census. Embedded image references
+  point to GORILA pages; the source files are intentionally untracked and must be
+  obtained separately. This manifest identifies the reviewed local snapshot only.
+files:
+  annotations.js:
+    bytes: 2239932
+    sha256: 7ce1f87a98827d059a732cc00506c635b4d5f65b2d0e2f1592fc2b67827758cd
+  LinearAInscriptions.js:
+    bytes: 1609137
+    sha256: 4da8e1f9693d30880ee505e56541fc189add70605bad88436c44a8e11a57764c

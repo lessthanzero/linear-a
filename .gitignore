@@ -45,3 +45,4 @@ Thumbs.db
 
 # Large external database dumps
 corpus/database.js
+corpus/raw/

@@ -1,6 +1,5 @@
 """Tests for the Multilateral Joint Bayesian Lacunae Solver."""
 
-import pytest
 from linear_a.predictive.multilateral_solver import MultilateralLacunaeSolver
 
 
@@ -41,10 +40,11 @@ def test_solve_toponymic_lacunae():
     paito = next(e for e in solver.catalog if e.id == "LAC-TOP-01")
     res_paito = solver.solve_entry(paito)
 
-    assert res_paito.is_exact_match is True
+    assert res_paito.is_exact_match is False
     assert res_paito.predicted_sign == "I"
     assert res_paito.entry.completed_word == "PA-I-TO"
-    assert res_paito.bayes_factor > 100.0
+    assert res_paito.source_evidence_status == "attested"
+    assert res_paito.epistemic_grade == "SOURCE_LINKED_TOPONYMIC_HYPOTHESIS"
 
 
 def test_solve_diophantine_arithmetic_lacunae():
@@ -63,10 +63,10 @@ def test_multilateral_solver_full_report():
     report = solver.solve_all()
 
     assert report.total_lacunae_analyzed >= 20
-    assert report.top1_accuracy_rate >= 90.0
+    assert 0.0 < report.top1_accuracy_rate < 90.0
     assert report.mean_confidence >= 0.90
     assert report.deterministic_arithmetic_count >= 4
     assert report.liturgical_votive_count >= 4
     assert report.prosopographical_count >= 8
     assert report.toponymic_count >= 4
-    assert "Overall Top-1 Reconstruction Accuracy" in report.summary
+    assert "excluded from independent reconstruction accuracy" in report.summary

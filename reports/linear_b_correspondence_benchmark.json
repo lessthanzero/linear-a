@@ -1,0 +1,12 @@
+{
+  "benchmark_id": "linear-a-linear-b-published-pairs-v1",
+  "target_entries": 12,
+  "qualified_entries": 0,
+  "qualifying_shortfall": 12,
+  "observed_exact_matches": 0,
+  "null_mean_matches": null,
+  "empirical_p_value": null,
+  "surrogates": 0,
+  "source_snapshot": null,
+  "limitations": "No entry is included until a publication explicitly proposes the lexical Linear A\u2013Linear B comparison, supplies a locator, and identifies a Linear B tablet attestation. The reviewed source reports common names and toponyms but says the remaining Linear A vocabulary has no identified parallel; it also notes a lack of recurring vocabulary between the scripts. This is a documented evidence shortfall, not a negative result about either language."
+}
