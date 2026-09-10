@@ -56,8 +56,22 @@ from linear_a.phonology.prosodic_meter import ProsodicMeterEngine
 from linear_a.reading.reciter_engine import ReciterEngine
 
 
-def _load_census_snapshot() -> Dict[str, Any]:
-    """Load the tracked census export without requiring the ignored raw corpus."""
+def _load_census_snapshot(*, pages_safe: bool = False) -> Dict[str, Any]:
+    """Load the tracked census export without requiring the ignored raw corpus.
+
+    For GitHub Pages builds, omit the SigLA/GORILA-derived snapshot entirely.
+    """
+    if pages_safe:
+        return {
+            "metadata": {
+                "availability": "omitted_for_pages",
+                "limitations": (
+                    "Full census snapshot excluded from public Pages builds "
+                    "(third-party derived data; see NOTICE). Run locally if you have lawful access."
+                ),
+            },
+            "entries": [],
+        }
     snapshot_path = Path(__file__).resolve().parent.parent.parent.parent / "corpus" / "palaeography" / "corpus_lacunae_census.yaml"
     if not snapshot_path.exists():
         return {
@@ -72,7 +86,7 @@ def _load_census_snapshot() -> Dict[str, Any]:
     }
 
 
-def collect_workbench_dataset() -> Dict[str, Any]:
+def collect_workbench_dataset(*, pages_safe: bool = False) -> Dict[str, Any]:
     """Collect all epigraphic, statistical, and linguistic datasets."""
     fraction_engine = FractionEngine()
     validator = LedgerValidator(fraction_engine)
@@ -653,7 +667,8 @@ def collect_workbench_dataset() -> Dict[str, Any]:
         "network": network_data,
         "infiller": infiller_bench,
         "lacunae": lacunae_data,
-        "census_snapshot": _load_census_snapshot(),
+        "census_snapshot": _load_census_snapshot(pages_safe=pages_safe),
+        "pages_safe": pages_safe,
         "morphology_induction": morph_rep.to_dict(),
         "diophantine_bench": {
             "tablets_tested": diophantine_bench.tablets_tested,
@@ -697,9 +712,13 @@ def collect_workbench_dataset() -> Dict[str, Any]:
     }
 
 
-def generate_workbench_html(output_path: str = "reports/linear_a_workbench.html") -> Path:
+def generate_workbench_html(
+    output_path: str = "reports/linear_a_workbench.html",
+    *,
+    pages_safe: bool = False,
+) -> Path:
     """Generate the self-contained HTML research workbench file."""
-    data = collect_workbench_dataset()
+    data = collect_workbench_dataset(pages_safe=pages_safe)
     data_json = json.dumps(data, indent=2)
 
     html_template = f"""<!DOCTYPE html>

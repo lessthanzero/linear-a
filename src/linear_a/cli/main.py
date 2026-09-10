@@ -441,15 +441,18 @@ def bridge():
 
 @app.command()
 def workbench(
-    output: str = typer.Option("reports/linear_a_workbench.html", "--output", "-o", help="Output path for standalone HTML workbench")
+    output: str = typer.Option("reports/linear_a_workbench.html", "--output", "-o", help="Output path for standalone HTML workbench"),
+    pages_safe: bool = typer.Option(False, "--pages-safe", help="Omit SigLA/GORILA-derived census snapshot for public Pages hosting"),
 ):
     """Generate the publication-grade interactive HTML research workbench."""
     console.print(Panel("[bold cyan]Generating Interactive Epigraphic Research Workbench[/bold cyan]\n[dim]California/Swiss Editorial Craft | Single-File Standalone HTML/SVG/JS[/dim]"))
 
     with console.status(f"[bold cyan]Assembling epigraphic datasets and compiling HTML to {output}...[/bold cyan]"):
-        out_path = generate_workbench_html(output)
+        out_path = generate_workbench_html(output, pages_safe=pages_safe)
 
     console.print(f"[bold green]✓ Research Workbench successfully compiled:[/bold green] [bold cyan]{out_path}[/bold cyan] ({out_path.stat().st_size / 1024:.1f} KB)")
+    if pages_safe:
+        console.print("[dim]pages_safe: census snapshot omitted (NOTICE / GitHub Pages).[/dim]")
     console.print("[dim]Open in any browser: zero external dependencies, works completely offline.[/dim]")
 
 
