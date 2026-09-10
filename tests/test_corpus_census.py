@@ -1,7 +1,15 @@
 """Unit tests for Corpus-Wide Epigraphic Lacunae Census Engine (Horizon 1)."""
 
+from pathlib import Path
+
 import pytest
 from linear_a.predictive.corpus_census import CorpusLacunaeCensusEngine, CorpusSourceUnavailable
+
+_RAW_ANNOTATIONS = Path(__file__).resolve().parents[1] / "corpus" / "raw" / "annotations.js"
+pytestmark = pytest.mark.skipif(
+    not _RAW_ANNOTATIONS.is_file(),
+    reason="Local SigLA/GORILA raw dump not present (expected in CI / public clones)",
+)
 
 
 def test_census_runs_and_scans_documents():

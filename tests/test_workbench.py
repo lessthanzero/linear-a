@@ -1,10 +1,12 @@
 """Tests for Standalone Interactive Epigraphic Research Workbench Generator."""
 
+from pathlib import Path
+
 from linear_a.visualizer.workbench import generate_workbench_html, collect_workbench_dataset
 
 
 def test_collect_workbench_dataset():
-    data = collect_workbench_dataset()
+    data = collect_workbench_dataset(pages_safe=True)
     assert "tablets" in data
     assert len(data["tablets"]) >= 13
     assert "grid" in data
@@ -26,10 +28,8 @@ def test_collect_workbench_dataset():
     assert data["lacunae"]["total"] == 23
     assert data["lacunae"]["top1_accuracy"] < 90.0
     assert data["toponym_audit"]["status_counts"] == {"attested": 1, "disputed": 1}
-    assert data["census_snapshot"]["metadata"]["damaged_tokens"] >= 2000
-    open_contexts = [entry for entry in data["census_snapshot"]["entries"] if entry["evidence_status"] == "OPEN_PHONOTACTIC_E2"]
-    assert open_contexts
-    assert all(entry["suggested_infill_hypothesis"] is None for entry in open_contexts)
+    assert data["census_snapshot"]["metadata"]["availability"] == "omitted_for_pages"
+    assert data["census_snapshot"]["entries"] == []
     first_syntax = data["interlinear"]["tablets"][0]["syntax"]
     assert first_syntax["genre_hypothesis"] == "ADMINISTRATIVE_LEDGER_PATTERN"
     assert "do not establish grammar" in first_syntax["limitations"]
@@ -69,7 +69,7 @@ def test_collect_workbench_dataset():
 
 def test_generate_workbench_html(tmp_path):
     out_file = tmp_path / "linear_a_workbench.html"
-    res_path = generate_workbench_html(str(out_file))
+    res_path = generate_workbench_html(str(out_file), pages_safe=True)
 
     assert res_path.exists()
     assert res_path.stat().st_size > 50_000
