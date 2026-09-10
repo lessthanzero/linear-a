@@ -2,6 +2,15 @@
 
 **Status (v0.2.0 research preview):** Linear A remains undeciphered. This repo is an evidence-bounded inspection harness — not a translation, recovered language, or confirmed cross-script homology. See [SCIENTIFIC_LIMITATIONS.md](SCIENTIFIC_LIMITATIONS.md) and [NOTICE](NOTICE).
 
+Interactive workbench:
+
+```bash
+uv run linear-a workbench -o reports/linear_a_workbench.html
+uv run linear-a workbench -o site/workbench/index.html --pages-safe   # GitHub Pages (no SigLA census dump)
+```
+
+After GitHub publish, enable **Settings → Pages → Source: GitHub Actions** for `https://{owner}.github.io/linear-a/`.
+
 Computational research laboratory and epigraphic analysis harness for the undeciphered Bronze Age Minoan Linear A script.
 
 Enforces the **Linear A Decipherment Protocol (LADP)** with multi-node distributed compute across Apple Silicon macOS and Fedora Linux over Tailscale, and a multi-model consensus jury (local Ollama models + cloud Gemini).
