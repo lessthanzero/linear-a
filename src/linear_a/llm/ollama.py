@@ -21,8 +21,6 @@ class OllamaClient:
                 os.getenv("OLLAMA_HOST"),
                 "http://localhost:11434",
                 "http://127.0.0.1:11434",
-                "http://100.103.226.101:11434",
-                "http://192.168.1.172:11434",
             ]
             self.candidate_urls = [u.rstrip("/") for u in self.candidate_urls if u]
             self.base_url = self._resolve_active_url()

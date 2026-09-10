@@ -1,0 +1,28 @@
+linear-a — third-party notices
+==============================
+
+Software in this repository is licensed under the MIT License (see LICENSE),
+Copyright (c) 2026 Alexander Katin.
+
+The MIT grant covers original software and original documentation. It does
+**not** cover third-party Linear A corpora, facsimiles, or database dumps.
+
+Excluded from the MIT grant / not redistributed in the public tree
+-----------------------------------------------------------------
+- Raw SigLA / GORILA-derived JavaScript dumps (`corpus/raw/`, `corpus/database.js`)
+  are intentionally gitignored. Community practice treats SigLA payloads as
+  CC BY-NC-SA (or similar). Non-commercial and share-alike terms are incompatible
+  with a blanket MIT redistribution claim.
+- Large derived census snapshots and generated workbench HTML that embed those
+  dumps are also excluded from the public default tree (see `.gitignore`).
+  Rebuild locally if you have lawful access to the source dumps.
+
+Curated YAML under `corpus/` (signs, selected tablets, lexicons)
+---------------------------------------------------------------
+Small curated transcriptions and project hypotheses cite GORILA (Godart & Olivier),
+SigLA, Younger, Davis, and related scholarship. These files are research working
+data with attribution in-file. They are **not** a dump of GORILA volumes or
+museum plates. École Française d'Athènes plate/image rights are not transferred.
+
+Always cite primary scholarly sources when publishing results that depend on them.
+Keep this NOTICE with any redistribution that includes curated corpus files.

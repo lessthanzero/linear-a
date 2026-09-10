@@ -1484,8 +1484,8 @@ input[type=range] {{
       </div>
       <div class="stat-box">
         <div class="stat-label">Phaistos Disc Homology</div>
-        <div class="stat-value">91.3%</div>
-        <div class="stat-sub">Liturgical clause concordance</div>
+        <div class="stat-value">n/a</div>
+        <div class="stat-sub">Exploratory only — not a computed concordance</div>
       </div>
       <div class="stat-box">
         <div class="stat-label">Disc Sign 35 Bridge (TE)</div>
@@ -1593,23 +1593,23 @@ input[type=range] {{
     <div class="stat-row">
       <div class="stat-box">
         <div class="stat-label">Firewall Status</div>
-        <div class="stat-value" style="color: var(--accent-emerald);">SECURE</div>
-        <div class="stat-sub">Zero bidirectional sound leakage</div>
+        <div class="stat-value">POLICY</div>
+        <div class="stat-sub">Intended quarantine — not a formal leak scan</div>
       </div>
       <div class="stat-box">
         <div class="stat-label">Structural Homology</div>
-        <div class="stat-value" style="color: var(--accent-emerald);">92.4%</div>
-        <div class="stat-sub">Morphology &amp; clausal cadence</div>
+        <div class="stat-value">exploratory</div>
+        <div class="stat-sub">No confirmed shared liturgy score</div>
       </div>
       <div class="stat-box">
         <div class="stat-label">Sign 02 Initial Prefix r</div>
-        <div class="stat-value">0.912</div>
-        <div class="stat-sub">Plumed head vs JA-/A-</div>
+        <div class="stat-value">n/a</div>
+        <div class="stat-sub">Not a fitted correlation in 0.2.0</div>
       </div>
       <div class="stat-box">
         <div class="stat-label">Room 8 Stratigraphy</div>
-        <div class="stat-value">98.5%</div>
-        <div class="stat-sub">PH 1 &amp; Disc deposit context</div>
+        <div class="stat-value">context</div>
+        <div class="stat-sub">Published findspot co-occurrence (not a %)</div>
       </div>
     </div>
 

@@ -1,8 +1,10 @@
 # Linear A Computational Laboratory
 
-Computational research laboratory and epigraphic decipherment harness for the undeciphered Bronze Age Minoan Linear A script.
+**Status (v0.2.0 research preview):** Linear A remains undeciphered. This repo is an evidence-bounded inspection harness — not a translation, recovered language, or confirmed cross-script homology. See [SCIENTIFIC_LIMITATIONS.md](SCIENTIFIC_LIMITATIONS.md) and [NOTICE](NOTICE).
 
-Enforces the **Linear A Decipherment Protocol (LADP v1.0)** with multi-node distributed compute across Apple Silicon macOS and Fedora Linux over Tailscale, and a multi-model consensus jury (local Ollama models + cloud Gemini).
+Computational research laboratory and epigraphic analysis harness for the undeciphered Bronze Age Minoan Linear A script.
+
+Enforces the **Linear A Decipherment Protocol (LADP)** with multi-node distributed compute across Apple Silicon macOS and Fedora Linux over Tailscale, and a multi-model consensus jury (local Ollama models + cloud Gemini).
 
 ## Cautious research tools
 

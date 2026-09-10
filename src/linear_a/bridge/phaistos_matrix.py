@@ -1,12 +1,11 @@
 """Phaistos Disc Structural Bridge and Epigraphic Firewall.
 
-Implements Section 14 of Linear A Decipherment Protocol (LADP v1.0):
-Maintains strict physical and logical quarantine between CORPUS_LINEAR_A and
-CORPUS_PHAISTOS_DISK. Evaluates cross-script positional, morphological,
-and liturgical structural homologies WITHOUT illicit phonetic projection.
+Implements Section 14 of Linear A Decipherment Protocol (LADP):
+Maintains quarantine between CORPUS_LINEAR_A and CORPUS_PHAISTOS_DISK.
+Cross-script comparisons are exploratory hypotheses, not confirmations.
 """
 
-from typing import Dict, List, Optional
+from typing import List
 from pydantic import BaseModel, Field
 
 from linear_a.morphology.affix_sieve import AffixSieve
@@ -28,7 +27,7 @@ class CrossScriptCorrespondence(BaseModel):
     linear_a_evidence: str
     statistical_metric: str
     metric_value: float
-    concordance_level: str  # "HIGH_HOMOLOGY", "STRUCTURAL_ANALOGY", "EQUIVOCAL"
+    concordance_level: str  # EXPLORATORY | STRUCTURAL_ANALOGY | EQUIVOCAL
     firewall_compliant: bool = True
 
 
@@ -43,100 +42,93 @@ class PhaistosHomologyReport(BaseModel):
 
 
 class PhaistosBridgeEngine:
-    """Evaluates cross-script structural concordance under strict firewall constraints."""
+    """Evaluates exploratory cross-script structural analogies under firewall constraints."""
 
     def __init__(self):
         self.affix_sieve = AffixSieve()
         self.libation_engine = LibationEngine()
 
     def verify_firewall_integrity(self) -> PhaistosFirewallStatus:
-        """Verify that Linear A models contain zero injected Phaistos Disc sound values."""
-        # Check if any Linear A token or sign definition borrows Phaistos unverified values
-        # Linear A prior values must derive strictly from Linear B (Ventris 1952)
+        """Report firewall *policy* status (stub check — not a formal quarantine proof)."""
         return PhaistosFirewallStatus(
             is_firewall_intact=True,
             isolated_corpora=["CORPUS_LINEAR_A", "CORPUS_PHAISTOS_DISK"],
             sound_leak_detected=False,
             evidence_layer_violation=False,
             rationale=(
-                "FIREWALL VERIFIED: Linear A phonetic priors (E2) originate strictly from the "
-                "Linear B decipherment bridge. Phaistos Disc signs are quarantined as an independent "
-                "external test corpus. No bidirectional phonetic leakage detected."
+                "FIREWALL POLICY: Linear A phonetic priors are intended to derive from "
+                "Linear B correspondences only. Phaistos Disc signs are treated as an "
+                "independent external corpus. This routine does not scan the codebase for "
+                "leakage; it records the intended policy only."
             ),
         )
 
     def evaluate_cross_script_homology(self) -> PhaistosHomologyReport:
-        """Compute structural homology matrix between the Phaistos Disc and Linear A."""
+        """Return exploratory analogy features — not a confirmation of shared liturgy."""
         fw = self.verify_firewall_integrity()
         affix_rep = self.affix_sieve.evaluate_affixes()
         libation_rep = self.libation_engine.evaluate_concordance()
 
-        # Feature 1: Word-Final Allative/Dative Marker (Disc Sign 35 vs Linear A AB04 TE)
         te_lr = affix_rep.te_vs_me_likelihood_ratio
         c1 = CrossScriptCorrespondence(
             feature_id="HOM-001",
-            feature_name="Word-Final Allative Suffix Bridge",
-            disc_evidence="Sign 35 occurs 6 times word-finally, never initially (terminal marker).",
-            linear_a_evidence="Sign AB04 (TE) dominates allative/dative word-final position (8.2% of corpus).",
-            statistical_metric="Likelihood Ratio (TE vs ME)",
+            feature_name="Word-Final Position Analogy (Disc Sign 35 vs Linear A AB04)",
+            disc_evidence="Sign 35 often word-final in the Disc transcription.",
+            linear_a_evidence="AB04 (conventionally TE) is frequent word-finally in Linear A priors.",
+            statistical_metric="Likelihood Ratio (TE vs ME) under stated priors",
             metric_value=float(te_lr),
-            concordance_level="HIGH_HOMOLOGY",
+            concordance_level="EXPLORATORY",
             firewall_compliant=True,
         )
 
-        # Feature 2: Word-Initial Divine Prefixation (Disc Sign 02 vs Linear A JA-/A-)
+        # Prefix correlation is not computed live; leave as unset exploratory marker.
         c2 = CrossScriptCorrespondence(
             feature_id="HOM-002",
-            feature_name="Word-Initial Divine Theonymic Prefixation",
-            disc_evidence="Sign 02 (Plumed Head) initiates 19/61 word-groups (31.1%) across both sides.",
-            linear_a_evidence="JA- and A- initiate 34.2% of votive and libation dedications (JA-SA-SA-RA-ME).",
-            statistical_metric="Positional Initial Correlation (r)",
-            metric_value=0.912,
-            concordance_level="HIGH_HOMOLOGY",
+            feature_name="Word-Initial Prefixation Analogy (Disc Sign 02 vs Linear A JA-/A-)",
+            disc_evidence="Sign 02 (Plumed Head) is frequent word-initially.",
+            linear_a_evidence="JA- and A- are common openings in curated votive formulas.",
+            statistical_metric="Positional analogy (not a fitted correlation)",
+            metric_value=0.0,
+            concordance_level="EXPLORATORY",
             firewall_compliant=True,
         )
 
-        # Feature 3: Clausal & Liturgical Homology
         clause_homology = libation_rep.phaistos_disc_liturgical_homology_score
         c3 = CrossScriptCorrespondence(
             feature_id="HOM-003",
-            feature_name="Liturgical Clausal Sequencing & Prosody",
-            disc_evidence="Side A: 12 liturgical clauses; Side B: 14 clauses; punctuated by oblique strokes.",
-            linear_a_evidence="Stone libation formulas: 5-segment rigid liturgical sequence (Invocation -> Title -> Verb -> Offering).",
-            statistical_metric="Clausal Concordance Rate (%)",
+            feature_name="Clause / Formula Pacing Analogy",
+            disc_evidence="Disc groups and strokes invite formulaic readings as a hypothesis.",
+            linear_a_evidence="Stone libation formulas show recurring segment order in curated samples.",
+            statistical_metric="Exploratory placeholder score (%)",
             metric_value=float(clause_homology),
-            concordance_level="HIGH_HOMOLOGY",
+            concordance_level="EXPLORATORY",
             firewall_compliant=True,
         )
 
-        # Feature 4: Scriptorium Materiality & Typometry
         c4 = CrossScriptCorrespondence(
             feature_id="HOM-004",
-            feature_name="Palace Stratigraphy & Administrative Context",
-            disc_evidence="Discovered in Phaistos Palace Building 101, Room 8 alongside Linear A tablet PH 1.",
-            linear_a_evidence="Tablet PH 1 records sanctuary offerings of Cyperus and Figs in identical clay fabric.",
-            statistical_metric="Archaeological Context Score (%)",
-            metric_value=98.5,
-            concordance_level="HIGH_HOMOLOGY",
+            feature_name="Findspot Co-occurrence (Room 8 / PH 1)",
+            disc_evidence="Disc found at Phaistos in association with Linear A materials (published archaeology).",
+            linear_a_evidence="Tablet PH 1 is a separate Linear A document from the same broader complex.",
+            statistical_metric="Contextual note (not a statistical score)",
+            metric_value=0.0,
+            concordance_level="EQUIVOCAL",
             firewall_compliant=True,
         )
 
-        overall_score = round((c1.metric_value > 1000 and 95.0 or 50.0) * 0.3 + c2.metric_value * 25.0 + clause_homology * 0.45, 1)
-
         verdict = (
-            f"LADP v1.0 Section 14 STRUCTURAL HOMOLOGY CONFIRMED ({overall_score:.1f}%): "
-            f"While the Phaistos Firewall prohibits transferring speculative sound values, "
-            f"the morphological topology (Sign 35 ~ TE with LR > {te_lr:.1e}, Sign 02 ~ JA-/A- prefixation), "
-            f"liturgical clause pacing ({clause_homology:.1f}%), and Room 8 findspot co-occurrence "
-            f"demonstrate that both scripts encode the identical Aegean Bronze Age sacred formulaic syntax."
+            "EXPLORATORY ANALOGY ONLY: Cross-script features are hypotheses under the "
+            f"firewall policy. TE-vs-ME LR under stated priors is {te_lr:.1e}. "
+            "Do not treat this report as confirmation of identical sacred formulaic syntax "
+            "or shared decipherment."
         )
 
         return PhaistosHomologyReport(
             firewall=fw,
-            overall_structural_homology_score_pct=overall_score,
+            overall_structural_homology_score_pct=0.0,
             correspondences=[c1, c2, c3, c4],
             te_vs_me_likelihood_ratio=float(te_lr),
-            plumed_head_prefix_correlation=0.912,
+            plumed_head_prefix_correlation=0.0,
             clause_cadence_homology_pct=float(clause_homology),
             epistemic_verdict=verdict,
         )

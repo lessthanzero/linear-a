@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
-# Synchronize Linear A codebase and experiment artifacts between Mac and Fedora PC worker
+# Synchronize Linear A codebase and experiment artifacts between local machine and a remote worker.
 set -euo pipefail
 
+REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 TARGET_HOST="${1:-pc}"
-DIRECTION="${2:-push}" # push (Mac -> PC) or pull (PC -> Mac)
+DIRECTION="${2:-push}" # push (local -> remote) or pull (remote -> local)
 
 case "${DIRECTION}" in
   push)
@@ -15,18 +16,18 @@ case "${DIRECTION}" in
       --exclude '.pytest_cache' \
       --exclude '.ruff_cache' \
       --exclude '.git' \
-      /Users/sashakatin/developer/linear-a/ \
+      "${REPO_ROOT}/" \
       "${TARGET_HOST}":~/Developer/linear-a/
     ;;
   pull)
     echo "==> Pulling experiment runs and reports from ${TARGET_HOST}:~/Developer/linear-a/"
-    mkdir -p experiments/runs reports
+    mkdir -p "${REPO_ROOT}/experiments/runs" "${REPO_ROOT}/reports"
     rsync -av \
       "${TARGET_HOST}":~/Developer/linear-a/experiments/runs/ \
-      /Users/sashakatin/developer/linear-a/experiments/runs/ || true
+      "${REPO_ROOT}/experiments/runs/" || true
     rsync -av \
       "${TARGET_HOST}":~/Developer/linear-a/reports/ \
-      /Users/sashakatin/developer/linear-a/reports/ || true
+      "${REPO_ROOT}/reports/" || true
     ;;
   *)
     echo "Unknown direction: ${DIRECTION}. Use 'push' or 'pull'."

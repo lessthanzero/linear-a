@@ -46,3 +46,11 @@ Thumbs.db
 # Large external database dumps
 corpus/database.js
 corpus/raw/
+
+# Third-party-derived bulk data (not MIT; rebuild locally if lawfully available)
+corpus/palaeography/corpus_lacunae_census.yaml
+reports/linear_a_workbench.html
+
+# Internal agent handoff notes
+reports/antigravity_handoff.md
+reports/scientific_peer_review.md

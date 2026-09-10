@@ -1,7 +1,8 @@
 [project]
 name = "linear-a"
-version = "0.1.0"
-description = "Computational research laboratory and epigraphic decipherment harness for Linear A"
+version = "0.2.0"
+description = "Computational research laboratory and epigraphic harness for Linear A"
+license = { text = "MIT" }
 authors = [
     { name = "Alexander Katin", email = "aleksandr.katin@gmail.com" }
 ]

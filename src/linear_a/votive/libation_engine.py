@@ -108,11 +108,12 @@ class LibationEngine:
         rate_una = unakanasi_count / len(self.vessels)
 
         summary = (
-            f"Evaluated {len(self.vessels)} canonical stone libation vessels (IO Za 2, PS Za 2, PK Za 11). "
-            f"The Great Goddess epithet (A/JA-SA-SA-RA-ME) recurs in {rate_jasa * 100:.1f}% of vessels, "
-            f"followed by dedicatory verb U-NA-KA-NA-SI in {rate_una * 100:.1f}%. "
-            f"Formulaic syntax confirms a rigid 5-part sacred Aegean liturgy directly homologous "
-            f"to the 14 liturgical clauses of the Phaistos Disc (91.3% structural alignment)."
+            f"Evaluated {len(self.vessels)} curated stone libation vessels. "
+            f"The recurring dedicatory string A/JA-SA-SA-RA-ME appears in "
+            f"{rate_jasa * 100:.1f}% of vessels; U-NA-KA-NA-SI in {rate_una * 100:.1f}%. "
+            f"Any cross-script 'liturgical homology' with the Phaistos Disc is an "
+            f"exploratory hypothesis only — the numeric score below is a placeholder "
+            f"prior, not a computed concordance."
         )
 
         return LibationConcordanceReport(
@@ -128,6 +129,6 @@ class LibationEngine:
             jasasarame_recurrence_rate=round(rate_jasa, 3),
             unakanasi_recurrence_rate=round(rate_una, 3),
             mean_morae_per_vessel=round(mean_morae, 1),
-            phaistos_disc_liturgical_homology_score=91.3,
+            phaistos_disc_liturgical_homology_score=0.0,
             summary=summary,
         )

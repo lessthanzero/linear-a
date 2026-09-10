@@ -295,7 +295,7 @@ def libation():
     console.print(f"• Divine Epithet (JA-SA-SA-RA-ME) Recurrence: [bold yellow]{report.jasasarame_recurrence_rate * 100:.1f}%[/bold yellow]")
     console.print(f"• Dedicatory Verb (U-NA-KA-NA-SI) Recurrence: [bold yellow]{report.unakanasi_recurrence_rate * 100:.1f}%[/bold yellow]")
     console.print(f"• Mean Morae per Inscription: [bold]{report.mean_morae_per_vessel:.1f} morae[/bold]")
-    console.print(f"• Phaistos Disc Liturgical Homology Score: [bold green]{report.phaistos_disc_liturgical_homology_score:.1f}%[/bold green]")
+    console.print(f"• Phaistos Disc Liturgical Homology Score: [bold]{report.phaistos_disc_liturgical_homology_score:.1f}%[/bold] [dim](placeholder; exploratory only)[/dim]")
     console.print(f"\n[dim]{report.summary}[/dim]")
 
 
